@@ -1,0 +1,34 @@
+{
+  "name": "neulekuvio-forked",
+  "version": "0.0.31",
+  "description": null,
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "@babel/runtime": "7.13.8",
+    "react": "17.0.1",
+    "react-color": "2.19.3",
+    "react-component-export-image": "1.0.5",
+    "react-dom": "17.0.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.0",
+    "styled-component": "^2.8.0",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.0",
+    "typescript": "4.1.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
