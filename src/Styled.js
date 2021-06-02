@@ -3,7 +3,13 @@ import styled from 'styled-components';
 
 
 export const Title = styled.div`
-  height: 10vh;
+  position: absolute;
+  top:0;
+  left: 0;
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+  height: 5vh;
   width: 100vw;
   `;
 
@@ -14,10 +20,9 @@ export const ZoomButton = styled.span`
   `;
 
 export const Container = styled.div`
-  height: 90vh;
+  height: 100vh;
   width: 100vw;
   overflow: auto;
-  border-radius: 20px;
   -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
       ::-webkit-scrollbar {
@@ -26,11 +31,12 @@ export const Container = styled.div`
   `;
 
 export const Grid = styled.div`
-      height: 6000px;
-      width: 6000px;
+      background-color: var(--black-light);
+      height: ${props => props.gridSize}px;
+      width: ${props => props.gridSize}px;
       display: grid;
-      grid-template-columns: repeat(${props => props.num},1fr);
-      grid-template-rows: repeat(${props => props.num},1fr);
+      grid-template-columns: repeat(70,${props => props.pixelSize}px);
+      grid-template-rows: repeat(70,${props => props.pixelSize}px);
       
 `;
 

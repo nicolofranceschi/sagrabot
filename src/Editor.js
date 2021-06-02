@@ -1,18 +1,54 @@
 import { Title , ZoomButton , Container , Pixel , Grid} from  "./Styled.js";
 
-import  {  useMemo, useEffect, useState } from "react";
+import  {  useMemo, useRef, useState } from "react";
+
+import { usePinch } from 'react-use-gesture'
 
 
-
-const gridSize = 2000;
-
+const cellsNumber = 70;
 
 export default function Editor() {
-  const [cellsNum, setcellsNum] = useState(100);
-  const setnum = () => { return [...Array(cellsNum ** 2)];}
-  useEffect(() => setnum() ,[cellsNum])
-  const zoomIn = () => setcellsNum((current) => current + 10);
-  const zoomOut = () => setcellsNum((current) => current - 10);
+
+
+  const [gridSize, setgridSize] = useState(4000);
+  const [pixelSize, setpixelSize] = useState(gridSize/cellsNumber);
+
+  const myRef = useRef(null)
+
+  // diasabilita pinch del browser
+  const useDisablePinchZoomEffect = () => {
+    useEffect(() => {
+      const disablePinchZoom = (e) => {
+        if (e.touches.length > 1) {
+          e.preventDefault()
+        }
+      }
+      document.addEventListener("touchmove", disablePinchZoom, { passive: false })
+      return () => {
+        document.removeEventListener("touchmove", disablePinchZoom)
+      }
+    }, [])
+  }
+  document.addEventListener('gesturestart', e => e.preventDefault());
+  document.addEventListener('gesturechange', e => e.preventDefault())
+
+  const bind = usePinch(state => {
+    const {
+      da,          // [d,a] absolute distance and angle of the two pointers
+      vdva,        // momentum of the gesture of distance and rotation
+      origin, 
+      event,     // coordinates of the center between the two touch event
+    } = state
+    setgridSize((current) => current + vdva[0]*100);
+    setpixelSize(gridSize/cellsNumber);
+    
+    console.log(vdva[0])
+  })
+
+  const cells = useMemo(() => [...Array(cellsNumber ** 2)], []);
+
+  const zoomIn = () => {setgridSize((current) => current + 100);setpixelSize(gridSize/cellsNumber)}
+  const zoomOut = () => {setgridSize((current) => current - 100);setpixelSize(gridSize/cellsNumber)}
 
   return (
     <div>
@@ -24,9 +60,9 @@ export default function Editor() {
           -
         </ZoomButton>
       </Title>
-      <Container>
-        <Grid num={cellsNum} >
-          {setnum().map((_, i) => (
+      <Container {...bind()}>
+        <Grid pixelSize={pixelSize} gridSize={gridSize} >
+          {cells.map((_, i) => (
             <Pixel key={i}  />
           ))}
         </Grid>
