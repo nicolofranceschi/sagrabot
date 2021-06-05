@@ -48,7 +48,7 @@ html {
   fieldset { border-width: 0; padding: 0; margin: 0; }
   
   body {
-
+    touch-action: auto;
     min-height: 100vh;
     /* mobile viewport bug fix */
     min-height: -webkit-fill-available;
