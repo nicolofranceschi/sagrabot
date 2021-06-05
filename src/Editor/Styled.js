@@ -79,5 +79,48 @@ export const Svg = styled.svg`
 
 `;
 
+export const InfoText = styled.h3`
+ 
+    padding-bottom: 10px;
+    color:var(--medium-gray)
+
+`;
+
+export const Infodiv = styled.div`
+ 
+    height: 50px;
+    width: 100vw;
+    background-color: var(--medium-gray);
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px 20px 0 0;
+    opacity: 0.5;
+    line-height: 50px;
+    text-align: center;
+    svg{
+      position: absolute;
+    top : 10px;
+    left : 10px;
+    height: 30px;
+    width: 30px;
+    stroke: var(--black-light);
+   
+    }
+`;
+
+export const Icon = styled.div`
+ 
+    height: 50px;
+    width: 50px;
+    padding-left:10px;
+    
+`;
+
+export const Text = styled.h3`
+ 
+    color:var(--black-light)
+    
+`;
+
 
 
