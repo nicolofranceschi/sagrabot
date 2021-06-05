@@ -10,7 +10,7 @@ import './index.css';
 ReactDOM.render(
   <StrictMode>
     <BrowserRouter>
-        <App />
+      <App />
     </BrowserRouter>
   </StrictMode>,
   document.getElementById('root')

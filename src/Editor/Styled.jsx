@@ -1,31 +1,34 @@
 
 import styled from 'styled-components';
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 export const Container = styled.div`
   height: 100vh;
   width: 100vw;
   overflow: auto;
   -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-      ::-webkit-scrollbar {
-        display: none;
-      }
-  `;
+  scrollbar-width: none;  /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 export const Grid = styled.div`
-      background-color: var(--black-light);
-      height: ${props => props.gridSize}px;
-      width: ${props => props.gridSize}px;
-      display: grid;
-      grid-template-columns: repeat(70,${props => props.pixelSize}px);
-      grid-template-rows: repeat(70,${props => props.pixelSize}px);
-      
+  background-color: var(--black-light);
+  height: ${props => props.gridSize}px;
+  width: ${props => props.gridSize}px;
+  display: grid;
+  grid-template-columns: repeat(70,${props => props.pixelSize}px);
+  grid-template-rows: repeat(70,${props => props.pixelSize}px);
 `;
 
 export const Pixelstyle = styled.div`
-      border: 1px solid var(--line);
-      box-sizing: border-box;
+  border: 1px solid var(--line);
+  box-sizing: border-box;
+  background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
+  :hover {
+    background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
+  }
 `;
 
 
