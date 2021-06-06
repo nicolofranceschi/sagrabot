@@ -1,21 +1,39 @@
 import { useState, memo, useCallback } from "react";
 import { Pixelstyle } from "./Styled";
 
-const Pixel = memo(({ selectedColor }) => {
+const Pixel = memo(({ color , type , i ,cells }) => {
 
-    const [pixelColor, setPixelColor] = useState("var(--black-light)");
+    const [currentcolor,setcurrencolor] = useState("var(--black-light)")
+
+    let bool=0;
 
     const applyColor = useCallback(() => {
-        setPixelColor(selectedColor);
-    }, [selectedColor]);
-
+        bool=1;
+        setcurrencolor(color)
+        cells[i]={color:color,type};
+        localStorage.setItem('Grid', JSON. stringify(cells));
+    }, [color]);
+    
+   
     return (
-        <Pixelstyle
+    <>
+    { cells[i]==undefined ?
+
+        ( 
+            <Pixelstyle
             onClick={applyColor}
-            pixelColor={pixelColor}
-            selectedColor={selectedColor}
-        />
-    );
+            pixelColor={"var(--black-light)"}
+            selectedColor={"var(--black-light)"}/>
+        ):(
+            <Pixelstyle
+            onClick={applyColor}
+            pixelColor={bool==0?cells[i].color:currentcolor}
+            selectedColor={currentcolor}
+            />
+        )
+    }
+    </>
+    )
 });
 
 export default Pixel;

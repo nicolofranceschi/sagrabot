@@ -1,7 +1,8 @@
 import { CirclePicker } from 'react-color'
-import { BottomPopup, Action, Color, Svg, InfoText, Infodiv, Icon, Text } from "./Styled"
+import { BottomPopup, Action, Positiondiv, Svg, InfoText, Infodiv, Icon, Text, SelezionaOggetto, Tavolo, Quadrato, Posto, Sedia } from "./Styled"
 import { useWindowSize } from "../Size.js";
 import { useState, memo } from 'react';
+import { Sedia2 , Block } from "./Svg"
 
 const openDrawerSize = {
     H: "60vh",
@@ -15,20 +16,22 @@ const closeDrawerSize = {
     B: 0
 }
 
-const Tools = memo(({ setpixelcolor }) => {
+const Tools = memo(({ setStyle , color , type}) => {
 
     const { height, width } = useWindowSize();
 
-    const [closedPopupHeight, setClosedPopupHeight] = useState(50);
+    const  closedPopupHeight = 50;
 
     const [{ H, W, B }, setAnimation] = useState(closeDrawerSize);
 
-    const changeColor = (color) => setpixelcolor(color.hex);
+    const changeColor = (color) => setStyle({color:color.hex,type});
     const closeDrawer = () => setAnimation(closeDrawerSize);
     const openDrawer = () => setAnimation(openDrawerSize);
 
     const openPopupHeight = - height + closedPopupHeight;
 
+    console.log(color,type)
+    
     return width >= 768 ? (
         <>
             { B == 1 ? (
@@ -45,10 +48,22 @@ const Tools = memo(({ setpixelcolor }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
                         </Svg>
                     </Action>
-                    <Color>
+                    <Positiondiv>
                         <InfoText>Seleziona Colore</InfoText>
                         <CirclePicker width={"100%"} onChangeComplete={changeColor} />
-                    </Color>
+                    </Positiondiv>
+                    <Positiondiv>
+                        <InfoText>Seleziona Oggetto</InfoText>
+                        <SelezionaOggetto>
+                            <Quadrato onClick={()=>setStyle({color, type: 0})}></Quadrato>
+                            <Tavolo onClick={()=>setStyle({color, type: 1})}>
+                            <Block />
+                                <Sedia>
+                                    <Sedia2 />
+                                </Sedia>
+                            </Tavolo>
+                        </SelezionaOggetto>
+                    </Positiondiv>
                 </BottomPopup>
             ) : (
                 <BottomPopup
@@ -86,10 +101,22 @@ const Tools = memo(({ setpixelcolor }) => {
                 </Icon>
                 <Text>strumenti di disegno</Text>
             </Infodiv>
-            <Color>
+            <Positiondiv>
                 <InfoText>Seleziona Colore</InfoText>
                 <CirclePicker width={"100%"} onChangeComplete={changeColor} />
-            </Color>
+            </Positiondiv>
+            <Positiondiv>
+                <InfoText>Seleziona Oggetto</InfoText>
+                <SelezionaOggetto>
+                    <Quadrato></Quadrato>
+                    <Tavolo>
+                        <Posto></Posto>
+                        <Sedia>
+                            <Sedia2 />
+                        </Sedia>
+                    </Tavolo>
+                </SelezionaOggetto>
+            </Positiondiv>
         </BottomPopup>
     );
 })
