@@ -1,52 +1,23 @@
-import { useState, memo, useCallback } from "react";
-import { Pixelstyle , PixelTavolo ,OnlyTavolo ,Sedia} from "./Styled";
-import { Sedia2 , Block } from "./Svg"
+import { memo, useCallback } from "react";
+import { Pixelstyle, PixelTavolo, OnlyTavolo, Sedia } from "./Styled";
+import { Sedia2 } from "./Svg";
 
-const Pixel = memo(({ color , type , i ,cells }) => {
+const Pixel = memo(({ color, type, i, selected, onSelect }) => {
 
-    const [currentcolor,setcurrencolor] = useState("var(--black-light)")
+    const applyColor = useCallback(() => onSelect(i, selected ? undefined : { color, type }), [color, type, selected]);
 
-    let bool=0;
-
-    const applyColor = useCallback(() => {
-        bool=1;
-        setcurrencolor(color)
-        cells[i]={color:color,type};
-        localStorage.setItem('Grid', JSON. stringify(cells));
-        console.log(cells)
-    }, [color,type]);
-    
-   
-    return (
-    <>
-    { cells[i]==undefined ?
-
-        ( 
-            <Pixelstyle
-            onClick={applyColor}
-            pixelColor={"var(--black-light)"}
-            selectedColor={"var(--black-light)"}/>
-
-        ):( cells[i].type==0 ? 
-            (
-            <Pixelstyle
-            onClick={applyColor}
-            pixelColor={bool==0?cells[i].color:currentcolor}
-            selectedColor={currentcolor}
-            />
-            ):(
-                <PixelTavolo onClick={applyColor}>
-                <OnlyTavolo pixelColor={bool==0?cells[i].color:currentcolor}
-                 selectedColor={currentcolor}/>
-                    <Sedia>
-                        <Sedia2 color={bool==0?cells[i].color:currentcolor} />
-                    </Sedia>
-                </PixelTavolo>
-            )
+    return !selected
+    ? <Pixelstyle onClick={applyColor} selectedColor={color} />
+    : selected.type === 0
+        ? <Pixelstyle onClick={applyColor} pixelColor={selected.color} selectedColor={color} />
+        : (
+            <PixelTavolo onClick={applyColor}>
+                <OnlyTavolo pixelColor={selected.color} selectedColor={color} />
+                <Sedia>
+                    <Sedia2 color={selected.color} selectedColor={color} />
+                </Sedia>
+            </PixelTavolo>
         )
-    }
-    </>
-    )
 });
 
 export default Pixel;

@@ -1,8 +1,8 @@
 import { CirclePicker } from 'react-color'
 import { BottomPopup, Action, Positiondiv, Svg, InfoText, Infodiv, Icon, Text, SelezionaOggetto, Tavolo, Quadrato, Posto, Sedia } from "./Styled"
-import { useWindowSize } from "../Size.js";
+import { useWindowSize } from "../useWindowSize.js";
 import { useState, memo } from 'react';
-import { Sedia2 , Block } from "./Svg"
+import { Sedia2, Block } from "./Svg"
 
 const openDrawerSize = {
     H: "60vh",
@@ -16,25 +16,23 @@ const closeDrawerSize = {
     B: 0
 }
 
-const Tools = memo(({ setStyle , color , type}) => {
+const Tools = memo(({ setStyle, color, type }) => {
 
     const { height, width } = useWindowSize();
 
-    const  closedPopupHeight = 50;
+    const closedPopupHeight = 50;
 
     const [{ H, W, B }, setAnimation] = useState(closeDrawerSize);
 
-    const changeColor = (color) => setStyle({color:color.hex,type});
+    const changeColor = (color) => setStyle({ color: color.hex, type });
     const closeDrawer = () => setAnimation(closeDrawerSize);
     const openDrawer = () => setAnimation(openDrawerSize);
 
     const openPopupHeight = - height + closedPopupHeight;
 
-    console.log(color,type)
-    
     return width >= 768 ? (
         <>
-            { B == 1 ? (
+            {B == 1 ? (
                 <BottomPopup
                     drag
                     dragConstraints={{ top: 0, bottom: height - height / 100 * 60 - 30, left: -width + width / 100 * 30 + 30, right: 0 }}
@@ -55,9 +53,9 @@ const Tools = memo(({ setStyle , color , type}) => {
                     <Positiondiv>
                         <InfoText>Seleziona Oggetto</InfoText>
                         <SelezionaOggetto>
-                            <Quadrato onClick={()=>setStyle({color, type: 0})}></Quadrato>
-                            <Tavolo onClick={()=>setStyle({color, type: 1})}>
-                            <Block />
+                            <Quadrato onClick={() => setStyle({ color, type: 0 })}></Quadrato>
+                            <Tavolo onClick={() => setStyle({ color, type: 1 })}>
+                                <Block />
                                 <Sedia>
                                     <Sedia2 />
                                 </Sedia>
