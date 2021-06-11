@@ -31,6 +31,7 @@ export const Pixelstyle = styled.div`
   }
 `;
 
+
 export const BottomPopup = styled(motion.div)`
 
   width: ${props => props.width};
@@ -155,6 +156,27 @@ export const Tavolo = styled.div`
     &:hover{
       transform: scale(1.08);
     }
+   
+    
+`;
+export const PixelTavolo = styled.div`
+ 
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    
+`;
+export const OnlyTavolo = styled.div`
+ 
+    height: 100%;
+    width: 50%;
+    border: 1px solid var(--line);
+    box-sizing: border-box;
+    background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
+  :hover {
+    background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
+  }
     
 `;
 export const Posto = styled.div`
@@ -166,8 +188,8 @@ export const Posto = styled.div`
 `;
 export const Sedia = styled.div`
  
-    height: 50px;
-    width: 25px;
+    height: 100%;
+    width: 50%;
     
 `;
 

@@ -1,5 +1,6 @@
 import { useState, memo, useCallback } from "react";
-import { Pixelstyle } from "./Styled";
+import { Pixelstyle , PixelTavolo ,OnlyTavolo ,Sedia} from "./Styled";
+import { Sedia2 , Block } from "./Svg"
 
 const Pixel = memo(({ color , type , i ,cells }) => {
 
@@ -12,7 +13,8 @@ const Pixel = memo(({ color , type , i ,cells }) => {
         setcurrencolor(color)
         cells[i]={color:color,type};
         localStorage.setItem('Grid', JSON. stringify(cells));
-    }, [color]);
+        console.log(cells)
+    }, [color,type]);
     
    
     return (
@@ -24,12 +26,23 @@ const Pixel = memo(({ color , type , i ,cells }) => {
             onClick={applyColor}
             pixelColor={"var(--black-light)"}
             selectedColor={"var(--black-light)"}/>
-        ):(
+
+        ):( cells[i].type==0 ? 
+            (
             <Pixelstyle
             onClick={applyColor}
             pixelColor={bool==0?cells[i].color:currentcolor}
             selectedColor={currentcolor}
             />
+            ):(
+                <PixelTavolo onClick={applyColor}>
+                <OnlyTavolo pixelColor={bool==0?cells[i].color:currentcolor}
+                 selectedColor={currentcolor}/>
+                    <Sedia>
+                        <Sedia2 color={bool==0?cells[i].color:currentcolor} />
+                    </Sedia>
+                </PixelTavolo>
+            )
         )
     }
     </>

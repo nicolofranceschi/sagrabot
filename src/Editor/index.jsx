@@ -30,6 +30,7 @@ export default function Editor() {
           return [newGridSize, gridSize / cellsNumber];
         });
       },
+
     {
       domTarget: DrawingGrid,
       eventOptions: { passive: false },
