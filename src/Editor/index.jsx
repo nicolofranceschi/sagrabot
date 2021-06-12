@@ -24,7 +24,7 @@ export default function Editor() {
 
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
-      const newGridSize = currentGridSize + vdva[0] * 100;
+      const newGridSize = currentGridSize + vdva[0] * 50;
       return [newGridSize, gridSize / cellsNumber];
     });
   }, {
