@@ -17,8 +17,8 @@ export const Grid = styled.div.attrs(props => ({
   style: {
     height: `${props.gridSize}px`,
     width: `${props.gridSize}px`,
-    gridTemplateColumns: `repeat(70, ${props.pixelSize}px)`,
-    gridTemplateRows: `repeat(70, ${props.pixelSize}px)`,
+    gridTemplateColumns: `repeat(100, ${props.pixelSize}px)`,
+    gridTemplateRows: `repeat(100, ${props.pixelSize}px)`,
   },
 }))`
   background-color: var(--black-light);

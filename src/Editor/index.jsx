@@ -1,13 +1,14 @@
 import { useRef, useState, lazy, Suspense, useCallback, useMemo } from "react";
 import { usePinch } from 'react-use-gesture';
+import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled.jsx";
 // import useLocalStorage from "../useLocalStorage";
 
 const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
 
-const initialGridSize = 4000;
-const cellsNumber = 70;
+const initialGridSize = 5000;
+const cellsNumber = 100;
 const cells = [...Array(cellsNumber ** 2)];
 
 export default function Editor() {
@@ -21,11 +22,16 @@ export default function Editor() {
   });
 
   const DrawingGrid = useRef(null);
+  const {height , width}  = useWindowSize();
 
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
+      if( width < currentGridSize + vdva[0] * 50 && height < currentGridSize + vdva[0] * 50 ){
       const newGridSize = currentGridSize + vdva[0] * 50;
       return [newGridSize, gridSize / cellsNumber];
+    }else{
+      return [currentGridSize, gridSize / cellsNumber];
+    }
     });
   }, {
     domTarget: DrawingGrid,
