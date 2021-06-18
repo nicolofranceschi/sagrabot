@@ -2,10 +2,14 @@ import { memo, useCallback } from "react";
 import { Pixelstyle, PixelTavolo, OnlyTavolo, Sedia } from "./Styled";
 import { Sedia2 } from "./Svg";
 
-const Pixel = memo(({ color, type, i, selected, onSelect }) => {
+const Pixel = memo(({ color ,x , y, type, i, selected, onSelect , getxy }) => {
 
-    const applyColor = useCallback(() => onSelect(i, selected ? undefined : { color, type }), [color, type, selected]);
+    const applyColor = useCallback(() => {
+        const {x,y} = getxy(i);
+        onSelect(i, selected ? undefined : { color, type, x, y })
+    }, [color, type, selected, x, y]);
 
+    
     return !selected
     ? <Pixelstyle onClick={applyColor} selectedColor={color} />
     : selected.type === 0

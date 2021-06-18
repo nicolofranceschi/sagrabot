@@ -94,7 +94,6 @@ export const Infodiv = styled.div`
   svg{
     position: relative;
     top : 10px;
-    left : 10px;
     height: 30px;
     width: 30px;
     stroke: var(--black-light);
@@ -104,7 +103,7 @@ export const Infodiv = styled.div`
 export const Icon = styled.div`
   height: 50px;
   width: 50px;
-  padding-left:10px;
+  padding-left:5px;
 `;
 
 export const Text = styled.h3`

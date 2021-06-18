@@ -16,10 +16,18 @@ export default function Editor() {
   // const [selected, setSelected] = useLocalStorage('selected_pixels', {});
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
 
-  const [{ color, type }, setStyle] = useState({
+  const [{ color, type ,x , y }, setStyle] = useState({
     color: "white",
     type: 0,
+    x: null,
+    y: null
   });
+
+  const getxy = useCallback((i) => {
+       const y = Math.trunc(i/100);
+       const x = i - (100*y)
+       return {x,y}
+  },[])
 
   const DrawingGrid = useRef(null);
   const {height , width}  = useWindowSize();
@@ -39,7 +47,7 @@ export default function Editor() {
   });
 
   const select = useCallback((i, pixel) => setSelected(current => ({ ...current, [i]: pixel }) ), []);
-  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, type, color }} selected={selected[i]} onSelect={select} />), [selected, type, color]);
+  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, x, y, type, color , getxy}} selected={selected[i]} onSelect={select} />), [selected, type, color]);
 
   return (
     <Suspense fallback={<Loading />}>
