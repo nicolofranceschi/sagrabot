@@ -1,8 +1,8 @@
 import { CirclePicker } from 'react-color'
-import { BottomPopup, Action, Positiondiv, Svg, InfoText, Infodiv, Icon, Text, SelezionaOggetto, Tavolo, Quadrato, Posto, Sediastatc, Sediastatic } from "./Styled"
+import { BottomPopup, Action, Positiondiv, Svg, InfoText, Infodiv, Icon, Text, SelezionaOggetto, Tavolo, Quadrato, Posto, OnlyTavolo } from "./Styled"
 import { useWindowSize } from "../useWindowSize.js";
 import { useState, memo } from 'react';
-import { Sedia2, Block } from "./Svg"
+import { Sedia } from "./Svg"
 
 const openDrawerSize = {
     H: "60vh",
@@ -55,10 +55,8 @@ const Tools = memo(({ setStyle, color, type }) => {
                         <SelezionaOggetto>
                             <Quadrato onClick={() => setStyle({ color, type: 0 })}></Quadrato>
                             <Tavolo onClick={() => setStyle({ color, type: 1 })}>
-                                <Block />
-                                <Sediastatic>
-                                    <Sedia2 />
-                                    </Sediastatic>
+                                <OnlyTavolo />
+                                <Sedia />
                             </Tavolo>
                         </SelezionaOggetto>
                     </Positiondiv>
@@ -108,10 +106,8 @@ const Tools = memo(({ setStyle, color, type }) => {
                 <SelezionaOggetto>
                     <Quadrato onClick={() => setStyle({ color, type: 0 })}></Quadrato>
                     <Tavolo onClick={() => setStyle({ color, type: 1 })}>
-                        <Posto></Posto>
-                        <Sediastatic>
-                            <Sedia2 />
-                            </Sediastatic>
+                        <Posto />
+                        <Sedia />
                     </Tavolo>
                 </SelezionaOggetto>
             </Positiondiv>

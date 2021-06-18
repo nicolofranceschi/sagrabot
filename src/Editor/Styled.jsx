@@ -71,7 +71,7 @@ export const Svg = styled.svg`
   height: 30px;
   width: 30px;
   stroke: var(--medium-gray);
-  &:hover {
+  :hover {
     stroke: var(--black-light);
   }
 `;
@@ -125,16 +125,20 @@ export const Quadrato = styled.div`
   border-radius: 5px 5px 5px 5px;
   border: 1px solid var(--line);
   background-color: var(--black-light);
-  &:hover{
+  :hover{
     transform: scale(1.08);
   }
 `;
 export const Tavolo = styled.div`
-  height: 100%;
-  width: 40%;
+  height: 50px;
+  width: 50px;
   display: flex;
   flex-direction: row;
-  &:hover {
+  svg {
+    height: 100%;
+    width: 50%;
+  }
+  :hover {
     transform: scale(1.08);
   }
 
@@ -144,18 +148,23 @@ export const PixelTavolo = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  :hover > div {
+    background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
+  }
+  svg { width: 50%; }
+  :hover > svg {
+    /* TODO */
+  }
 `;
 
 export const OnlyTavolo = styled.div`
   height: 100%;
-  width: 50%;
+  flex-grow: 1;
   border: 1px solid var(--line);
   box-sizing: border-box;
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
-  :hover {
-    background-color: ${({ selectedColor }) => selectedColor ?? 'blue'};
-  }
 `;
+
 export const Posto = styled.div`
   height: 50px;
   width: 25px;
@@ -163,12 +172,32 @@ export const Posto = styled.div`
   background-color: var(--black-light);
 `;
 
-export const Sedia = styled.div`
-  height: 100%;
-  width: 50%;
+export const HoverablePixelTavolo = styled(PixelTavolo)`
+  svg {
+    width: 0;
+    height: 0;
+  }
+  :hover > svg {
+    width: 50%;
+    height: 100%;
+  }
 `;
 
-export const Sediastatic = styled.div`
-  height: 50px;
-  width: 50px;
+const inX = '65%';
+const inY = '28.75%';
+
+export const RotationContainer = styled.div`
+  position: relative;
+  div:last-child {
+    display: none;
+    position: absolute;
+  }
+  :hover > div:last-child {
+    border-radius: 50%;
+    display: block;
+    inset: -40px;
+    backdrop-filter: blur(3px);
+    z-index: 2;
+    clip-path: polygon(0% 0%, 0% 100%, ${inY} 100%, ${inY} ${inY}, ${inX} ${inY}, ${inX} ${inX}, ${inY} ${inX}, ${inY} 100%, 100% 100%, 100% 0%);
+  }
 `;

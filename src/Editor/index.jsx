@@ -11,6 +11,11 @@ const initialGridSize = 5000;
 const cellsNumber = 100;
 const cells = [...Array(cellsNumber ** 2)];
 
+const getxy = i => {
+  const y = Math.trunc(i/cellsNumber);
+  const x = i - (cellsNumber*y)
+  return { x, y }
+}
 export default function Editor() {
   const [selected, setSelected] = useState({});
   // const [selected, setSelected] = useLocalStorage('selected_pixels', {});
@@ -23,14 +28,8 @@ export default function Editor() {
     y: null
   });
 
-  const getxy = useCallback((i) => {
-       const y = Math.trunc(i/100);
-       const x = i - (100*y)
-       return {x,y}
-  },[])
-
   const DrawingGrid = useRef(null);
-  const {height , width}  = useWindowSize();
+  const { height , width }  = useWindowSize();
 
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
@@ -47,7 +46,7 @@ export default function Editor() {
   });
 
   const select = useCallback((i, pixel) => setSelected(current => ({ ...current, [i]: pixel }) ), []);
-  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, x, y, type, color , getxy}} selected={selected[i]} onSelect={select} />), [selected, type, color]);
+  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, x, y, type, color, getxy}} selected={selected[i]} onSelect={select} />), [selected, type, color]);
 
   return (
     <Suspense fallback={<Loading />}>
