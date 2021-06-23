@@ -28,6 +28,8 @@ export const Grid = styled.div.attrs(props => ({
 export const Pixelstyle = styled.div`
   border: 1px solid var(--line);
   box-sizing: border-box;
+  height: 100%;
+  cursor: pointer;
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
   :hover {
     background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
@@ -61,7 +63,7 @@ export const Action = styled.div`
 export const Positiondiv = styled.div`
   position: relative;
   margin-top : 20px;
-  padding-left: 5% ;
+  padding-left: 5%;
 `;
 
 export const Svg = styled.svg`

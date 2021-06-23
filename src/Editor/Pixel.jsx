@@ -1,4 +1,4 @@
-import { memo, useCallback , useMemo} from "react";
+import { memo, useCallback } from "react";
 import { Pixelstyle, PixelTavolo, OnlyTavolo, HoverablePixelTavolo, RotationContainer } from "./Styled";
 import { Sedia } from "./Svg";
 
@@ -7,21 +7,20 @@ const Pixel = memo(({ color, x, y, type,  i, selected, onSelect, getxy }) => {
         const { x,y } = getxy(i);
         onSelect(i, (selected && selected.color === color && selected.type === type) ? undefined : { color, type, x, y })
     }, [color, type, selected, x, y]);
-
-    const PixelNonSelezionatoTipo0 = useMemo(() => <Pixelstyle onClick={applyColor} selectedColor={color} />, [color]);
-    const PixelNonSelezionatoTipo1 = useMemo(() => (
+    const PixelNonSelezionatoTipo0 = () => <Pixelstyle onClick={applyColor} selectedColor={color} />;
+    const PixelNonSelezionatoTipo1 = () => (
         <HoverablePixelTavolo onClick={applyColor} selectedColor={color}>
             <OnlyTavolo />
             <Sedia color={color} selectedColor={color} />
         </HoverablePixelTavolo>
-    ), [color]);
-    const PixelSelezionatoTipo0 = useMemo(() => <Pixelstyle onClick={applyColor} pixelColor={selected?.color} selectedColor={color} />, [selected, color]);
-    const PixelSelezionatoTipo1 = useMemo(() => (
+    );
+    const PixelSelezionatoTipo0 = () => <Pixelstyle onClick={applyColor} pixelColor={selected?.color} selectedColor={color} />;
+    const PixelSelezionatoTipo1 = () => (
         <PixelTavolo onClick={applyColor} selectedColor={color}>
             <OnlyTavolo pixelColor={selected?.color} />
             <Sedia color={selected?.color} selectedColor={color} />
         </PixelTavolo>
-    ), [selected, color]);
+    );
 
     if (!selected && type === 1) return <PixelNonSelezionatoTipo1 />;
     if (!selected && type === 0) return <PixelNonSelezionatoTipo0 />;
