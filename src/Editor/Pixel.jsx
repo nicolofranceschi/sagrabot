@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback , useMemo} from "react";
 import { Pixelstyle, PixelTavolo, OnlyTavolo, HoverablePixelTavolo, RotationContainer } from "./Styled";
 import { Sedia } from "./Svg";
 
