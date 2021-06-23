@@ -8,7 +8,7 @@ const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
 
 const initialGridSize = 5000;
-const cellsNumber = 100;
+const cellsNumber = 10;
 const cells = [...Array(cellsNumber ** 2)];
 
 const getxy = i => {
@@ -17,10 +17,10 @@ const getxy = i => {
   return { x, y }
 }
 export default function Editor() {
-  const [selected, setSelected] = useState({});
+  const [selected, setSelected] = useState({ color: "white",type: 0});
   // const [selected, setSelected] = useLocalStorage('selected_pixels', {});
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
-
+  console.log(selected)
   const [{ color, type ,x , y }, setStyle] = useState({
     color: "white",
     type: 0,
