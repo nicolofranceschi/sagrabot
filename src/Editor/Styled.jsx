@@ -30,6 +30,7 @@ export const Pixelstyle = styled.div`
   box-sizing: border-box;
   height: 100%;
   cursor: pointer;
+  transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
   :hover {
     background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
@@ -150,6 +151,7 @@ export const PixelTavolo = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  transform: rotate(${({ rotation }) => rotation ?? '0'}deg);
   :hover > div {
     background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
   }
@@ -185,8 +187,6 @@ export const HoverablePixelTavolo = styled(PixelTavolo)`
   }
 `;
 
-const inX = '65%';
-const inY = '28.75%';
 
 export const RotationContainer = styled.div`
   position: relative;
@@ -194,12 +194,12 @@ export const RotationContainer = styled.div`
     display: none;
     position: absolute;
   }
-  :hover > div:last-child {
+  ::focus > div:last-child {
     border-radius: 50%;
     display: block;
-    inset: -40px;
+    inset: -100px;
     backdrop-filter: blur(3px);
     z-index: 2;
-    clip-path: polygon(0% 0%, 0% 100%, ${inY} 100%, ${inY} ${inY}, ${inX} ${inY}, ${inX} ${inX}, ${inY} ${inX}, ${inY} 100%, 100% 100%, 100% 0%);
+    clip-path: polygon(0% 0%, 0% 100%, 25% 100%, 25% 25%, 75% 25%, 75% 75%, 25% 75%, 25% 100%, 100% 100%, 100% 0%);
   }
 `;
