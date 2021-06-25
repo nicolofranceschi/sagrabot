@@ -186,20 +186,3 @@ export const HoverablePixelTavolo = styled(PixelTavolo)`
     height: 100%;
   }
 `;
-
-
-export const RotationContainer = styled.div`
-  position: relative;
-  div:last-child {
-    display: none;
-    position: absolute;
-  }
-  ::focus > div:last-child {
-    border-radius: 50%;
-    display: block;
-    inset: -100px;
-    backdrop-filter: blur(3px);
-    z-index: 2;
-    clip-path: polygon(0% 0%, 0% 100%, 25% 100%, 25% 25%, 75% 25%, 75% 75%, 25% 75%, 25% 100%, 100% 100%, 100% 0%);
-  }
-`;
