@@ -15,8 +15,8 @@ const cells = [...Array(cellsNumber ** 2)];
 
 const rotatePixel = (key, rotation) => {
   switch (key) {
-    case 'ArrowLeft': return rotation - 10;
-    case 'ArrowRight': return rotation + 10;
+    case 'ArrowLeft': return rotation - 45;
+    case 'ArrowRight': return rotation + 45;
     case 'ArrowUp':
     case 'ArrowDown':
       return rotation + 180;
@@ -42,8 +42,7 @@ export default function Editor() {
   });
   
   useEffect(()=>{
-    setStorage(selected);
-  },[selected])
+    setStorage(selected);},[selected])
   
   useEffect(()=>{
     toast.info("Autosave enable", {
@@ -98,7 +97,6 @@ export default function Editor() {
       };
     },[doubleClickedIndex,selected[doubleClickedIndex]?.border])
 
-    console.log(selected)
 
   const select = useCallback((i, pixel) => setSelected(current => ({ ...current, [i]: pixel }) ), []);
   const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, type, color, getxy }} selected={selected[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} />), [selected, type, color]);
