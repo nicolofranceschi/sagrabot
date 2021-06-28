@@ -24,16 +24,16 @@ const rotatePixel = (key, rotation) => {
   }
 }
 
-
 const getxy = i => {
   const y = Math.trunc(i/cellsNumber);
   const x = i - (cellsNumber*y)
   return { x, y }
 
 }
-export default function Editor() {
-
-  const [storage, setStorage] = useLocalStorage("selected_pixels", "{}");
+export default function Editor({idlocalestorage}) {
+  
+  console.log(idlocalestorage)
+  const [storage, setStorage] = useLocalStorage(idlocalestorage, "{}");
   const [selected, setSelected] = useState(storage);
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [{ color, type }, setStyle] = useState({
