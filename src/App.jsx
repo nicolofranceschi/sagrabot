@@ -14,7 +14,7 @@ function App() {
       <Editor />
       </Route>
       <Route path="/">
-        <Sale/>
+        <Editor/>
       </Route>
     </Switch>
   </AnimateSharedLayout>
