@@ -31,6 +31,7 @@ export const Pixelstyle = styled.div`
   height: 100%;
   cursor: pointer;
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
+  border-radius: ${({ border }) => border ?? '0px'};
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
   :hover {
     background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
@@ -152,6 +153,7 @@ export const PixelTavolo = styled.div`
   display: flex;
   flex-direction: row;
   transform: rotate(${({ rotation }) => rotation ?? '0'}deg);
+  border-radius: ${({ border }) => border ?? '0px'};
   :hover > div {
     background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
   }
@@ -163,6 +165,7 @@ export const PixelTavolo = styled.div`
 
 export const OnlyTavolo = styled.div`
   height: 100%;
+  border-radius: ${({ border }) => border ?? '0px'};
   flex-grow: 1;
   border: 1px solid var(--line);
   box-sizing: border-box;
@@ -178,10 +181,12 @@ export const Posto = styled.div`
 
 export const PixelRotation = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: row;
   top:10px;
   left:10px;
   height: 50px;
-  width: 120px;
+  width: 300px;
   border-radius: 20px;
   backdrop-filter: blur(30px);
   z-index:10;

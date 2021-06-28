@@ -12,7 +12,7 @@ const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }
         onDoubleClick(null);
     }, [color, type, selected]);
 
-    const pixelProps = { ref, rotation: selected?.rotation };
+    const pixelProps = { ref, rotation: selected?.rotation , border : selected?.border };
 
     const PixelNonSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} selectedColor={color} />;
     const PixelNonSelezionatoTipo1 = () => (
@@ -24,7 +24,7 @@ const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }
     const PixelSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} pixelColor={selected?.color} selectedColor={color} />;
     const PixelSelezionatoTipo1 = () => (
         <PixelTavolo {...pixelProps} selectedColor={color}>
-            <OnlyTavolo pixelColor={selected?.color} />
+            <OnlyTavolo pixelColor={selected?.color} border={selected?.border} />
             <Sedia color={selected?.color} selectedColor={color} />
         </PixelTavolo>
     );

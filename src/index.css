@@ -49,6 +49,7 @@ html {
   
   body {
     touch-action: auto;
+    overflow: hidden;
     min-height: 100vh;
     /* mobile viewport bug fix */
     min-height: -webkit-fill-available;

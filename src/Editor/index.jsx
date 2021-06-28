@@ -24,12 +24,15 @@ const rotatePixel = (key, rotation) => {
   }
 }
 
+
 const getxy = i => {
   const y = Math.trunc(i/cellsNumber);
   const x = i - (cellsNumber*y)
   return { x, y }
+
 }
 export default function Editor() {
+
   const [storage, setStorage] = useLocalStorage("selected_pixels", "{}");
   const [selected, setSelected] = useState(storage);
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
@@ -37,59 +40,69 @@ export default function Editor() {
     color: "white",
     type: 0
   });
-
-    useEffect(()=>{
+  
+  useEffect(()=>{
     setStorage(selected);
-    },[selected])
-
-    useEffect(()=>{
-      toast.info("Autosave enable", {
-        position: "top-right",
-        autoClose: 2000,
-        closeOnClick: true,
-        draggable: true,
-        });
-      },[])
-
-
+  },[selected])
+  
+  useEffect(()=>{
+    toast.info("Autosave enable", {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
+  },[])
+  
   const [doubleClickedIndex, setDoubleClickedIndex] = useState(null);
-
+  
   const DrawingGrid = useRef(null);
   const { height , width }  = useWindowSize();
-
+  
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
       if( width < currentGridSize + vdva[0] * 50 && height < currentGridSize + vdva[0] * 50 ){
-      const newGridSize = currentGridSize + vdva[0] * 50;
-      return [newGridSize, gridSize / cellsNumber];
-    }else{
-      return [currentGridSize, gridSize / cellsNumber];
-    }
+        const newGridSize = currentGridSize + vdva[0] * 50;
+        return [newGridSize, gridSize / cellsNumber];
+      }else{
+        return [currentGridSize, gridSize / cellsNumber];
+      }
     });
   }, {
     domTarget: DrawingGrid,
     eventOptions: { passive: false },
   });
-
-  const select = useCallback((i, pixel) => setSelected(current => ({ ...current, [i]: pixel }) ), []);
-  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, type, color, getxy }} selected={selected[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} />), [selected, type, color]);
   
-  const catchKeyEvent = (e) => {
-   e?.preventDefault();
-    if (doubleClickedIndex === null || !selected[doubleClickedIndex]) return;
-    else {
-      const { rotation, ...pixelClicked } = selected[doubleClickedIndex];
-      select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
-    };
-  }
-  const catchUIEvent = (e) => {
+  const catchKeyEvent = useCallback((e) => {
+    e?.preventDefault();
      if (doubleClickedIndex === null || !selected[doubleClickedIndex]) return;
      else {
        const { rotation, ...pixelClicked } = selected[doubleClickedIndex];
        select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
      };
-   }
+   },[doubleClickedIndex,selected[doubleClickedIndex]?.rotation])
 
+   const catchUIEvent = useCallback((e) => {
+      if (doubleClickedIndex === null || !selected[doubleClickedIndex]) return;
+      else {
+        const { rotation, ...pixelClicked } = selected[doubleClickedIndex];
+        select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
+      };
+    },[doubleClickedIndex,selected[doubleClickedIndex]?.rotation])
+
+    const borderBox = useCallback((e) => {
+      if (doubleClickedIndex === null || !selected[doubleClickedIndex]) return;
+      else {
+        const { border, ...pixelClicked } = selected[doubleClickedIndex];
+        select(doubleClickedIndex, { ...pixelClicked, border: e.key });
+      };
+    },[doubleClickedIndex,selected[doubleClickedIndex]?.border])
+
+    console.log(selected)
+
+  const select = useCallback((i, pixel) => setSelected(current => ({ ...current, [i]: pixel }) ), []);
+  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, type, color, getxy }} selected={selected[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} />), [selected, type, color]);
+  
   return (
     <Suspense fallback={<Loading />}>
       <ToastContainer
@@ -109,7 +122,7 @@ export default function Editor() {
         </Grid>
       </Container>
       <Tools {...{ setStyle, type, color }} />
-      <PixelSettings onClickLeft={() => catchUIEventt({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} />
+      <PixelSettings onClickLeft={() => catchUIEvent({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} borderYes={() => borderBox({ key: "20px" })} borderNo={() => borderBox({ key: "0px" })}  borderPartial={() => borderBox({ key: "0px 10px 10px 0px" })} borderOne={() => borderBox({ key: "0px 0px 10px 0px" })} borderTwo={() => borderBox({ key: "0px 10px 0px 0px" })}/>
     </Suspense>
   );
 }

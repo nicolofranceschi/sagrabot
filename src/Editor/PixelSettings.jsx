@@ -4,7 +4,7 @@ import { PixelRotation } from "./Styled.jsx";
 import styled from 'styled-components';
 
 const Svg0 = styled.svg`
-   margin:  15px 15px 15px 15px;
+  margin:  15px 10px 15px 15px;
   height:20px;
   width:20px;
   stroke: white;
@@ -16,7 +16,7 @@ const Svg0 = styled.svg`
 `;
 
 const Svg180 = styled.svg`
-  margin:  15px 15px 15px 15px;
+  margin:  15px 10px 15px 15px;
   height:20px;
   width:20px;
   stroke: white;
@@ -27,8 +27,62 @@ const Svg180 = styled.svg`
   }
 `;
 
+const BorderBox = styled.div`
+  margin:  15px 10px 15px 15px;
+  border-radius: 5px;
+  height:20px;
+  width:20px;
+  background-color: white;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
 
-export default function PixelSettings ({onClickLeft, onClickRight}) {
+const BorderBoxPartial = styled.div`
+  margin:  15px 10px 15px 15px;
+  border-radius: 0px 5px 5px 0px;
+  height:20px;
+  width:20px;
+  background-color: white;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
+
+const BorderBoxOne = styled.div`
+  margin:  15px 10px 15px 15px;
+  border-radius: 0px 0px 5px 0px;
+  height:20px;
+  width:20px;
+  background-color: white;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
+
+const BorderBoxTwo = styled.div`
+  margin:  15px 10px 15px 15px;
+  border-radius: 0px 5px 0px 0px;
+  height:20px;
+  width:20px;
+  background-color: white;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
+
+const LinearBox = styled.div`
+  margin:  15px 10px 15px 15px;
+  height:20px;
+  width:20px;
+  background-color: white;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
+
+
+export default function PixelSettings ({onClickLeft, onClickRight, borderYes, borderNo, borderPartial, borderOne, borderTwo}) {
   
   return (
   <PixelRotation>
@@ -46,6 +100,11 @@ export default function PixelSettings ({onClickLeft, onClickRight}) {
       c0-21.763-6.916-42.675-19.916-59.781V74c0,8.284-6.716,15-15,15s-15-6.716-15-15V24.006c0-0.002,0-0.004,0-0.004
       C180.917,15.716,187.966,9,196.25,9h50c8.284,0,15,6.716,15,15s-6.716,15-15,15H231.385z"/>
     </Svg180>
+    <BorderBox onClick={borderYes}></BorderBox>
+    <BorderBoxPartial onClick={borderPartial}></BorderBoxPartial>
+    <BorderBoxOne onClick={borderOne}></BorderBoxOne>
+    <BorderBoxTwo onClick={borderTwo}></BorderBoxTwo>
+    <LinearBox onClick={borderNo}></LinearBox>
   </PixelRotation>
 );
 
