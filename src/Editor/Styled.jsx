@@ -176,6 +176,17 @@ export const Posto = styled.div`
   background-color: var(--black-light);
 `;
 
+export const PixelRotation = styled.div`
+  position: absolute;
+  top:10px;
+  left:10px;
+  height: 50px;
+  width: 120px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:10;
+`;
+
 export const HoverablePixelTavolo = styled(PixelTavolo)`
   svg {
     width: 0;
