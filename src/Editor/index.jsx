@@ -24,6 +24,17 @@ const rotatePixel = (key, rotation) => {
   }
 }
 
+const textPixel = (key,text) => {
+  if(text)
+  {switch (key) {
+    case 'Backspace': return "T";
+    default: return text+key;
+  }}else{switch (key) {
+    case 'Backspace': return "T";
+    default: return key;
+  }}
+}
+
 const getxy = i => {
   const y = Math.trunc(i/cellsNumber);
   const x = i - (cellsNumber*y)
@@ -76,8 +87,11 @@ export default function Editor({idlocalestorage}) {
     e?.preventDefault();
      if (doubleClickedIndex === null || !selected[doubleClickedIndex]) return;
      else {
-       const { rotation, ...pixelClicked } = selected[doubleClickedIndex];
-       select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
+       console.log(e.key)
+       const { rotation,  ...pixelClicked } = selected[doubleClickedIndex];
+       if (selected[doubleClickedIndex].type == 2){
+        select(doubleClickedIndex, { ...pixelClicked, key: textPixel(e.key,selected[doubleClickedIndex].key) })
+       }else select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
      };
    },[doubleClickedIndex,selected[doubleClickedIndex]?.rotation])
 

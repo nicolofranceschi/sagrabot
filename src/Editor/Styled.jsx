@@ -133,6 +133,41 @@ export const Quadrato = styled.div`
     transform: scale(1.08);
   }
 `;
+
+export const Testo = styled.div`
+  height: 50px;
+  width: 50px;
+  margin-right: 5%;
+  border-radius: 5px 5px 5px 5px;
+  border: 1px solid var(--line);
+  text-align: center;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  :hover{
+    transform: scale(1.08);
+  }
+`;
+
+export const TestoPixel = styled.div`
+  height: 50px;
+  width: 50px;
+  margin-right: 5%;
+  border-radius: 5px 5px 5px 5px;
+  border: 1px solid var(--line);
+  text-align: center;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
+  border-radius: ${({ border }) => border ?? '0px'};
+  color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
+  :hover {
+    color: ${({ selectedColor }) => selectedColor ?? 'white'};
+  }
+`;
+
+
 export const Tavolo = styled.div`
   height: 50px;
   width: 50px;
