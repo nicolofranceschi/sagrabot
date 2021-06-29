@@ -135,8 +135,10 @@ export const Quadrato = styled.div`
 `;
 
 export const Testo = styled.div`
-  height: 50px;
-  width: 50px;
+  border: 1px solid var(--line);
+  box-sizing: border-box;
+  height: 100%;
+  cursor: pointer;
   margin-right: 5%;
   border-radius: 5px 5px 5px 5px;
   border: 1px solid var(--line);
