@@ -152,9 +152,6 @@ export const Testo = styled.div`
 export const TestoPixel = styled.div`
   height: 50px;
   width: 50px;
-  margin-right: 5%;
-  border-radius: 5px 5px 5px 5px;
-  border: 1px solid var(--line);
   text-align: center;
   padding: 10px;
   font-family: Arial, Helvetica, sans-serif;
