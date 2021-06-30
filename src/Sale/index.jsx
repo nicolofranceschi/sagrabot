@@ -49,7 +49,7 @@ return(
                     <Form onSubmit={handleSubmit(onSubmit)}>
                     <Testoinput {...register("name", { required: true })} />
                     {errors.name}
-                    <Buttoninput type="submit" >GO</Buttoninput>
+                    <Buttoninput type="submit" >ADD</Buttoninput>
                   </Form>
                   </Card>
                 </Suspense> 
@@ -74,12 +74,13 @@ return(
         : (
         <>
           <Card>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-            <Testoinput {...register("name", { required: true })} />
-            {errors.name}
-            <Buttoninput type="submit" />
-          </Form>
-          </Card>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Testoinput {...register("name", { required: true })} />
+                    {errors.name}
+                    <Buttoninput type="submit" >ADD</Buttoninput>
+                  </Form>
+                  </Card>
+                
         </>
         )
       }

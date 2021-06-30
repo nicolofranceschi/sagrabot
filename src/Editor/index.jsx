@@ -136,12 +136,12 @@ export default function Editor() {
         pauseOnHover
     />
       <Container ref={DrawingGrid}>
+          <PixelSettings onClickLeft={() => catchUIEvent({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} borderYes={() => borderBox({ key: "20px" })} borderNo={() => borderBox({ key: "0px" })}  borderPartial={() => borderBox({ key: "0px 10px 10px 0px" })} borderOne={() => borderBox({ key: "0px 0px 10px 0px" })} borderTwo={() => borderBox({ key: "0px 10px 0px 0px" })} sale={sale}/>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0} onKeyDown={catchKeyEvent}>
           {grid}
         </Grid>
       </Container>
       <Tools {...{ setStyle, type, color }} />
-      <PixelSettings onClickLeft={() => catchUIEvent({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} borderYes={() => borderBox({ key: "20px" })} borderNo={() => borderBox({ key: "0px" })}  borderPartial={() => borderBox({ key: "0px 10px 10px 0px" })} borderOne={() => borderBox({ key: "0px 0px 10px 0px" })} borderTwo={() => borderBox({ key: "0px 10px 0px 0px" })} sale={sale}/>
     </Suspense>
   );
 }

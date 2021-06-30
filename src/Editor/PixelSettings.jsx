@@ -44,6 +44,18 @@ const BorderBox = styled.div`
     transform: scale(1.2);
   }
 `;
+const Flex = styled.div`
+  position: absolute;
+  top:0px;
+  left:0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  z-index: 10;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+`;
 
 const BorderBoxPartial = styled.div`
   margin:  15px 10px 15px 15px;
@@ -128,8 +140,8 @@ const Testo = styled.div`
 
 export default function PixelSettings ({onClickLeft, onClickRight, borderYes, borderNo, borderPartial, borderOne, borderTwo , sale}) {
   return (
-    <>
-  <PixelRotation>
+    <Flex>
+    <PixelRotation>
     <Svg0 onClick={onClickLeft} xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 261.25 261.25"  >
     <path d="M231.385,39C250.293,62.087,261,91.278,261,121.75c0,71.958-58.542,130.5-130.5,130.5S0,193.708,0,121.75
       c0-35.358,13.911-68.463,39.17-93.215c5.917-5.798,15.414-5.701,21.212,0.216s5.701,15.413-0.216,21.212
@@ -161,7 +173,7 @@ export default function PixelSettings ({onClickLeft, onClickRight, borderYes, bo
   <Testo>
     <p>{sale}</p>
   </Testo>
-  </>
+  </Flex>
 );
 
 }
