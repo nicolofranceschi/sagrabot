@@ -217,8 +217,8 @@ export const PixelRotation = styled.div`
   position: absolute;
   display: flex;
   flex-direction: row;
-  top:10px;
-  left:10px;
+  top:20px;
+  left:70px;
   height: 50px;
   width: 300px;
   border-radius: 20px;

@@ -10,88 +10,35 @@ export const Container = styled(motion.div)`
   position: absolute;
   cursor: grab;
 `;
-
-export const Utente = styled(motion.div)`
-  height: 90vh;
-  width: 100vw;
-  border-radius: 3em 3em 0 0;
-  z-index:200;
+export const Card = styled.div`
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
   overflow: hidden;
-  position: absolute;
-  background-color: white;
+  position: relative;
   cursor: grab;
+  background-color: var(--line);
+  perspective: 600px;
 `;
-
-export const Svgpiu = styled.svg`
-  top : 0;
-  right: 40px;
-  z-index: 10;
-  padding-right: 20px;
-  height: 10vh;
-  width: 40px;
-  border-radius: 20px;
-  overflow: hidden;
-  position: absolute;
-  stroke: white;
-  &:hover {
-  height: 10vh;
-  width: 55px;
-  
-  }
-`;
-export const Svgmap = styled.svg`
-  top : 0;
-  right: 80px;
-  z-index: 10;
-  padding-right: 20px;
-  height: 10vh;
-  width: 40px;
-  border-radius: 20px;
-  overflow: hidden;
-  position: absolute;
-  stroke: white;
-  &:hover {
-  height: 10vh;
-  width: 55px;
-  
-  }
-`;
-
-export const Svgout = styled.svg`
-  top : 0;
-  right: 0;
-  padding-right: 20px;
-  height: 10vh;
-  width: 40px;
-  border-radius: 20px;
-  overflow: hidden;
-  position: absolute;
-  stroke: white;
-  &:hover {
-  height: 10vh;
-  width: 55px;
-  }
-`;
-
-export const TextAlert = styled.h2`
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left:0;
-  transform: translate(0,-50%);
+export const Testo = styled.div`
   text-align: center;
-  width:100vw;
-  height: 10vh;
-  color: var(--main);
+  vertical-align: middle;
+  line-height: 20vh;
+  color: white;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 1s;
+  font-weight: bold;
+  font-size: 5vw; 
 `;
 
 export const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr;
-  grid-auto-rows: 50vh;
+  grid-auto-rows: 20vh;
   gap: 20px;
   padding: 20px;
-  @media only screen and (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
+  @media only screen and (min-width: 600px) {
+    grid-template-columns: 1fr 1fr ;
   }
 `;

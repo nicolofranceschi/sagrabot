@@ -22,7 +22,7 @@ const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }
             <Sedia color={color} selectedColor={color} />
         </HoverablePixelTavolo>
     );
-    const PixelNonSelezionatoTipo2 = () => <TestoPixel {...pixelProps} selectedColor={color} >T</TestoPixel>;
+    const PixelNonSelezionatoTipo2 = () => <TestoPixel {...pixelProps} selectedColor={color} ></TestoPixel>;
     const PixelSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} pixelColor={selected?.color} selectedColor={color} />;
     const PixelSelezionatoTipo1 = () => (
         <PixelTavolo {...pixelProps} selectedColor={color}>

@@ -1,6 +1,6 @@
 
 import { PixelRotation } from "./Styled.jsx";
-
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
 const Svg0 = styled.svg`
@@ -25,6 +25,13 @@ const Svg180 = styled.svg`
   :hover{ 
     transform: rotate(150deg);
   }
+`;
+
+const Svg = styled.svg`
+  margin:15px;
+  height:20px;
+  width:20px;
+  stroke: white;
 `;
 
 const BorderBox = styled.div`
@@ -81,10 +88,47 @@ const LinearBox = styled.div`
   }
 `;
 
+const Back = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  top:20px;
+  left:10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:10;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
 
-export default function PixelSettings ({onClickLeft, onClickRight, borderYes, borderNo, borderPartial, borderOne, borderTwo}) {
-  
+const Testo = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  color: white;
+  top:20px;
+  left:400px;
+  height: 50px;
+  width: 200px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:10;
+  p{
+    padding-left: 10px;
+    font-weight: bold;
+  }
+`;
+
+
+export default function PixelSettings ({onClickLeft, onClickRight, borderYes, borderNo, borderPartial, borderOne, borderTwo , sale}) {
   return (
+    <>
   <PixelRotation>
     <Svg0 onClick={onClickLeft} xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 261.25 261.25"  >
     <path d="M231.385,39C250.293,62.087,261,91.278,261,121.75c0,71.958-58.542,130.5-130.5,130.5S0,193.708,0,121.75
@@ -105,7 +149,19 @@ export default function PixelSettings ({onClickLeft, onClickRight, borderYes, bo
     <BorderBoxOne onClick={borderOne}></BorderBoxOne>
     <BorderBoxTwo onClick={borderTwo}></BorderBoxTwo>
     <LinearBox onClick={borderNo}></LinearBox>
+    
   </PixelRotation>
+  <Link to="/">
+  <Back>
+  <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+  </Svg>
+  </Back>
+  </Link>
+  <Testo>
+    <p>{sale}</p>
+  </Testo>
+  </>
 );
 
 }

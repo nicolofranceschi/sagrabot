@@ -1,10 +1,11 @@
-import { useRef, useState, lazy, Suspense, useCallback, useMemo, useEffect } from "react";
+import { useRef, useState, lazy, Suspense, useCallback, useMemo, useEffect , useContext } from "react";
 import { usePinch } from 'react-use-gesture';
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled.jsx";
 import PixelSettings from "./PixelSettings";
 import useLocalStorage from "../useLocalStorage.js";
 import { ToastContainer, toast } from 'react-toastify';
+import { SaleContext } from '../App';
 
 const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
@@ -41,10 +42,17 @@ const getxy = i => {
   return { x, y }
 
 }
-export default function Editor({idlocalestorage}) {
+const getname = (sale , name , setName, setSale) => {
+  if(sale==name) return sale 
+  if(sale!==null) { setName(sale); return sale;}
+  if(sale==null){ setSale(name); return name;}
+}
+
+export default function Editor() {
   
-  console.log(idlocalestorage)
-  const [storage, setStorage] = useLocalStorage(idlocalestorage, "{}");
+  const [sale,setSale] = useContext(SaleContext);
+  const [name, setName] = useLocalStorage("Sale");
+  const [storage, setStorage] = useLocalStorage(getname(sale , name , setName , setSale), "{}");
   const [selected, setSelected] = useState(storage);
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [{ color, type }, setStyle] = useState({
@@ -87,7 +95,6 @@ export default function Editor({idlocalestorage}) {
     e?.preventDefault();
      if (doubleClickedIndex === null || !selected[doubleClickedIndex]) return;
      else {
-       console.log(e.key)
        const { rotation,  ...pixelClicked } = selected[doubleClickedIndex];
        if (selected[doubleClickedIndex].type == 2){
         select(doubleClickedIndex, { ...pixelClicked, key: textPixel(e.key,selected[doubleClickedIndex].key) })
@@ -134,7 +141,7 @@ export default function Editor({idlocalestorage}) {
         </Grid>
       </Container>
       <Tools {...{ setStyle, type, color }} />
-      <PixelSettings onClickLeft={() => catchUIEvent({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} borderYes={() => borderBox({ key: "20px" })} borderNo={() => borderBox({ key: "0px" })}  borderPartial={() => borderBox({ key: "0px 10px 10px 0px" })} borderOne={() => borderBox({ key: "0px 0px 10px 0px" })} borderTwo={() => borderBox({ key: "0px 10px 0px 0px" })}/>
+      <PixelSettings onClickLeft={() => catchUIEvent({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} borderYes={() => borderBox({ key: "20px" })} borderNo={() => borderBox({ key: "0px" })}  borderPartial={() => borderBox({ key: "0px 10px 10px 0px" })} borderOne={() => borderBox({ key: "0px 0px 10px 0px" })} borderTwo={() => borderBox({ key: "0px 10px 0px 0px" })} sale={sale}/>
     </Suspense>
   );
 }
