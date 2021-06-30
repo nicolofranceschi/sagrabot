@@ -46,7 +46,9 @@ html {
   p { margin: 0; }
   cite { font-style: normal; }
   fieldset { border-width: 0; padding: 0; margin: 0; }
-  
+  input[type="submit"] {
+    -webkit-appearance: none;
+  }
   body {
     touch-action: auto;
     overflow: hidden;

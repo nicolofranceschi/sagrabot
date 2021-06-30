@@ -1,13 +1,15 @@
 import { useWindowSize } from "../useWindowSize";
-import { lazy, Suspense , useContext } from "react";
-import {  Container,  Grid,Card , Testo} from './styled';
+import { lazy, Suspense , useContext, useEffect, useState } from "react";
+import {  Container,  Grid,Card , Testo, Svg , Form , Testoinput , Buttoninput} from './styled';
 import { Link } from "react-router-dom";
 import { SaleContext } from '../App';
+import {  useForm } from "react-hook-form";
+import useLocalStorage from "../useLocalStorage.js";
 
 const Editor = lazy(() => import('../Editor'));
 
 function getHeight(length, height) {
-    const totalScroll = length * height / 2;
+    const totalScroll = length * height / 4;
     return totalScroll;
   }
 
@@ -15,22 +17,27 @@ export default  function Sale  () {
 
 const [sale,setSale] = useContext(SaleContext);
 
-const items = ["selected_pixels","Max 25 ","add"];
-
+const [arr, setArr] = useLocalStorage("items",["add"]);
+const [items,setItems] = useState(arr)
 const { width , height } = useWindowSize();
+const { register,handleSubmit,formState: { errors } } = useForm();
+const onSubmit = async (data) => {
+  setArr((current)=>[data.name,...current]);
+}; 
+useEffect(()=>setItems(arr),[arr])
 
 return(
     <div style={{ overflow: 'hidden', height: '100vh', position: 'relative' }}>
-    <Container whileTap={{ cursor: "grabbing" }}>
+    <Container >
     <Grid
       style={{
         width,
-        height: getHeight(width < 768 ? length : length / 2, height),
+        height: getHeight(width < 600 ? length : length , height),
         y: scrollY
       }}
       drag="y"
       dragConstraints={{
-        top: -getHeight(width < 768 ? length : length / 2, height),
+        top: -getHeight(width < 600 ? length : length , height),
         bottom: 0
       }}
     >
@@ -38,21 +45,27 @@ return(
         ? items.map((e,_id) => (
             e == "add" ? ( 
                 <Suspense key={_id} fallback={<div style={{ width: '100%', height: '100%', backgroundColor: 'white', borderRadius: '20px', opacity: 0.7 }} />}>
-                   <Link to="/editor">
-                      <Card onClick={()=>setSale(e)}>
-                        <Testo>AGGIUNGI SALE</Testo>
-                      </Card>
-                    </Link>
+                  <Card>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Testoinput {...register("name", { required: true })} />
+                    {errors.name}
+                    <Buttoninput type="submit" >GO</Buttoninput>
+                  </Form>
+                  </Card>
                 </Suspense> 
             //div che aggiunge un local storage nuovo
+            //setArr((current)=>current.splice(_id,1))
             ) 
             : (
           <Suspense key={_id} fallback={<div style={{ width: '100%', height: '100%', backgroundColor: 'white', borderRadius: '20px', opacity: 0.7 }} />}>
-           <Link to="/editor">
             <Card onClick={()=>setSale(e)}>
+              <Svg onClick={()=>setArr((current)=>{ const components = current.slice(0); components.splice(_id, 1);return components;})} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
+                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </Svg>
+            <Link to="/editor">
               <Testo idlocalestorage={e} >{e}</Testo>
-            </Card>
             </Link>
+            </Card>
           </Suspense>
           
 
@@ -60,7 +73,13 @@ return(
         ))
         : (
         <>
-        <Testo>AGGIUNGI SALE</Testo>
+          <Card>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Testoinput {...register("name", { required: true })} />
+            {errors.name}
+            <Buttoninput type="submit" />
+          </Form>
+          </Card>
         </>
         )
       }
