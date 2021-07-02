@@ -2,6 +2,7 @@ import {  useState , createContext} from 'react';
 import "./index.css";
 import Editor from "./Editor";
 import Sale from "./Sale";
+import Loginphone from "./Loginphone";
 import 'react-toastify/dist/ReactToastify.css';
 import { AnimateSharedLayout } from 'framer-motion';
 import { Route, Switch } from 'react-router';
@@ -18,6 +19,9 @@ function App() {
     <Switch>
       <Route path="/editor">
       <Editor />
+      </Route>
+      <Route path="/loginphone">
+      <Loginphone />
       </Route>
       <Route path="/">
         <Sale/>
