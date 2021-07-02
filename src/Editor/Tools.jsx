@@ -1,5 +1,4 @@
-import { CirclePicker } from 'react-color'
-import { BottomPopup, Action, Positiondiv, Svg, InfoText, Infodiv, Icon, Text, SelezionaOggetto, Tavolo, Quadrato, Posto, OnlyTavolo, Testo} from "./Styled"
+import { BottomPopup, Action, Positiondiv, Svg, InfoText, Infodiv, Icon, Text, SelezionaOggetto, Tavolo, Quadrato, Posto, Testo, ColorContainer, ColorCircle } from "./Styled"
 import { useWindowSize } from "../useWindowSize.js";
 import { useState, memo } from 'react';
 import { Sedia } from "./Svg"
@@ -7,24 +6,23 @@ import { Sedia } from "./Svg"
 const openDrawerSize = {
     H: "60vh",
     W: "30vw",
-    B: 1
+    open: true
 }
 
 const closeDrawerSize = {
     H: "50px",
     W: "50px",
-    B: 0
+    open: false
 }
 
+const colors = ['red', 'blue', 'green','red', 'blue', 'green','red', 'blue', 'green','red', 'blue', 'green','red', 'blue', 'green','red', 'blue', 'green','red', 'blue', 'green'];
+
 const Tools = memo(({ setStyle, color, type }) => {
-
     const { height, width } = useWindowSize();
-
     const closedPopupHeight = 50;
 
-    const [{ H, W, B }, setAnimation] = useState(closeDrawerSize);
+    const [{ H, W, open }, setAnimation] = useState(closeDrawerSize);
 
-    const changeColor = (color) => setStyle({ color: color.hex, type });
     const closeDrawer = () => setAnimation(closeDrawerSize);
     const openDrawer = () => setAnimation(openDrawerSize);
 
@@ -32,7 +30,7 @@ const Tools = memo(({ setStyle, color, type }) => {
 
     return width >= 768 ? (
         <>
-            {B == 1 ? (
+            {open ? (
                 <BottomPopup
                     drag
                     dragConstraints={{ top: 0, bottom: height - height / 100 * 60 - 30, left: -width + width / 100 * 30 + 30, right: 0 }}
@@ -48,7 +46,8 @@ const Tools = memo(({ setStyle, color, type }) => {
                     </Action>
                     <Positiondiv>
                         <InfoText>Seleziona Colore</InfoText>
-                        <CirclePicker width={"100%"} onChangeComplete={changeColor} />
+                        <ColorContainer>{colors.map(color => <ColorCircle key={color} color={color} onClick={() => setStyle({ color, type })} />)}</ColorContainer>
+                        {/* <CirclePicker width={"100%"} onChangeComplete={changeColor} /> */}
                     </Positiondiv>
                     <Positiondiv>
                         <InfoText>Seleziona Oggetto</InfoText>
@@ -100,7 +99,7 @@ const Tools = memo(({ setStyle, color, type }) => {
             </Infodiv>
             <Positiondiv>
                 <InfoText>Seleziona Colore</InfoText>
-                <CirclePicker width={"100%"} onChangeComplete={changeColor} />
+                {/* <CirclePicker width={"100%"} onChangeComplete={changeColor} /> */}
             </Positiondiv>
             <Positiondiv>
                 <InfoText>Seleziona Oggetto</InfoText>

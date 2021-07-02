@@ -1,28 +1,29 @@
 
 import { Container } from "../Editor/Styled";
 import { useForm } from "react-hook-form";
-import { numero } from "../firebase";
-import { useRef } from "react";
+import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode } from "../firebase";
+import { useEffect } from "react";
 
-export const button = useRef();
+export default function Loginphone() {
+    const { register, handleSubmit, formState: { errors, isSubmitted } } = useForm();
 
-export default function Loginphone(){
+    useEffect(() => { initRecaptcha('recaptcha-container') }, []);
 
-
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
-        numero(data.numero)
-        console.log(data.numero)
+        if (!isSubmitted) signInWithPhoneNumber(data.numero);
+        else sendVerificationCode(data.code);
     };
-    
-    return(
-    <Container id="recaptcha-container">
-        <form onSubmit={handleSubmit(onSubmit)}>
-        {/* register your input into the hook by invoking the "register" function */}
-        <input type="tel" {...register("numero")} />  
-        
-        <input ref={button} type="submit" />
-        </form>
+
+    return (
+        <Container>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {!isSubmitted
+                    ? <input type="tel" {...register("numero")} />
+                    : <input type="number" {...register("code")} />
+                }
+                <input type="submit" />
+                <input id="recaptcha-container" type="hidden" />
+            </form>
         </Container>
     );
 

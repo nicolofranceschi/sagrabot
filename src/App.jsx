@@ -1,35 +1,35 @@
-import {  useState , createContext} from 'react';
-import "./index.css";
+import { createContext, useContext } from 'react';
 import Editor from "./Editor";
 import Sale from "./Sale";
 import Loginphone from "./Loginphone";
-import 'react-toastify/dist/ReactToastify.css';
 import { AnimateSharedLayout } from 'framer-motion';
 import { Route, Switch } from 'react-router';
+import useLocalStorage from './useLocalStorage';
 
-export const SaleContext = createContext(null);
+const SalaContext = createContext(null);
+export const useSala = () => useContext(SalaContext);
 
 function App() {
 
-  const [sale,setSale] = useState(null);
+  const context = useLocalStorage('sala', '');
 
   return (
     <AnimateSharedLayout type="crossfade">
-    <SaleContext.Provider value={[sale, setSale]}>
-    <Switch>
-      <Route path="/editor">
-      <Editor />
-      </Route>
-      <Route path="/loginphone">
-      <Loginphone />
-      </Route>
-      <Route path="/">
-        <Sale/>
-      </Route>
-    </Switch>
-    </SaleContext.Provider>
-  </AnimateSharedLayout>
-    
+      <SalaContext.Provider value={context}>
+        <Switch>
+          <Route path="/editor">
+            <Editor />
+          </Route>
+          <Route path="/loginphone">
+            <Loginphone />
+          </Route>
+          <Route path="/">
+            <Sale />
+          </Route>
+        </Switch>
+      </SalaContext.Provider>
+    </AnimateSharedLayout>
+
   );
 }
 

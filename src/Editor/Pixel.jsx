@@ -3,9 +3,7 @@ import { Pixelstyle, PixelTavolo, OnlyTavolo, HoverablePixelTavolo , TestoPixel}
 import { Sedia } from "./Svg";
 import useDoubleClick from 'use-double-click';
 
-
 const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }) => {
-
     const ref = useRef();
     const applyColor = useCallback(() => {
         const { x,y } = getxy(i);

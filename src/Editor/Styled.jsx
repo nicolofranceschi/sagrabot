@@ -236,3 +236,18 @@ export const HoverablePixelTavolo = styled(PixelTavolo)`
     height: 100%;
   }
 `;
+
+export const ColorCircle = styled.div`
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: ${({ color }) => color};
+  margin-right: 7px;
+  margin-bottom: 7px;
+`;
+
+export const ColorContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
