@@ -28,6 +28,8 @@ const Tools = memo(({ setStyle, color, type }) => {
 
   const openPopupHeight = - height + closedPopupHeight;
 
+  const updateStyle = props => setStyle(current => ({ ...current, ...props }));
+
   return width >= 768 ? (
     <>
       {open ? (
@@ -46,17 +48,17 @@ const Tools = memo(({ setStyle, color, type }) => {
           </Action>
           <Positiondiv>
             <InfoText>Seleziona Colore</InfoText>
-            <ColorContainer>{colors.map(color => <ColorCircle key={color} color={color} onClick={() => setStyle({ color, type })} />)}</ColorContainer>
+            <ColorContainer>{colors.map(color => <ColorCircle key={color} color={color} onClick={() => updateStyle({ color })} />)}</ColorContainer>
           </Positiondiv>
           <Positiondiv>
             <InfoText>Seleziona Oggetto</InfoText>
             <SelezionaOggetto>
-              <Quadrato onClick={() => setStyle({ color, type: 0 })}></Quadrato>
-              <Tavolo onClick={() => setStyle({ color, type: 1 })}>
+              <Quadrato onClick={() => updateStyle({ type: 0 })}></Quadrato>
+              <Tavolo onClick={() => updateStyle({ type: 1 })}>
                 <Posto />
                 <Sedia />
               </Tavolo>
-              <Testo onClick={() => setStyle({ color, type: 2 })}>T</Testo>
+              <Testo onClick={() => updateStyle({ type: 2 })}>T</Testo>
             </SelezionaOggetto>
           </Positiondiv>
         </BottomPopup>
@@ -103,12 +105,12 @@ const Tools = memo(({ setStyle, color, type }) => {
       <Positiondiv>
         <InfoText>Seleziona Oggetto</InfoText>
         <SelezionaOggetto>
-          <Quadrato onClick={() => setStyle({ color, type: 0 })}></Quadrato>
-          <Tavolo onClick={() => setStyle({ color, type: 1 })}>
+          <Quadrato onClick={() => updateStyle({ type: 0 })}></Quadrato>
+          <Tavolo onClick={() => updateStyle({ type: 1 })}>
             <Posto />
             <Sedia />
           </Tavolo>
-          <Testo onClick={() => setStyle({ color, type: 2 })}>T</Testo>
+          <Testo onClick={() => updateStyle({ type: 2 })}>T</Testo>
         </SelezionaOggetto>
       </Positiondiv>
     </BottomPopup>
