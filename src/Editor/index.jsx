@@ -10,8 +10,8 @@ import { useSala } from '../App';
 const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
 
-const initialGridSize = 5000;
-const cellsNumber = 25;
+const initialGridSize = 2500;
+const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
 const rotatePixel = (key, rotation) => {
