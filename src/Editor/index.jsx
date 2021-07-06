@@ -11,7 +11,7 @@ const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
 
 const initialGridSize = 5000;
-const cellsNumber = 100;
+const cellsNumber = 25;
 const cells = [...Array(cellsNumber ** 2)];
 
 const rotatePixel = (key, rotation) => {
@@ -49,10 +49,7 @@ export default function Editor() {
   const [sala] = useSala();
   const [selectedPixels, setSelectedPixels] = useLocalStorage(sala, {});
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
-  const [{ color, type }, setStyle] = useState({
-    color: "white",
-    type: 0
-  });
+  const [{ color, type }, setStyle] = useState({ color: "white", type: 0 });
 
   useEffect(() => {
     toast.info("Autosave enable", {
@@ -82,35 +79,52 @@ export default function Editor() {
     eventOptions: { passive: false },
   });
 
-  const catchKeyEvent = useCallback((e) => {
+  const noDoubleClicked = () => doubleClickedIndex === null || !selectedPixels[doubleClickedIndex];
+
+  const catchKeyEvent = useCallback(e => {
     e?.preventDefault();
-    if (doubleClickedIndex === null || !selectedPixels[doubleClickedIndex]) return;
+    if (noDoubleClicked()) return;
     else {
       const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
       if (selectedPixels[doubleClickedIndex].type == 2) {
         select(doubleClickedIndex, { ...pixelClicked, key: textPixel(e.key, selectedPixels[doubleClickedIndex].key) })
       } else select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
     };
-  }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]?.rotation])
+  }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
-  const catchUIEvent = useCallback((e) => {
-    if (doubleClickedIndex === null || !selectedPixels[doubleClickedIndex]) return;
+  const catchUIEvent = useCallback(e => {
+    if (noDoubleClicked()) return;
     else {
       const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
       select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
     };
-  }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]?.rotation])
+  }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
-  const borderBox = useCallback((e) => {
-    if (doubleClickedIndex === null || !selectedPixels[doubleClickedIndex]) return;
+  const borderBox = useCallback(e => {
+    if (noDoubleClicked()) return;
     else {
       const { border, ...pixelClicked } = selectedPixels[doubleClickedIndex];
       select(doubleClickedIndex, { ...pixelClicked, border: e.key });
     };
-  }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]?.border])
+  }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
   const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
   const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, type, color, getxy }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} />), [selectedPixels, type, color]);
+
+  const [onClickLeft, onClickRight] = useFunctionVariants(catchUIEvent, ['ArrowLeft', 'ArrowRight']);
+  const [
+    borderYes,
+    borderNo,
+    borderPartial,
+    borderOne,
+    borderTwo
+  ] = useFunctionVariants(borderBox, [
+    '20px',
+    '0px',
+    '0px 10px 10px 0px',
+    '0px 0px 10px 0px',
+    '0px 10px 0px 0px'
+  ]);
 
   return (
     <Suspense fallback={<Loading />}>
@@ -126,7 +140,7 @@ export default function Editor() {
         pauseOnHover
       />
       <Container ref={DrawingGrid}>
-        <PixelSettings onClickLeft={() => catchUIEvent({ key: 'ArrowLeft' })} onClickRight={() => catchUIEvent({ key: 'ArrowRight' })} borderYes={() => borderBox({ key: "20px" })} borderNo={() => borderBox({ key: "0px" })} borderPartial={() => borderBox({ key: "0px 10px 10px 0px" })} borderOne={() => borderBox({ key: "0px 0px 10px 0px" })} borderTwo={() => borderBox({ key: "0px 10px 0px 0px" })} sala={sala} />
+        <PixelSettings {...{ onClickLeft, onClickRight, borderYes, borderNo, borderPartial, borderOne, borderTwo }} sala={sala} />
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0} onKeyDown={catchKeyEvent}>
           {grid}
         </Grid>
@@ -137,3 +151,5 @@ export default function Editor() {
 }
 
 const Loading = () => <span>Loading...</span>;
+
+const useFunctionVariants = (fn, variants) => useMemo(() => variants.map(key => () => fn({ key })), [fn]);
