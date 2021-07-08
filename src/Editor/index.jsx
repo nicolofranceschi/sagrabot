@@ -1,5 +1,6 @@
 import { useRef, useState, lazy, Suspense, useCallback, useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
+import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled.jsx";
 import PixelSettings from "./PixelSettings";
@@ -109,7 +110,11 @@ export default function Editor() {
   }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
   const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
-  const grid = useMemo(() => cells.map((_, i) => <Pixel key={i} {...{ i, type, color, getxy }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} />), [selectedPixels, type, color]);
+  const grid = useMemo(() => cells.map((_, i) => (
+    <ObservedPixel key={i}>
+      {ref => <Pixel {...{ i, type, color, getxy }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} ref={ref}/>}
+    </ObservedPixel>
+  )), [selectedPixels, type, color]);
 
   const [onClickLeft, onClickRight] = useFunctionVariants(catchUIEvent, ['ArrowLeft', 'ArrowRight']);
   const [
@@ -153,3 +158,14 @@ export default function Editor() {
 const Loading = () => <span>Loading...</span>;
 
 const useFunctionVariants = (fn, variants) => useMemo(() => variants.map(key => () => fn({ key })), [fn]);
+
+function ObservedPixel ({ children }) {
+  const ref = useRef();
+  const [, setVisible] = useState(false);
+
+  const entry = useIntersectionObserver(ref);
+  const isVisible = !!entry?.isIntersecting;
+
+  useEffect(() => { if (isVisible) setVisible(true) }, [isVisible]);
+  return isVisible ? children(ref) : <div ref={ref} />;
+}

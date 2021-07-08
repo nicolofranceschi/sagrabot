@@ -1,22 +1,11 @@
-import { memo, useState, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, forwardRef } from "react";
 import useDoubleClick from 'use-double-click';
-import useIntersectionObserver from "../useIntersectionObserver";
 import { HoverablePixelTavolo, OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
 let num = 0;
 
-const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }) => {
-  const ref = useRef();
-  const [, setVisible] = useState(false);
-
-  const entry = useIntersectionObserver(ref);
-  const isVisible = !!entry?.isIntersecting;
-  if (isVisible) console.log(i, typeof isVisible, num++);
-
-  // TODO: trovare soluzione migliore. Il componente deve renderizzare quando è visibile
-  useEffect(() => { setVisible() }, [isVisible]);
-
+const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDoubleClick }, ref) => {
   const applyColor = useCallback(() => {
     const { x, y } = getxy(i);
     onSelect(i, (selected && selected.color === color && selected.type === type) ? undefined : { color, type, x, y, rotation: 0 });
@@ -49,8 +38,6 @@ const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }
     latency: 250
   });
 
-  if (!isVisible) return <Pixelstyle ref={ref} selectedColor={'red'} />;
-
   if (!selected && type === 2) return <PixelNonSelezionatoTipo2 />;
   if (!selected && type === 1) return <PixelNonSelezionatoTipo1 />;
   if (!selected && type === 0) return <PixelNonSelezionatoTipo0 />;
@@ -65,6 +52,6 @@ const Pixel = memo(({ color, type, i, selected, onSelect, getxy, onDoubleClick }
     </div>
   )
   else return null;
-});
+}));
 
 export default Pixel;
