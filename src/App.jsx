@@ -19,6 +19,7 @@ function App() {
     auth.onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         try {
+          console.log(firebaseUser)
           const data = await getUserDocument(firebaseUser.uid);
           setUser({ ...data });
         } catch (error) {

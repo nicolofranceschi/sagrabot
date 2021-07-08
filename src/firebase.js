@@ -39,7 +39,7 @@ export const signInWithPhoneNumber = async (numero) => {
 export const sendVerificationCode = async (code) => {
   console.log('verification',code)
   try {
-    const { user } = await confirmationResult.confirm(code);
+    const { user } = await window.confirmationResult.confirm(code);
     var credential = firebase.auth.PhoneAuthProvider.credential(confirmationResult.verificationId, code);
     console.log(user,credential);
     firebase.auth().signInWithCredential(credential);
