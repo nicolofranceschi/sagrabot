@@ -40,7 +40,9 @@ export const sendVerificationCode = async (code) => {
   console.log('verification',code)
   try {
     const { user } = await confirmationResult.confirm(code);
-    console.log(user)
+    var credential = firebase.auth.PhoneAuthProvider.credential(confirmationResult.verificationId, code);
+    console.log(user,credential);
+    firebase.auth().signInWithCredential(credential);
   } catch (error) {
     console.log({error})
   }
