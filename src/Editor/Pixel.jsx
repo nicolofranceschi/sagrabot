@@ -3,13 +3,12 @@ import useDoubleClick from 'use-double-click';
 import { HoverablePixelTavolo, OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
-let num = 0;
-
 const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDoubleClick }, ref) => {
-  const applyColor = useCallback(() => {
+  const selectPixel = useCallback(() => {
     const { x, y } = getxy(i);
-    onSelect(i, (selected && selected.color === color && selected.type === type) ? undefined : { color, type, x, y, rotation: 0 });
     onDoubleClick(null);
+    if (selected && selected.color === color && selected.type === type) return;
+    onSelect(i, { color, type, x, y, rotation: 0 });
   }, [color, type, selected]);
 
   const pixelProps = { ref, rotation: selected?.rotation, border: selected?.border };
@@ -21,7 +20,8 @@ const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDo
       <Sedia color={color} selectedColor={color} />
     </HoverablePixelTavolo>
   );
-  const PixelNonSelezionatoTipo2 = () => <TestoPixel {...pixelProps} selectedColor={color} ></TestoPixel>;
+  const PixelNonSelezionatoTipo2 = () => <TestoPixel {...pixelProps} selectedColor={color} />;
+
   const PixelSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} pixelColor={selected?.color} selectedColor={color} />;
   const PixelSelezionatoTipo1 = () => (
     <PixelTavolo {...pixelProps} selectedColor={color}>
@@ -29,11 +29,11 @@ const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDo
       <Sedia color={selected?.color} selectedColor={color} />
     </PixelTavolo>
   );
-  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} pixelColor={selected?.color} selectedColor={color} >{selected.key ? selected.key : "T"}</TestoPixel>;
+  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} contentEditable={true} pixelColor={selected?.color} selectedColor={color}>T</TestoPixel>;
 
   useDoubleClick({
-    onSingleClick: applyColor,
-    onDoubleClick: () => onDoubleClick(i),
+    onSingleClick: selectPixel,
+    onDoubleClick: () => type !== 2 && onDoubleClick(i),
     ref,
     latency: 250
   });

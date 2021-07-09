@@ -19,6 +19,7 @@ export const Grid = styled.div.attrs(props => ({
     width: `${props.gridSize}px`,
     gridTemplateColumns: `repeat(50, ${props.pixelSize}px)`,
     gridTemplateRows: `repeat(50, ${props.pixelSize}px)`,
+    fontSize: `${props.pixelSize}px`,
   },
 }))`
   background-color: var(--black-light);
@@ -151,13 +152,14 @@ export const Testo = styled.div`
 
 export const TestoPixel = styled.div`
   border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
   box-sizing: border-box;
   height: 100%;
   cursor: pointer;
   text-align: center;
   padding: 10px;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 30px;
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
