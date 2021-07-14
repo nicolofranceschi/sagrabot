@@ -1,7 +1,10 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import {
+  motion
+} from "framer-motion";
 
-export const Container = styled(motion.div)`
+export const Container = styled(motion.div)
+`
   height: 90vh;
   bottom:0;
   width: 100vw;
@@ -10,7 +13,7 @@ export const Container = styled(motion.div)`
   position: absolute;
   cursor: grab;
 `;
-export const Card = styled.div`
+export const Card = styled.div `
   height: 100%;
   width: 100%;
   border-radius: 20px;
@@ -19,7 +22,7 @@ export const Card = styled.div`
   background-color: var(--line);
   perspective: 600px;
 `;
-export const Testo = styled.div`
+export const Testo = styled.div `
   text-align: center;
   vertical-align: middle;
   line-height: 20vh;
@@ -34,7 +37,7 @@ export const Testo = styled.div`
   }
 `;
 
-export const Svg = styled.svg`
+export const Svg = styled.svg `
   right: -15px;
   z-index: 20;
   fill: red;
@@ -49,7 +52,7 @@ export const Svg = styled.svg`
   }
 `;
 
-export const Form = styled.form`
+export const Form = styled.form `
   width: 100%;
   height: 100%;
   position: absolute;
@@ -58,7 +61,7 @@ export const Form = styled.form`
   flex-direction: row;
 `;
 
-export const Testoinput = styled.input`
+export const Testoinput = styled.input `
   width: 50%;
   height: 100%;
   position: relative;
@@ -69,16 +72,14 @@ export const Testoinput = styled.input`
   font-size: 4vw; 
   font-weight: bold;
   text-transform: uppercase;
+  :focus { outline: none; }
   @media only screen and (min-width: 600px) {
     grid-template-columns: 1fr 1fr 1fr  ;
     font-size: 1.7vw; 
   }
-  &:not(.disable):hover {
-    /* apply hover effect here */
-  }   
 `;
 
-export const Buttoninput = styled.button`
+export const Buttoninput = styled.button `
   width: 50%;
   height: 100%;
   position: relative;
@@ -96,7 +97,8 @@ export const Buttoninput = styled.button`
   }
 `;
 
-export const Grid = styled(motion.div)`
+export const Grid = styled(motion.div)
+`
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: 20vh;

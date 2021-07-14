@@ -31,7 +31,7 @@ function App() {
 
   const context = useLocalStorage('sala', '');
 
-  return user ? (
+  return true ? (
     <SalaContext.Provider value={context}>
       <LoggedRouter />
     </SalaContext.Provider>

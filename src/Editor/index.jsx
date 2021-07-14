@@ -15,6 +15,8 @@ const initialGridSize = 2500;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
+const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+
 const rotatePixel = (key, rotation) => {
   switch (key) {
     case 'ArrowLeft': return rotation - 45;
@@ -59,7 +61,7 @@ export default function Editor() {
       closeOnClick: true,
       draggable: true,
     });
-  }, [])
+  }, []);
 
   const [doubleClickedIndex, setDoubleClickedIndex] = useState(null);
 
@@ -71,9 +73,7 @@ export default function Editor() {
       if (width < currentGridSize + vdva[0] * 50 && height < currentGridSize + vdva[0] * 50) {
         const newGridSize = currentGridSize + vdva[0] * 50;
         return [newGridSize, gridSize / cellsNumber];
-      } else {
-        return [currentGridSize, gridSize / cellsNumber];
-      }
+      } else return [currentGridSize, gridSize / cellsNumber];
     });
   }, {
     domTarget: DrawingGrid,
@@ -83,33 +83,26 @@ export default function Editor() {
   const noDoubleClicked = () => doubleClickedIndex === null || !selectedPixels[doubleClickedIndex];
 
   const catchKeyEvent = useCallback(e => {
-    e?.preventDefault();
+    if (arrowKeys.includes(e.key)) e?.preventDefault();
     if (noDoubleClicked()) return;
-    else {
-      const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
-      if (selectedPixels[doubleClickedIndex].type == 2) {
-        select(doubleClickedIndex, { ...pixelClicked, key: textPixel(e.key, selectedPixels[doubleClickedIndex].key) })
-      } else select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
-    };
+    const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
+    select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
   }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
   const catchUIEvent = useCallback(e => {
     if (noDoubleClicked()) return;
-    else {
-      const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
-      select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
-    };
+    const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
+    select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
   }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
   const borderBox = useCallback(e => {
     if (noDoubleClicked()) return;
-    else {
-      const { border, ...pixelClicked } = selectedPixels[doubleClickedIndex];
-      select(doubleClickedIndex, { ...pixelClicked, border: e.key });
-    };
+    const { border, ...pixelClicked } = selectedPixels[doubleClickedIndex];
+    select(doubleClickedIndex, { ...pixelClicked, border: e.key });
   }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
   const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
+
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
       {ref => <Pixel {...{ i, type, color, getxy }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} ref={ref}/>}

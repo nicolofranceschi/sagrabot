@@ -33,19 +33,19 @@ export default function Sale() {
           }}
         >
           {arr.map((sala, i) => (
-              <Card onClick={() => setSala(sala)} key={`sale_${i}`}>
-                <Svg onClick={() => setArr(current => [...current.slice(0, i), ...current.slice(i + 1)])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
-                  <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </Svg>
-                <Link to="/editor">
-                  <Testo>{sala}</Testo>
-                </Link>
-              </Card>
-            ))
+            <Card onClick={() => setSala(sala)} key={`sale_${i}`}>
+              <Svg onClick={() => setArr(current => [...current.slice(0, i), ...current.slice(i + 1)])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
+                <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </Svg>
+              <Link to="/editor">
+                <Testo>{sala}</Testo>
+              </Link>
+            </Card>
+          ))
           }
           <Card>
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <Testoinput {...register("name", { required: true })} />
+              <Testoinput {...register("name", { required: true })} autoFocus={true} />
               {errors.name}
               <Buttoninput type="submit" >ADD</Buttoninput>
             </Form>
