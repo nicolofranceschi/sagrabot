@@ -1,8 +1,10 @@
 
-import { Container } from "../Editor/Styled";
+import { Container ,  LoginForm , Label , InputProps , Animation} from "./styled";
+import { Input, Button } from "../components/Lib";
 import { useForm } from "react-hook-form";
 import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode , generateUserDocument } from "../firebase";
 import { useEffect } from "react";
+import Restaurant from './Animations.json';
 
 export default function Loginphone() {
     const { register, handleSubmit, formState: { errors, isSubmitted } } = useForm();
@@ -14,16 +16,32 @@ export default function Loginphone() {
         else sendVerificationCode(data.code);
     };
 
+    const defaultOptions = {
+        loop: false,
+        autoplay: true,
+        animationData: Restaurant,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        }
+      };
+
     return (
         <Container>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Animation options={defaultOptions} />
+            <LoginForm onSubmit={handleSubmit(onSubmit)}>
                 {!isSubmitted
-                    ? <input type="tel" {...register("numero")} />
-                    : <input type="number" {...register("code")} />
+                    ?   <Label>
+                            <span>Numero di telefono</span>
+                            <Input {...InputProps} type="tel" {...register("numero")} />
+                        </Label>
+                    : <Label>
+                            <span>Codice di verifica</span>
+                            <Input  {...InputProps} type="number" {...register("code")} />
+                        </Label>
                 }
-                <input type="submit" />
+                <Button type="submit" margin="5vh 0 0 0" padding="15px 0">PRENOTA</Button>
                 <input id="recaptcha-container" type="hidden" />
-            </form>
+            </LoginForm>
         </Container>
     );
 

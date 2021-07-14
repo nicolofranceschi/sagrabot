@@ -7,6 +7,7 @@ import { auth, getUserDocument } from './firebase';
 import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
 import { toast , ToastContainer } from "react-toastify";
+import Choose from './Choose';
 
 const SalaContext = createContext(null);
 export const useSala = () => useContext(SalaContext);
@@ -43,6 +44,9 @@ function App() {
         <Switch>
           <Route path="/editor">
             <Editor />
+          </Route>
+          <Route path="/choose">
+            <Choose />
           </Route>
           <Route path="/loginphone">
             <Loginphone />

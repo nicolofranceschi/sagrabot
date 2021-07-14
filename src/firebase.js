@@ -19,7 +19,10 @@ export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {
     'size': 'invisible',
     'callback': (response) => {
-      onSignInSubmit();
+      console.log(response)
+    },
+    'expired-callback': () => {
+      console.log("expired")
     }
   });
 }
@@ -72,6 +75,18 @@ export const getUserDocument = async uid => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
+    return {
+      uid,
+      ...userDocument.data()
+    };
+  } catch (error) {
+    console.error("Error fetching user", error);
+  }
+};
+
+export const getMenuDocument = async () => {
+  try {
+    const userDocument = await firestore.doc(`menu`).get();
     return {
       uid,
       ...userDocument.data()

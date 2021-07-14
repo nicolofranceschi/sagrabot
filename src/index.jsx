@@ -6,6 +6,7 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 
 ReactDOM.render(
   <StrictMode>

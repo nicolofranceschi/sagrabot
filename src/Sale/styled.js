@@ -3,8 +3,7 @@ import {
   motion
 } from "framer-motion";
 
-export const Container = styled(motion.div)
-`
+export const Container = styled(motion.div)`
   height: 90vh;
   bottom:0;
   width: 100vw;
@@ -97,8 +96,7 @@ export const Buttoninput = styled.button `
   }
 `;
 
-export const Grid = styled(motion.div)
-`
+export const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: 20vh;
