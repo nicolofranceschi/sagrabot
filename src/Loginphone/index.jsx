@@ -1,7 +1,7 @@
 
 import { Container } from "../Editor/Styled";
 import { useForm } from "react-hook-form";
-import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode } from "../firebase";
+import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode , generateUserDocument } from "../firebase";
 import { useEffect } from "react";
 
 export default function Loginphone() {
