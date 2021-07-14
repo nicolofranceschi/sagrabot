@@ -31,8 +31,6 @@ export const signInWithPhoneNumber = async (numero) => {
   try {
     if (!window.recaptchaVerifier) return;
     const confirmationResult = await firebase.auth().signInWithPhoneNumber(numero, window.recaptchaVerifier);
-      
-    console.log({ confirmationResult });
     window.confirmationResult = confirmationResult;
   } catch (error) {
     console.log({ error });
@@ -40,15 +38,10 @@ export const signInWithPhoneNumber = async (numero) => {
 }
 
 export const sendVerificationCode = async (code) => {
-  console.log('verification',code)
   try {
-    const { user } = await window.confirmationResult.confirm(code);
-    var credential = firebase.auth.PhoneAuthProvider.credential(confirmationResult.verificationId, code);
-    console.log(user,credential);
-    firebase.auth().signInWithCredential(credential);
-    return{user,credential}
+    return await window.confirmationResult.confirm(code);
   } catch (error) {
-    console.log({error})
+    console.log({ error })
   }
 }
 
@@ -57,11 +50,11 @@ export const generateUserDocument = async (user, additionalData) => {
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
-    const { email, displayName } = user;
+    // const { email, displayName } = user;
     try {
       await userRef.set({
-        displayName,
-        email,
+        // displayName,
+        // email,
         ...additionalData
       });
     } catch (error) {

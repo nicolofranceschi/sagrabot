@@ -26,18 +26,13 @@ export const Line = styled.div`
   height: 25vh;
   width: 600px;
   background-color: white;
-  overflow-x: scroll;
   display: flex;
-  flex-direction: row;
- 
 `;
 export const LineMenu = styled.div`
   height: 40vh;
   width: 600px;
   background-color: red;
-  overflow-x: scroll;
   display: flex;
-  flex-direction: row;
 `;
 
 export const Logo = styled.div`

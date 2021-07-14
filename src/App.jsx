@@ -26,7 +26,6 @@ function App() {
           toast.error(error.message); 
         }
       }
-      
     });
   }, []);
 
@@ -47,9 +46,6 @@ function App() {
           </Route>
           <Route path="/choose">
             <Choose />
-          </Route>
-          <Route path="/loginphone">
-            <Loginphone />
           </Route>
           <Route path="/">
             <Sale />

@@ -7,6 +7,7 @@ import PixelSettings from "./PixelSettings";
 import useLocalStorage from "../useLocalStorage.js";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from '../App';
+import { generateUserDocument } from "../firebase";
 
 const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
@@ -124,6 +125,11 @@ export default function Editor() {
     '0px 10px 0px 0px'
   ]);
 
+  const saveMap = async () => {
+    const user = await generateUserDocument({ uid: 'gzDP6bxoUcWKC71dye7PkVrB5y52' }, { phone: '333369972', sale: { 'test': selectedPixels }});
+    console.log(user);
+  }
+
   return (
     <Suspense fallback={<Loading />}>
       <ToastContainer
@@ -144,6 +150,7 @@ export default function Editor() {
         </Grid>
       </Container>
       <Tools {...{ setStyle, type, color }} />
+      <button style={{position: 'absolute', top: 0, left: '50%', width: '50px', height: '50px', backgroundColor: 'white'}} onClick={saveMap}>SALVA</button>
     </Suspense>
   );
 }
@@ -160,5 +167,5 @@ function ObservedPixel ({ children }) {
   const isVisible = !!entry?.isIntersecting;
 
   useEffect(() => { if (isVisible) setVisible(true) }, [isVisible]);
-  return isVisible ? children(ref) : <div ref={ref} />;
+  return isVisible ? children(ref) : <div ref={ref} style={{backgroundColor:'red'}}/>;
 }
