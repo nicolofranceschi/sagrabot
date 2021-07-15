@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import {
-    motion
-  } from "framer-motion";
+import { motion } from "framer-motion";
   
 
 export const Container = styled.div`
@@ -29,9 +27,13 @@ export const Line = styled.div`
 `;
 
 export const LineMenu = styled.div`
-  height: 40vh;
-  width: 900px;
+  height: 45vh;
+  margin: 0px 5vW 0px 5vw;
+  width: 90vW;
+  position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Logo = styled.div`
@@ -40,6 +42,10 @@ export const Logo = styled.div`
   overflow: hidden;
 `;
 
+export const Backdrop = styled.div`
+  backdrop-filter: blur(10px);
+  border-radius: 0px 0px 20px 20px;
+`;
 export const Card = styled.div`
   height: 80%;
   width: 200px;
@@ -61,11 +67,11 @@ export const CardMenu = styled.div`
   p{
       z-index: 1;
       margin-top: -20px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
+      margin-bottom: 30px;
       border-radius: 20px;
       margin-left:10px;
       font-size: 30px;
+      word-wrap: break-word;
       font-family: Arial, Helvetica, sans-serif;
   }
   :hover{
@@ -87,14 +93,43 @@ export const Mese = styled.p`
   padding-left:10px;
 `;
 
-export const Immagine = styled.img`
-  overflow: hidden;
-  max-height:100%; 
-  max-width:100%;
-  border-radius: 20px;
-  position: center;
-  .blur {
-      filter: blur(2px);
-    }
+export const Descrizione = styled.p`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  padding-left:10px;
+  color: white;
+  z-index:3;
+  position: fixed;
+  top: ${props => props.vh};
+  left: 10px;
+`;
+
+
+
+export const ButtonSlider = styled.div`
+top: calc(50% - 20px);
+  position: absolute;
+  background: white;
+  border-radius: 30px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 2;
+  top:20vh
+`;
+
+export const Next = styled(ButtonSlider)`
+    right: 10px;
+`;
+
+export const Prev = styled(ButtonSlider)`
+  left: 10px;
+  transform: scale(-1);
 `;
 

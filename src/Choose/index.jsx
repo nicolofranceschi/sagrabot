@@ -1,8 +1,8 @@
 
 import { motion } from "framer-motion";
-import { Line, Container, Logo, LineMenu, Card, CardMenu , Giorni , Mese , Immagine} from "./styled";
+import { Line, Container, Logo, LineMenu, Card, CardMenu , Giorni , Mese , Immagine, Backdrop , Descrizione} from "./styled";
 import funghi from './funghi.jpeg'; 
-
+import { Slider } from "./Slider";
 
 export default function Choose() {
 
@@ -52,18 +52,10 @@ export default function Choose() {
 
     return (
         <Container>
-            <Logo>SAGRABOT</Logo>
-            <motion.div drag="x" dragConstraints={{ left: -325, right: 0 }}>
-                <LineMenu >
-                    {menu.map((a) => (
-                        <CardMenu key={a.nome} >
-                            <Immagine src={funghi} />
-                            <p>{a.nome}</p>
-                            <p>{a.prezzo}</p>
-                        </CardMenu>
-                    ))}
-                </LineMenu>
-            </motion.div>
+            <LineMenu>
+            <Slider/>
+            </LineMenu>
+                <Descrizione vh="45vh" >Seleziona una data</Descrizione>
             <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
                 <Line > 
                     {giorni.map((b) => (
@@ -74,6 +66,7 @@ export default function Choose() {
                     ))}
                 </Line>
             </motion.div>
+                <Descrizione vh="70vh" >Seleziona un orario</Descrizione>
             <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
                 <Line>
                     {orari.map((c) => (

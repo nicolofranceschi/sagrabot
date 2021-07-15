@@ -66,6 +66,14 @@ html {
     background: var(--black-light);
   }
   
+  img{
+  overflow: hidden;
+  overflow: hidden;
+  max-height:100%; 
+  max-width:100%;
+  border-radius: 20px;
+  }
+
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   }
