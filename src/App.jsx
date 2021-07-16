@@ -8,7 +8,7 @@ import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
 import { toast , ToastContainer } from "react-toastify";
 import Choose from './Choose';
-import Prenotatore from "./prenotazioni"
+import Prenotazioni from "./Prenotazioni"
 
 const SalaContext = createContext(null);
 export const useSala = () => useContext(SalaContext);
@@ -46,13 +46,13 @@ function App() {
             <Editor />
           </Route>
           <Route path="/sale">
-          <Sale /> 
+            <Sale /> 
           </Route>
           <Route path="/choose">
-          <Prenotatore />
+            <Prenotazioni />
           </Route>
           <Route path="/">
-          <Choose />
+            <Choose />
           </Route>
         </Switch>
     </AnimateSharedLayout>
