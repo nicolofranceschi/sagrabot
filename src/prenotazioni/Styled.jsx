@@ -33,9 +33,7 @@ export const Pixelstyle = styled.div`
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
-  :hover {
-    background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
-  }
+  // TODO: qui abbiamo eliminato hover
 `;
 
 export const BottomPopup = styled(motion.div)`
@@ -164,9 +162,7 @@ export const TestoPixel = styled.div`
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
-  :hover {
-    color: ${({ selectedColor }) => selectedColor ?? 'white'};
-  }
+  // TODO: qui abbiamo eliminato hover
 `;
 
 
@@ -191,13 +187,8 @@ export const PixelTavolo = styled.div`
   flex-direction: row;
   transform: rotate(${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
-  :hover > div {
-    background-color: ${({ selectedColor }) => selectedColor ?? 'white'};
-  }
   svg { width: 50%; }
-  :hover > svg {
-    /* TODO */
-  }
+  // TODO: qui abbiamo eliminato hover
 `;
 
 export const OnlyTavolo = styled.div`

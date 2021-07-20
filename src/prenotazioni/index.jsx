@@ -3,8 +3,7 @@ import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled.jsx";
-import useLocalStorage from "../useLocalStorage.js";
-import { useSala } from '../App';
+import { getUserDocument } from "../firebase";
 
 const Pixel = lazy(() => import('./Pixel'));
 
@@ -12,20 +11,54 @@ const initialGridSize = 2500;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
+const getIndexFromXY = (x, y) => cellsNumber * y + x;
+
 const getxy = i => {
   const y = Math.trunc(i / cellsNumber);
   const x = i - (cellsNumber * y)
   return { x, y }
 }
 
-export default function Prenotatore() {
+function getClosePlaces (i) {
+  const { x, y } = getxy(i);
+  return [
+    getIndexFromXY(x+1, y+0),
+    getIndexFromXY(x+1, y+1),
+    getIndexFromXY(x+1, y-1),
+    getIndexFromXY(x+0, y+1),
+    getIndexFromXY(x+0, y-1),
+    getIndexFromXY(x-1, y+0),
+    getIndexFromXY(x-1, y+1),
+    getIndexFromXY(x-1, y-1),
+  ]
+}
 
-  const [sala] = useSala();
-  const [selectedPixels, setSelectedPixels] = useLocalStorage(sala, {});
+const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce((acc, [i, spot]) => ({
+  ...acc,
+  [i]: spot,
+  ...(getClosePlaces(i).filter(close => {
+    if (!available[close] || available[close].type !== 1) return false;
+    if (occupied[close]) return false;
+    else return true;
+  }).reduce((internalAcc, j) => ({ ...internalAcc, [j]: { type: 'covid' } }), {}))
+}), {});
+
+export default function Prenotazioni () {
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
+  const [data, setData] = useState({});
+  const [selected, setSelected] = useState({});
+
+  console.log(getCovidPixels(selected, data));
   
   const DrawingGrid = useRef(null);
   const { height, width } = useWindowSize();
+
+  useEffect(() => {
+    (async function() {
+      const res = await getUserDocument('gzDP6bxoUcWKC71dye7PkVrB5y52');
+      setData(res.sale['test']);
+    })();
+  }, []);
 
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
@@ -38,31 +71,20 @@ export default function Prenotatore() {
     domTarget: DrawingGrid,
     eventOptions: { passive: false },
   });
-
   
-  const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
+  // const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
+  const select = (i) => { console.log('ho prenotato il posto ', i, getxy(i)); setSelected(current => ({ ...current, [i]: { type: 'default' }})) };
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel {...{ i, type, color, getxy }} selected={selectedPixels[i]} onSelect={select}  ref={ref}/>}
+      {ref => <Pixel i={i} selected={data[i]} onSelect={select} ref={ref} />}
     </ObservedPixel>
-  )), [selectedPixels, type, color]);
+  )), [data]);
 
   return (
     <Suspense fallback={<Loading />}>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Container ref={DrawingGrid}>
-        <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0} onKeyDown={catchKeyEvent}>
+        <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
           {grid}
         </Grid>
       </Container>
