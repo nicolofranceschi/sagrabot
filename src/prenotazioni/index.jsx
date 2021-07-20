@@ -2,10 +2,11 @@ import { useRef, useState, lazy, Suspense,  useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid } from "./Styled.jsx";
+import { Container, Grid } from "./Styled";
 import { getUserDocument } from "../firebase";
+import PixelSettings from "./PixelSettings";
 
-const Pixel = lazy(() => import('./Pixel'));
+const Pixel = lazy(() => import('./Pixel.jsx'));
 
 const initialGridSize = 2500;
 const cellsNumber = 50;
@@ -72,17 +73,21 @@ export default function Prenotazioni () {
     eventOptions: { passive: false },
   });
   
-  // const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
-  const select = (i) => { console.log('ho prenotato il posto ', i, getxy(i)); setSelected(current => ({ ...current, [i]: { type: 'default' }})) };
+  const select = (i) => { 
+      console.log('ho prenotato il posto ', i, getxy(i)); 
+      setSelected(current => ({ ...current, [i]: { type: 'default' }})) 
+    };
+    
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel i={i} selected={data[i]} onSelect={select} ref={ref} />}
+      {ref => <Pixel i={i} data={data[i]} selected={selected} onSelect={select} ref={ref} />}
     </ObservedPixel>
   )), [data]);
 
   return (
     <Suspense fallback={<Loading />}>
+        <PixelSettings></PixelSettings>
       <Container ref={DrawingGrid}>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
           {grid}
@@ -102,5 +107,5 @@ function ObservedPixel ({ children }) {
   const isVisible = !!entry?.isIntersecting;
 
   useEffect(() => { if (isVisible) setVisible(true) }, [isVisible]);
-  return isVisible ? children(ref) : <div ref={ref} style={{backgroundColor:'red'}}/>;
+  return isVisible ? children(ref) : <div ref={ref} style={{backgroundColor:'hsl(218, 24%, 15%)'}}/>;
 }

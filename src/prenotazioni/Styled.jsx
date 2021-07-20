@@ -33,7 +33,7 @@ export const Pixelstyle = styled.div`
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
-  // TODO: qui abbiamo eliminato hover
+ 
 `;
 
 export const BottomPopup = styled(motion.div)`
@@ -162,7 +162,7 @@ export const TestoPixel = styled.div`
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
-  // TODO: qui abbiamo eliminato hover
+  
 `;
 
 
@@ -188,7 +188,6 @@ export const PixelTavolo = styled.div`
   transform: rotate(${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   svg { width: 50%; }
-  // TODO: qui abbiamo eliminato hover
 `;
 
 export const OnlyTavolo = styled.div`
@@ -219,6 +218,7 @@ export const PixelRotation = styled.div`
   backdrop-filter: blur(30px);
   z-index:10;
 `;
+
 
 export const HoverablePixelTavolo = styled(PixelTavolo)`
   svg {

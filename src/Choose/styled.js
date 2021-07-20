@@ -21,20 +21,11 @@ export const Grid = styled(motion.div)`
 `;
 
 export const Line = styled.div`
-  height: 25vh;
-  width: 800px;
+  height: 40vh;
+  width: 1200px;
   display: flex;
 `;
 
-export const LineMenu = styled.div`
-  height: 45vh;
-  margin: 0px 5vW 0px 5vw;
-  width: 90vW;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export const Logo = styled.div`
   height: 10vh;
@@ -46,12 +37,14 @@ export const Backdrop = styled.div`
   backdrop-filter: blur(10px);
   border-radius: 0px 0px 20px 20px;
 `;
+
 export const Card = styled.div`
   height: 80%;
-  width: 200px;
+  width: 300px;
   background-color: white;
   border-radius: 20px;
-  margin: 20px;
+  margin: 10vh 40px 40px 40px;
+  color: ${props => props.color};;
   :hover{
       p{ 
           color:pink;
@@ -95,41 +88,23 @@ export const Mese = styled.p`
 
 export const Descrizione = styled.p`
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-size: 15px;
   padding-left:10px;
+  margin: 10px;
   color: white;
   z-index:3;
   position: fixed;
   top: ${props => props.vh};
   left: 10px;
 `;
-
-
-
-export const ButtonSlider = styled.div`
-top: calc(50% - 20px);
+export const ButtonTavoli = styled.button`
   position: absolute;
-  background: white;
-  border-radius: 30px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 18px;
-  z-index: 2;
-  top:20vh
-`;
-
-export const Next = styled(ButtonSlider)`
-    right: 10px;
-`;
-
-export const Prev = styled(ButtonSlider)`
-  left: 10px;
-  transform: scale(-1);
+  bottom:2vh;
+  left:5vw;
+  height: 6vh;
+  width: 90vw;
+  border-radius: 20px;
+  background-color: white;
+  z-index:10;
 `;
 

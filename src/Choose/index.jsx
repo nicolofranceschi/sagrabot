@@ -1,23 +1,11 @@
 
 import { motion } from "framer-motion";
-import { Line, Container, Logo, LineMenu, Card, CardMenu , Giorni , Mese , Immagine, Backdrop , Descrizione} from "./styled";
-import funghi from './funghi.jpeg'; 
-import { Slider } from "./Slider";
+import { useState , useEffect } from "react";
+import { Line, Container, ButtonTavoli, Card, Giorni , Mese ,  Descrizione} from "./styled";
+import { Link } from "react-router-dom";
+
 
 export default function Choose() {
-
-    const menu = [
-        {
-            "nome": "Menu Adulti",
-            "prezzo": "200",
-            
-        },
-        {
-            "nome": "MenuBimbi",
-            "prezzo": "100",
-            
-        }
-    ]
 
     const giorni = [
         {
@@ -49,34 +37,44 @@ export default function Choose() {
         }
     ]
 
+    const [{data , orario}, setMomento]= useState({});
+
+    useEffect(() => {console.log(data,orario)},[orario,data])
 
     return (
         <Container>
-            <LineMenu>
-            <Slider/>
-            </LineMenu>
-                <Descrizione vh="45vh" >Seleziona una data</Descrizione>
-            <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
+            <Descrizione vh="5vh" >Seleziona una data</Descrizione>
+            <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
                 <Line > 
                     {giorni.map((b) => (
-                        <Card key={b.giorno} >
+                        data === b.giorno) ? (
+                        <Card  key={b.giorno} color={"pink"} onClick={ () => {setMomento({ orario, data : b.giorno})}}>
                             <Giorni>{b.giorno}</Giorni>
                             <Mese>AGOSTO</Mese>
                         </Card>
-                    ))}
+                        ):(
+                            <Card key={b.giorno}  color={"black"} onClick={ () => {setMomento({ orario, data : b.giorno})}}>
+                            <Giorni>{b.giorno}</Giorni>
+                            <Mese>AGOSTO</Mese>
+                        </Card>
+                        )
+                    )}
                 </Line>
             </motion.div>
-                <Descrizione vh="70vh" >Seleziona un orario</Descrizione>
-            <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
+                <Descrizione vh="45vh" >Seleziona un orario</Descrizione>
+            <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
                 <Line>
                     {orari.map((c) => (
-                        <Card key={c.orario}>
+                        <Card key={c.orario} onClick={ () => {setMomento({ orario : c.orario, data })}}>
                             <Giorni>{c.orario}</Giorni>
                             <Mese>PM</Mese>
                         </Card>
                     ))}
                 </Line>
             </motion.div>
+            <Link to="/choose">
+        <ButtonTavoli>Seleziona i posti</ButtonTavoli>
+        </Link>
         </Container>
     );
 }

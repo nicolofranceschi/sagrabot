@@ -67,11 +67,14 @@ html {
   }
   
   img{
-  overflow: hidden;
-  overflow: hidden;
-  max-height:100%; 
-  max-width:100%;
-  border-radius: 20px;
+    overflow: hidden;
+    overflow: hidden;
+    height:100%; 
+    border-radius: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
   }
 
   code {

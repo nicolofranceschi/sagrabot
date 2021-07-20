@@ -8,13 +8,11 @@ import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
 import { toast , ToastContainer } from "react-toastify";
 import Choose from './Choose';
-<<<<<<< HEAD
-import Prenotatore from "./prenotazioni"
-import Typeform from "./Typeform";
+import {Menu} from './Menu';
 
-=======
+import Typeform from "./Typeform";
 import Prenotazioni from "./Prenotazioni"
->>>>>>> d670f95a06ba42e78daa237b0289523fc4129cc7
+
 
 const SalaContext = createContext(null);
 export const useSala = () => useContext(SalaContext);
@@ -56,6 +54,9 @@ function App() {
           </Route>
           <Route path="/choose">
             <Prenotazioni />
+          </Route>
+          <Route path="/menu">
+            <Menu/>
           </Route>
           <Route path="/">
             <Choose />

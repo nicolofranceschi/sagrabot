@@ -2,10 +2,10 @@
 import { Container ,  LoginForm , Label , InputProps , Animation} from "./styled";
 import { Input, Button } from "../components/Lib";
 import { useForm } from "react-hook-form";
-import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode , generateUserDocument } from "../firebase";
+import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode  } from "../firebase";
 import { useEffect } from "react";
 import Restaurant from './Animations.json';
-import { Widget } from '@typeform/embed-react'
+
 
 export default function Loginphone() {
     const { register, handleSubmit, formState: { errors, isSubmitted } } = useForm();
