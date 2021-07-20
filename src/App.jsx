@@ -9,6 +9,8 @@ import useLocalStorage from './useLocalStorage';
 import { toast , ToastContainer } from "react-toastify";
 import Choose from './Choose';
 import Prenotatore from "./prenotazioni"
+import Typeform from "./Typeform";
+
 
 const SalaContext = createContext(null);
 export const useSala = () => useContext(SalaContext);
@@ -61,6 +63,9 @@ function App() {
 const NonLoggedRouter = () => (
   <AnimateSharedLayout type="crossfade">
         <Switch>
+        <Route path="/type">
+          <Typeform />
+          </Route>
           <Route path="/">
           <ToastContainer
             position="top-right"
