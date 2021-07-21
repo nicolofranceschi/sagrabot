@@ -1,18 +1,19 @@
-import { memo, useCallback, forwardRef } from "react";
+import { memo, useCallback, forwardRef  } from "react";
 import useDoubleClick from 'use-double-click';
 import { HoverablePixelTavolo, OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
-const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDoubleClick }, ref) => {
-  const selectPixel = useCallback(() => {
+const Pixel = memo(forwardRef(({ color, type, pixelSize,i, selected, text, onSelect, getxy, onDoubleClick }, ref) => {
+
+  const selectPixel = useCallback((e) => {
     const { x, y } = getxy(i);
     onDoubleClick(null);
-    if (selected && selected.color === color && selected.type === type) return;
-    onSelect(i, { color, type, x, y, rotation: 0 });
+    if (selected?.type === 2  && (e.currentTarget?.textContent==text || e.currentTarget?.textContent==undefined))  return;
+    onSelect(i, { color, type, x, y, rotation: 0 , text : e.currentTarget?.textContent});
   }, [color, type, selected]);
 
   const pixelProps = { ref, rotation: selected?.rotation, border: selected?.border };
-
+  
   const PixelNonSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} selectedColor={color} />;
   const PixelNonSelezionatoTipo1 = () => (
     <HoverablePixelTavolo {...pixelProps} selectedColor={color}>
@@ -20,7 +21,7 @@ const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDo
       <Sedia color={color} selectedColor={color} />
     </HoverablePixelTavolo>
   );
-  const PixelNonSelezionatoTipo2 = () => <TestoPixel {...pixelProps} selectedColor={color} />;
+  const PixelNonSelezionatoTipo2 = () => <TestoPixel {...pixelProps} size={pixelSize} selectedColor={color} />;
 
   const PixelSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} pixelColor={selected?.color} selectedColor={color} />;
   const PixelSelezionatoTipo1 = () => (
@@ -29,7 +30,7 @@ const Pixel = memo(forwardRef(({ color, type, i, selected, onSelect, getxy, onDo
       <Sedia color={selected?.color} selectedColor={color} />
     </PixelTavolo>
   );
-  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} contentEditable={true} pixelColor={selected?.color} selectedColor={color}>T</TestoPixel>;
+  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} size={pixelSize} contentEditable={true} onInput={e => selectPixel(e)} pixelColor={selected?.color} selectedColor={color}>{selected?.text}</TestoPixel>;
 
   useDoubleClick({
     onSingleClick: selectPixel,

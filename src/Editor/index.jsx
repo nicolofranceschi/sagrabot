@@ -53,7 +53,7 @@ export default function Editor() {
   const [sala] = useSala();
   const [selectedPixels, setSelectedPixels] = useLocalStorage(sala, {});
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
-  const [{ color, type }, setStyle] = useState({ color: "white", type: 0 });
+  const [{ color, type , text }, setStyle] = useState({ color: "white", type: 0 , text:"."});
 
   useEffect(() => {
     toast.info("Autosave enable", {
@@ -65,7 +65,6 @@ export default function Editor() {
   }, []);
 
   const [doubleClickedIndex, setDoubleClickedIndex] = useState(null);
-
   const DrawingGrid = useRef(null);
   const { height, width } = useWindowSize();
 
@@ -106,7 +105,7 @@ export default function Editor() {
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel {...{ i, type, color, getxy }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} ref={ref}/>}
+      {ref => <Pixel {...{ i, type, color, getxy, text , pixelSize }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} ref={ref}/>}
     </ObservedPixel>
   )), [selectedPixels, type, color]);
 
@@ -126,7 +125,7 @@ export default function Editor() {
   ]);
 
   const saveMap = async () => {
-    const user = await generateUserDocument({ uid: 'gzDP6bxoUcWKC71dye7PkVrB5y52' }, { phone: '333369972', sale: { 'test': selectedPixels }});
+    const user = await generateUserDocument({ uid: 'sala' }, { phone: '3451302071', sale: { 'SAGRA': selectedPixels }});
     console.log(user);
   }
 

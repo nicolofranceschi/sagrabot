@@ -15,7 +15,7 @@ const closeDrawerSize = {
   open: false
 }
 
-const colors = ['DarkCyan', 'FireBrick', 'Indigo', 'Lime', 'MidnightBlue', 'OliveDrab', 'Purple', 'SkyBlue', 'YellowGreen', 'Tomato'];
+const colors = ['DarkCyan', 'FireBrick', 'Indigo', 'Lime', 'MidnightBlue', 'OliveDrab', 'Purple', 'SkyBlue', 'YellowGreen', 'Tomato',"hsl(218, 24%, 15%)"];
 
 const Tools = memo(({ setStyle, color, type }) => {
   const { height, width } = useWindowSize();

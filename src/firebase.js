@@ -82,6 +82,18 @@ export const getUserDocument = async uid => {
   }
 };
 
+export const getFramment = async uid => {
+  if (!uid) return null;
+  try {
+    const userDocument = await firestore.doc(`users/sala/sagra/${uid}`).get();
+    return {
+      ...userDocument.data()
+    };
+  } catch (error) {
+    console.error("Error fetching user", error);
+  }
+};
+
 export const getMenuDocument = async () => {
   try {
     const userDocument = await firestore.doc(`menu`).get();

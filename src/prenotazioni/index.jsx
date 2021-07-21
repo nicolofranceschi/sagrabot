@@ -5,6 +5,7 @@ import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled";
 import { updateUserDocument, getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
 
@@ -34,7 +35,7 @@ function getClosePlaces(i) {
   ]
 }
 
-const SALEUID = 'gzDP6bxoUcWKC71dye7PkVrB5y52';
+const SALEUID = 'sala';
 
 const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce((acc, [i, spot]) => ({
   ...acc,
@@ -56,13 +57,22 @@ export default function Prenotazioni() {
   const DrawingGrid = useRef(null);
   const { height, width } = useWindowSize();
 
-  useEffect(() => {
-    (async function () {
-      const res = await getUserDocument(SALEUID);
-      setData(res.sale['test']);
-    })();
+  useEffect(async ()=> {
+  try {
+        const res = await getUserDocument(SALEUID);
+        if (!res) throw "No connection"
+        setData(res?.sale['SAGRA']); 
+    } catch (error) {
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 2000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
   }, []);
 
+  console.log(data);
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
       if (width < currentGridSize + vdva[0] * 50 && height < currentGridSize + vdva[0] * 50) {
@@ -109,6 +119,17 @@ export default function Prenotazioni() {
 
   return (
     <Suspense fallback={<Loading />}>
+       <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <PixelSettings onClick={confirm} />
       <Container ref={DrawingGrid}>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>

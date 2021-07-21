@@ -19,7 +19,7 @@ const selectPixel = useCallback(() => {
       <Sedia color={data?.color} />
     </PixelTavolo>
   );
-  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} pixelColor={data?.color}>T</TestoPixel>;
+  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} pixelColor={data?.color}>{data?.text}</TestoPixel>;
 
   const PixelPrenotatoTipo1 = () => (
     <PixelTavolo {...pixelProps} onClick={selectPixel}>
@@ -29,7 +29,6 @@ const selectPixel = useCallback(() => {
   );
 
   if (!data) return <PixelNonSelezionatoTipo0 />;
-  console.log('dentro al pixel', selected);
   if (data && !selected) return (
     <div style={{ overflow: 'hidden' }}>
       {
@@ -37,6 +36,12 @@ const selectPixel = useCallback(() => {
           : data.type === 1 ? <PixelSelezionatoTipo1 />
             : <PixelSelezionatoTipo0 />
       }
+      <div />
+    </div>
+  )
+  if (data.prenotazioni?.type=="default") return (
+    <div style={{ overflow: 'hidden' }}>
+      <PixelPrenotatoTipo1 />
       <div />
     </div>
   )
