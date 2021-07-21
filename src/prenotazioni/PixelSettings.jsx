@@ -12,12 +12,8 @@ const Svg = styled.svg`
   stroke: white;
 `;
 
-
-
 const Back = styled.div`
   position: absolute;
-  display: flex;
-  flex-direction: row;
   top:20px;
   left:10px;
   height: 50px;
@@ -30,16 +26,14 @@ const Back = styled.div`
   }
 `;
 
-const Testo = styled.div`
+const Data = styled.div`
   position: absolute;
-  display: flex;
-  flex-direction: row;
   text-align: center;
   vertical-align: middle;
   line-height: 50px;
   color: white;
   top:20px;
-  left:400px;
+  right:10px;
   height: 50px;
   width: 200px;
   border-radius: 20px;
@@ -63,7 +57,7 @@ export const ButtonTavoli = styled.button`
 `;
 
 
-export default function PixelSettings({ sala, onClick }) {
+export default function PixelSettings({ data, onClick }) {
   return (
     <>
       <Link to="/">
@@ -73,7 +67,10 @@ export default function PixelSettings({ sala, onClick }) {
           </Svg>
         </Back>
       </Link>
+      <Data>{data.data} {data.orario}</Data>
+      <Link to="/menu">
       <ButtonTavoli onClick={onClick}>Scegli i menu</ButtonTavoli>
+      </Link>
     </>
   );
 

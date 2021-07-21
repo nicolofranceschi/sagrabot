@@ -107,3 +107,4 @@ export const getMenuDocument = async () => {
 };
 export const auth = firebase.auth()
 export const firestore = firebase.firestore();
+firestore.settings({ experimentalForceLongPolling: true });

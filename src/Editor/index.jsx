@@ -50,7 +50,7 @@ const getxy = i => {
 }
 
 export default function Editor() {
-  const [sala] = useSala();
+  const {sala: [sala]} = useSala();
   const [selectedPixels, setSelectedPixels] = useLocalStorage(sala, {});
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [{ color, type , text }, setStyle] = useState({ color: "white", type: 0 , text:"."});

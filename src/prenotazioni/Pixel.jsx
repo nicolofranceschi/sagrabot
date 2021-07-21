@@ -2,9 +2,9 @@ import { memo, useCallback, forwardRef } from "react";
 import { OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
-const Pixel = memo(forwardRef(({ i, data, selected, onSelect }, ref) => {
+const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => {
 
-const selectPixel = useCallback(() => {
+  const selectPixel = useCallback(() => {
     onSelect(i);
   }, [selected]);
 
@@ -22,52 +22,70 @@ const selectPixel = useCallback(() => {
   const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} pixelColor={data?.color}>{data?.text}</TestoPixel>;
 
   const PixelPrenotatoTipo1 = () => (
-    <PixelTavolo {...pixelProps} onClick={selectPixel}>
+    <PixelTavolo {...pixelProps} >
       <OnlyTavolo pixelColor={"white"} border={data?.border} />
       <Sedia color={"white"} />
     </PixelTavolo>
   );
   const PixelPrenotatorossoTipo1 = () => (
-    <PixelTavolo {...pixelProps} onClick={selectPixel}>
+    <PixelTavolo {...pixelProps} >
       <OnlyTavolo pixelColor={"red"} border={data?.border} />
       <Sedia color={"red"} />
     </PixelTavolo>
   );
 
-  
   if (!data) return <PixelNonSelezionatoTipo0 />;
-  if (data?.prenotazioni[0]?.type=="default") {
-
+  if (data && !selected && data.prenotazioni.length == 0) {
     return (
-    <div style={{ overflow: 'hidden' }}>
-      <PixelPrenotatoTipo1 />
-      <div />
-    </div>
-  )}
-  if (data?.prenotazioni[0]?.type=="covid") {
-    
+      <div style={{ overflow: 'hidden' }}>
+        {
+          data.type === 2 ? <PixelSelezionatoTipo2 />
+            : data.type === 1 ? <PixelSelezionatoTipo1 />
+              : <PixelSelezionatoTipo0 />
+        }
+        <div />
+      </div>
+    )
+  }
+  if (data?.prenotazioni.length > 0) {
+      data.prenotazioni.map((elemento) => {
+        console.log(i)
+        if (data.data == orario.data && data.orario == orario.orario && elemento.type == "default") {
+          console.log("default")
+          return (
+            <div style={{ overflow: 'hidden' }}>
+              <PixelPrenotatoTipo1 />
+              <div />
+            </div>
+          )
+        }
+        if (data.data == orario.data && data.orario == orario.orario && elemento.type == "covid") {
+          console.log("covid")
+          return (
+            <div style={{ overflow: 'hidden' }}>
+              <PixelPrenotatorossoTipo1 />
+              <div />
+            </div>
+          )
+        } else {
+          console.log("nada")
+          return (
+            <div style={{ overflow: 'hidden' }}>
+              <PixelSelezionatoTipo1 />
+              <div />
+            </div>
+          )
+        }
+      })
+  } if (selected) {
     return (
-    <div style={{ overflow: 'hidden' }}>
-      <PixelPrenotatorossoTipo1 />
-      <div />
-    </div>
-  )}
-  if (data && !selected) return (
-    <div style={{ overflow: 'hidden' }}>
-      {
-        data.type === 2 ? <PixelSelezionatoTipo2 />
-          : data.type === 1 ? <PixelSelezionatoTipo1 />
-            : <PixelSelezionatoTipo0 />
-      }
-      <div />
-    </div>
-  )
-  else return (
-    <div style={{ overflow: 'hidden' }}>
-      <PixelPrenotatoTipo1 />
-      <div />
-    </div>
-  )
+      <div style={{ overflow: 'hidden' }}>
+        <PixelPrenotatoTipo1 />
+        <div />
+      </div>
+    )
+  } else return null;
 }));
+
 
 export default Pixel;

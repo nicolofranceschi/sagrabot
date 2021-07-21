@@ -19,12 +19,19 @@ function App() {
 
   const [user, setUser] = useState(null);
 
+  const [prenotazioni, setPrenotazioni] = useState(null);
+
+  
+
+  const [{data , orario}, setMomento]= useState({});
+
+
   useEffect(() => {
      auth.onAuthStateChanged(async firebaseUser => {
        if (firebaseUser) {
         try {
          const data = await generateUserDocument(firebaseUser.uid);
-          setUser({ ...data });
+          setUser(firebaseUser);
         } catch (error) {
           toast.error(error.message);
         }
@@ -34,7 +41,9 @@ function App() {
 
   const context = {
     sala: useLocalStorage('sala', ''),
-    user: user ,
+    user: [user, setUser] ,
+    orario: [{data , orario}, setMomento],
+    prenotazioni: [prenotazioni, setPrenotazioni],
   };
 
   return true ? (

@@ -6,6 +6,7 @@ import { Container, Grid } from "./Styled";
 import { updateUserDocument, getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
+import { useSala } from "../App";
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
 
@@ -98,6 +99,9 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
 }), {});
 
 export default function Prenotazioni() {
+  const {orario: [orario]} = useSala();
+  const {prenotazioni: [, setPrenotazioni]} = useSala();
+  console.log(orario)
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [data, setData] = useState({});
   const [selected, setSelected] = useState({});
@@ -138,7 +142,7 @@ export default function Prenotazioni() {
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} onSelect={select} ref={ref} />}
+      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} orario={orario} onSelect={select} ref={ref} />}
     </ObservedPixel>
   )), [data, selected]);
 
@@ -150,16 +154,11 @@ export default function Prenotazioni() {
         ...acc,
         [key]: { ...value, prenotazioni: [
           ...value?.prenotazioni ?? [],
-          ...(selectedSpot ? [{ ...selectedSpot, time: new Date(), user: '3495141095' }] : [])
+          ...(selectedSpot ? [{ ...selectedSpot, data: orario.data , orario: orario.orario, user: '3495141095' }] : [])
         ] }
       };
     }, {});
-    try {
-      const res = await updateUserDocument({ uid: SALEUID }, { ..."nif", sale: { SAGRA: newData }});
-      console.log('risultato firebase salvataggio dati', res);
-    } catch (error) {
-      console.log(error);
-    }
+     setPrenotazioni(newData);
   }
 
   return (
@@ -175,7 +174,7 @@ export default function Prenotazioni() {
         draggable
         pauseOnHover
       />
-      <PixelSettings onClick={confirm} />
+      <PixelSettings onClick={confirm} data={orario} />
       <Container ref={DrawingGrid}>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
           {grid}
