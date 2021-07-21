@@ -1,9 +1,9 @@
-import { useRef, useState, lazy, Suspense,  useMemo, useEffect } from "react";
+import { useRef, useState, lazy, Suspense, useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled";
-import { getUserDocument } from "../firebase";
+import { updateUserDocument, getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
@@ -20,19 +20,21 @@ const getxy = i => {
   return { x, y }
 }
 
-function getClosePlaces (i) {
+function getClosePlaces(i) {
   const { x, y } = getxy(i);
   return [
-    getIndexFromXY(x+1, y+0),
-    getIndexFromXY(x+1, y+1),
-    getIndexFromXY(x+1, y-1),
-    getIndexFromXY(x+0, y+1),
-    getIndexFromXY(x+0, y-1),
-    getIndexFromXY(x-1, y+0),
-    getIndexFromXY(x-1, y+1),
-    getIndexFromXY(x-1, y-1),
+    getIndexFromXY(x + 1, y + 0),
+    getIndexFromXY(x + 1, y + 1),
+    getIndexFromXY(x + 1, y - 1),
+    getIndexFromXY(x + 0, y + 1),
+    getIndexFromXY(x + 0, y - 1),
+    getIndexFromXY(x - 1, y + 0),
+    getIndexFromXY(x - 1, y + 1),
+    getIndexFromXY(x - 1, y - 1),
   ]
 }
+
+const SALEUID = 'gzDP6bxoUcWKC71dye7PkVrB5y52';
 
 const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce((acc, [i, spot]) => ({
   ...acc,
@@ -44,19 +46,19 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
   }).reduce((internalAcc, j) => ({ ...internalAcc, [j]: { type: 'covid' } }), {}))
 }), {});
 
-export default function Prenotazioni () {
+export default function Prenotazioni() {
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [data, setData] = useState({});
   const [selected, setSelected] = useState({});
 
   console.log(getCovidPixels(selected, data));
-  
+
   const DrawingGrid = useRef(null);
   const { height, width } = useWindowSize();
 
   useEffect(() => {
-    (async function() {
-      const res = await getUserDocument('gzDP6bxoUcWKC71dye7PkVrB5y52');
+    (async function () {
+      const res = await getUserDocument(SALEUID);
       setData(res.sale['test']);
     })();
   }, []);
@@ -72,22 +74,42 @@ export default function Prenotazioni () {
     domTarget: DrawingGrid,
     eventOptions: { passive: false },
   });
-  
-  const select = (i) => { 
-      console.log('ho prenotato il posto ', i, getxy(i)); 
-      setSelected(current => ({ ...current, [i]: { type: 'default' }})) 
-    };
-    
+
+  const select = (i) => {
+    console.log('ho prenotato il posto ', i, getxy(i));
+    setSelected(current => ({ ...current, [i]: { type: 'default' } }))
+  };
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel i={i} data={data[i]} selected={selected} onSelect={select} ref={ref} />}
+      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} onSelect={select} ref={ref} />}
     </ObservedPixel>
-  )), [data]);
+  )), [data, selected]);
+
+  const confirm = async () => {
+    const covidPixels = getCovidPixels(selected, data);
+    const newData = Object.entries(data).reduce((acc, [key, value]) => {
+      const selectedSpot = covidPixels[key];
+      return {
+        ...acc,
+        [key]: { ...value, prenotazioni: [
+          ...value?.prenotazioni ?? [],
+          ...(selectedSpot ? [{ ...selectedSpot, time: new Date(), user: '3495141095' }] : [])
+        ] }
+      };
+    }, {});
+    try {
+      console.log(newData)
+      const res = await updateUserDocument({ uid: SALEUID }, newData);
+      console.log('risultato firebase salvataggio dati', res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Suspense fallback={<Loading />}>
-        <PixelSettings></PixelSettings>
+      <PixelSettings onClick={confirm} />
       <Container ref={DrawingGrid}>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
           {grid}
@@ -99,7 +121,7 @@ export default function Prenotazioni () {
 
 const Loading = () => <span>Loading...</span>;
 
-function ObservedPixel ({ children }) {
+function ObservedPixel({ children }) {
   const ref = useRef();
   const [, setVisible] = useState(false);
 
@@ -107,5 +129,5 @@ function ObservedPixel ({ children }) {
   const isVisible = !!entry?.isIntersecting;
 
   useEffect(() => { if (isVisible) setVisible(true) }, [isVisible]);
-  return isVisible ? children(ref) : <div ref={ref} style={{backgroundColor:'hsl(218, 24%, 15%)'}}/>;
+  return isVisible ? children(ref) : <div ref={ref} style={{ backgroundColor: 'hsl(218, 24%, 15%)' }} />;
 }

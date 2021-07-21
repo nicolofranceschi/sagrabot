@@ -1,4 +1,4 @@
-import { createContext, useContext , useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import Editor from "./Editor";
 import Sale from "./Sale";
 import Loginphone from "./Loginphone";
@@ -6,13 +6,10 @@ import { AnimateSharedLayout } from 'framer-motion';
 import { auth, getUserDocument } from './firebase';
 import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
-import { toast , ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Choose from './Choose';
-import {Menu} from './Menu';
-
-import Typeform from "./Typeform";
+import { Menu } from './Menu';
 import Prenotazioni from "./Prenotazioni"
-
 
 const SalaContext = createContext(null);
 export const useSala = () => useContext(SalaContext);
@@ -21,71 +18,68 @@ function App() {
 
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    auth.onAuthStateChanged(async firebaseUser => {
-      if (firebaseUser) {
-        try {
-          const data = await getUserDocument(firebaseUser.uid);
-          setUser({ ...data });
-        } catch (error) {
-          toast.error(error.message); 
-        }
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(async firebaseUser => {
+  //     if (firebaseUser) {
+  //       try {
+  //         const data = await getUserDocument(firebaseUser.uid);
+  //         setUser({ ...data });
+  //       } catch (error) {
+  //         toast.error(error.message);
+  //       }
+  //     }
+  //   });
+  // }, []);
 
   const context = useLocalStorage('sala', '');
 
-  return user ? (
+  return true ? (
     <SalaContext.Provider value={context}>
       <LoggedRouter />
     </SalaContext.Provider>
-  ) : <NonLoggedRouter  /> ;
-  }
+  ) : <NonLoggedRouter />;
+}
 
- const LoggedRouter = () => (
+const LoggedRouter = () => (
   <AnimateSharedLayout type="crossfade">
-        <Switch>
-          <Route path="/editor">
-            <Editor />
-          </Route>
-          <Route path="/sale">
-            <Sale /> 
-          </Route>
-          <Route path="/choose">
-            <Prenotazioni />
-          </Route>
-          <Route path="/menu">
-            <Menu/>
-          </Route>
-          <Route path="/">
-            <Choose />
-          </Route>
-        </Switch>
-    </AnimateSharedLayout>
+    <Switch>
+      <Route path="/editor">
+        <Editor />
+      </Route>
+      <Route path="/sale">
+        <Sale />
+      </Route>
+      <Route path="/choose">
+        <Prenotazioni />
+      </Route>
+      <Route path="/menu">
+        <Menu />
+      </Route>
+      <Route path="/">
+        <Choose />
+      </Route>
+    </Switch>
+  </AnimateSharedLayout>
 );
 
 const NonLoggedRouter = () => (
   <AnimateSharedLayout type="crossfade">
-        <Switch>
-        <Route path="/type">
-          <Typeform />
-          </Route>
-          <Route path="/">
-          <ToastContainer
-            position="top-right"
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            pauseOnHover
-            draggable
-            hideProgressBar
-          />
-            <Loginphone />
-          </Route>
-        </Switch>
-    </AnimateSharedLayout>
+    <Switch>
+      <Route path="/">
+        <ToastContainer
+          position="top-right"
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          draggable
+          hideProgressBar
+        />
+        <Loginphone />
+      </Route>
+    </Switch>
+  </AnimateSharedLayout>
 );
 
 export default App;

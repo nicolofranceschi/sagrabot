@@ -3,7 +3,7 @@ import { OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
 const Pixel = memo(forwardRef(({ i, data, selected, onSelect }, ref) => {
-  
+
 const selectPixel = useCallback(() => {
     onSelect(i);
   }, [selected]);
@@ -29,7 +29,8 @@ const selectPixel = useCallback(() => {
   );
 
   if (!data) return <PixelNonSelezionatoTipo0 />;
-  if (data) return (
+  console.log('dentro al pixel', selected);
+  if (data && !selected) return (
     <div style={{ overflow: 'hidden' }}>
       {
         data.type === 2 ? <PixelSelezionatoTipo2 />
@@ -39,13 +40,12 @@ const selectPixel = useCallback(() => {
       <div />
     </div>
   )
-  if (selected) return (
+  else return (
     <div style={{ overflow: 'hidden' }}>
       <PixelPrenotatoTipo1 />
       <div />
     </div>
   )
-  else return null;
 }));
 
 export default Pixel;

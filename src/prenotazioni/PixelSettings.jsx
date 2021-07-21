@@ -63,9 +63,9 @@ export const ButtonTavoli = styled.button`
 `;
 
 
-export default function PixelSettings({ sala }) {
+export default function PixelSettings({ sala, onClick }) {
   return (
-   <>
+    <>
       <Link to="/">
         <Back>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -73,8 +73,8 @@ export default function PixelSettings({ sala }) {
           </Svg>
         </Back>
       </Link>
-    <ButtonTavoli>Scegli i menu</ButtonTavoli>
-   </>
+      <ButtonTavoli onClick={onClick}>Scegli i menu</ButtonTavoli>
+    </>
   );
 
 }

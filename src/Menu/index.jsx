@@ -1,13 +1,13 @@
 
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import { images } from "./image-data";
-import { Next , Prev  , Container , Qty , Pezzo , Back, Svg} from "./styled"
+import { Next, Prev, Container, Qty, Pezzo, Back, Svg } from "./styled"
 import { Link } from "react-router-dom";
 
 const variants = {
-  enter: (direction: number) => {
+  enter: (direction) => {
     return {
       x: direction > 0 ? 1000 : -1000,
       opacity: 0
@@ -18,7 +18,7 @@ const variants = {
     x: 0,
     opacity: 1
   },
-  exit: (direction: number) => {
+  exit: (direction) => {
     return {
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
@@ -28,20 +28,20 @@ const variants = {
 };
 
 const swipeConfidenceThreshold = 10000;
-const swipePower = (offset: number, velocity: number) => {
+const swipePower = (offset, velocity) => {
   return Math.abs(offset) * velocity;
 };
 
-export  const Menu = () => {
+export const Menu = () => {
   const [[page, direction], setPage] = useState([0, 0]);
 
   const imageIndex = wrap(0, images.length, page);
- 
-  useEffect(() => {console.log(imageIndex)},[page]);
 
-  const [menu, setMenu] = useState({});
+  useEffect(() => { console.log(imageIndex) }, [page]);
 
-  const paginate = (newDirection: number) => {
+  const [menu, setMenu] = useState({ qty: 0 });
+
+  const paginate = (newDirection) => {
     setPage([page + newDirection, newDirection]);
   };
 
@@ -83,25 +83,25 @@ export  const Menu = () => {
         {"‣"}
       </Prev>
       <Qty>
-       <Pezzo onClick={(current) => setMenu({index : imageIndex  , qty : current.qty + 1 })}>
-       <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </Svg>
-       </Pezzo>
-       <Pezzo onClick={(current) => setMenu({index : imageIndex  , qty : current.qty - 1 })}>
-       <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-      </Svg>
-       </Pezzo>
-       <Pezzo>{menu.qty}</Pezzo>
+        <Pezzo onClick={setMenu((current) => ({ index: imageIndex, qty: current.qty + 1 }))}>
+          <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </Svg>
+        </Pezzo>
+        <Pezzo onClick={setMenu((current) => ({ index: imageIndex, qty: current.qty - 1 }))}>
+          <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+          </Svg>
+        </Pezzo>
+        <Pezzo>{menu.qty}</Pezzo>
       </Qty>
       <Link to="/choose">
-       <Back>
-       <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+        <Back>
+          <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </Svg>
-       </Back>
-       </Link>
+          </Svg>
+        </Back>
+      </Link>
     </Container>
   );
 };
