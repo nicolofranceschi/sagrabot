@@ -3,9 +3,14 @@ import { motion } from "framer-motion";
 import { useState , useEffect } from "react";
 import { Line, Container, ButtonTavoli, Card, Giorni , Mese ,  Descrizione} from "./styled";
 import { Link } from "react-router-dom";
+import { useSala } from "../App";
 
 
 export default function Choose() {
+
+    const [ {user} , setSala] = useSala();
+
+    console.log(user)
 
     const giorni = [
         {
@@ -53,7 +58,7 @@ export default function Choose() {
                             <Mese>AGOSTO</Mese>
                         </Card>
                         ):(
-                            <Card key={b.giorno}  color={"black"} onClick={ () => {setMomento({ orario, data : b.giorno})}}>
+                            <Card key={b.giorno} color={"black"} onClick={ () => {setMomento({ orario, data : b.giorno})}}>
                             <Giorni>{b.giorno}</Giorni>
                             <Mese>AGOSTO</Mese>
                         </Card>
@@ -65,11 +70,18 @@ export default function Choose() {
             <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
                 <Line>
                     {orari.map((c) => (
-                        <Card key={c.orario} onClick={ () => {setMomento({ orario : c.orario, data })}}>
+                        orario === c.orario) ? (
+                        <Card key={c.orario} color={"pink"} onClick={ () => {setMomento({ orario : c.orario, data })}}>
                             <Giorni>{c.orario}</Giorni>
                             <Mese>PM</Mese>
                         </Card>
-                    ))}
+                        ):(
+                            <Card key={c.orario} color={"black"} onClick={ () => {setMomento({ orario : c.orario, data })}}>
+                            <Giorni>{c.orario}</Giorni>
+                            <Mese>PM</Mese>
+                        </Card>
+                        )
+                    )}
                 </Line>
             </motion.div>
             <Link to="/choose">

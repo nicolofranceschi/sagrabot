@@ -27,8 +27,31 @@ const selectPixel = useCallback(() => {
       <Sedia color={"white"} />
     </PixelTavolo>
   );
+  const PixelPrenotatorossoTipo1 = () => (
+    <PixelTavolo {...pixelProps} onClick={selectPixel}>
+      <OnlyTavolo pixelColor={"red"} border={data?.border} />
+      <Sedia color={"red"} />
+    </PixelTavolo>
+  );
 
+  
   if (!data) return <PixelNonSelezionatoTipo0 />;
+  if (data?.prenotazioni[0]?.type=="default") {
+
+    return (
+    <div style={{ overflow: 'hidden' }}>
+      <PixelPrenotatoTipo1 />
+      <div />
+    </div>
+  )}
+  if (data?.prenotazioni[0]?.type=="covid") {
+    
+    return (
+    <div style={{ overflow: 'hidden' }}>
+      <PixelPrenotatorossoTipo1 />
+      <div />
+    </div>
+  )}
   if (data && !selected) return (
     <div style={{ overflow: 'hidden' }}>
       {
@@ -36,12 +59,6 @@ const selectPixel = useCallback(() => {
           : data.type === 1 ? <PixelSelezionatoTipo1 />
             : <PixelSelezionatoTipo0 />
       }
-      <div />
-    </div>
-  )
-  if (data.prenotazioni?.type=="default") return (
-    <div style={{ overflow: 'hidden' }}>
-      <PixelPrenotatoTipo1 />
       <div />
     </div>
   )

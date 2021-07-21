@@ -3,7 +3,7 @@ import Editor from "./Editor";
 import Sale from "./Sale";
 import Loginphone from "./Loginphone";
 import { AnimateSharedLayout } from 'framer-motion';
-import { auth, getUserDocument } from './firebase';
+import { auth, generateUserDocument } from './firebase';
 import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
 import { toast, ToastContainer } from "react-toastify";
@@ -12,26 +12,30 @@ import { Menu } from './Menu';
 import Prenotazioni from "./Prenotazioni"
 
 const SalaContext = createContext(null);
+
 export const useSala = () => useContext(SalaContext);
 
 function App() {
 
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   auth.onAuthStateChanged(async firebaseUser => {
-  //     if (firebaseUser) {
-  //       try {
-  //         const data = await getUserDocument(firebaseUser.uid);
-  //         setUser({ ...data });
-  //       } catch (error) {
-  //         toast.error(error.message);
-  //       }
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+     auth.onAuthStateChanged(async firebaseUser => {
+       if (firebaseUser) {
+        try {
+         const data = await generateUserDocument(firebaseUser.uid);
+          setUser({ ...data });
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    });
+   }, []);
 
-  const context = useLocalStorage('sala', '');
+  const context = {
+    sala: useLocalStorage('sala', ''),
+    user: user ,
+  };
 
   return true ? (
     <SalaContext.Provider value={context}>

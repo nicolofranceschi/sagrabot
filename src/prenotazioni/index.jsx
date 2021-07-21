@@ -21,9 +21,59 @@ const getxy = i => {
   return { x, y }
 }
 
-function getClosePlaces(i) {
+function getClosePlaces(i,available) {
   const { x, y } = getxy(i);
-  return [
+  console.log(i,available)
+
+  if(available.rotation==0 || available.rotation==360 ) return [
+    getIndexFromXY(x + 1, y + 0),
+    getIndexFromXY(x - 2, y + 0),
+    getIndexFromXY(x + 1, y + 1),
+    getIndexFromXY(x + 1, y - 1),
+    getIndexFromXY(x + 0, y + 1),
+    getIndexFromXY(x + 0, y - 1),
+    getIndexFromXY(x - 1, y + 0),
+    getIndexFromXY(x - 1, y + 1),
+    getIndexFromXY(x - 1, y - 1),
+  ]
+
+  if(available.rotation==180 || available.rotation== -180) return [
+    getIndexFromXY(x + 1, y + 0),
+    getIndexFromXY(x + 2, y + 0),
+    getIndexFromXY(x + 1, y + 1),
+    getIndexFromXY(x + 1, y - 1),
+    getIndexFromXY(x + 0, y + 1),
+    getIndexFromXY(x + 0, y - 1),
+    getIndexFromXY(x - 1, y + 0),
+    getIndexFromXY(x - 1, y + 1),
+    getIndexFromXY(x - 1, y - 1),
+  ]
+
+  if(available.rotation==90 || available.rotation==-270) return [
+    getIndexFromXY(x + 1, y + 0),
+    getIndexFromXY(x + 1, y + 1),
+    getIndexFromXY(x + 1, y - 1),
+    getIndexFromXY(x + 0, y + 1),
+    getIndexFromXY(x + 0, y - 2),
+    getIndexFromXY(x + 0, y - 1),
+    getIndexFromXY(x - 1, y + 0),
+    getIndexFromXY(x - 1, y + 1),
+    getIndexFromXY(x - 1, y - 1),
+  ]
+
+  if(available.rotation==-90 || available.rotation==270 ) return [
+    getIndexFromXY(x + 1, y + 0),
+    getIndexFromXY(x + 1, y + 1),
+    getIndexFromXY(x + 1, y - 1),
+    getIndexFromXY(x + 0, y + 1),
+    getIndexFromXY(x + 0, y + 2),
+    getIndexFromXY(x + 0, y - 1),
+    getIndexFromXY(x - 1, y + 0),
+    getIndexFromXY(x - 1, y + 1),
+    getIndexFromXY(x - 1, y - 1),
+  ]
+  
+  else return [
     getIndexFromXY(x + 1, y + 0),
     getIndexFromXY(x + 1, y + 1),
     getIndexFromXY(x + 1, y - 1),
@@ -40,7 +90,7 @@ const SALEUID = 'sala';
 const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce((acc, [i, spot]) => ({
   ...acc,
   [i]: spot,
-  ...(getClosePlaces(i).filter(close => {
+  ...(getClosePlaces(i,available[i]).filter(close => {
     if (!available[close] || available[close].type !== 1) return false;
     if (occupied[close]) return false;
     else return true;
@@ -51,8 +101,6 @@ export default function Prenotazioni() {
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [data, setData] = useState({});
   const [selected, setSelected] = useState({});
-
-  console.log(getCovidPixels(selected, data));
 
   const DrawingGrid = useRef(null);
   const { height, width } = useWindowSize();
@@ -71,8 +119,6 @@ export default function Prenotazioni() {
       });
     }
   }, []);
-
-  console.log(data);
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
       if (width < currentGridSize + vdva[0] * 50 && height < currentGridSize + vdva[0] * 50) {
@@ -109,8 +155,7 @@ export default function Prenotazioni() {
       };
     }, {});
     try {
-      console.log(newData)
-      const res = await updateUserDocument({ uid: SALEUID }, newData);
+      const res = await updateUserDocument({ uid: SALEUID }, { ..."nif", sale: { SAGRA: newData }});
       console.log('risultato firebase salvataggio dati', res);
     } catch (error) {
       console.log(error);
