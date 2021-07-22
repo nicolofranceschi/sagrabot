@@ -43,7 +43,7 @@ function App() {
     prenotazioni: [prenotazioni, setPrenotazioni],
   };
 
-  return true ? (
+  return user ? (
     <SalaContext.Provider value={context}>
       <LoggedRouter />
     </SalaContext.Provider>

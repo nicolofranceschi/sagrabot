@@ -33,11 +33,9 @@ const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => 
       <Sedia color={"red"} />
     </PixelTavolo>
   );
-  console.log('PIXEL: ', i, data, selected, orario);
-  if (!data) return <PixelNonSelezionatoTipo0 />;
-  if (data && !selected && data.prenotazioni.length == 0) {
-    return (
-      <div style={{ overflow: 'hidden' }}>
+
+  const Pixelnormale = () => (
+    <div style={{ overflow: 'hidden' }}>
         {
           data.type === 2 ? <PixelSelezionatoTipo2 />
             : data.type === 1 ? <PixelSelezionatoTipo1 />
@@ -45,47 +43,64 @@ const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => 
         }
         <div />
       </div>
-    )
-  }
-  if (data?.prenotazioni.length > 0) {
-      data.prenotazioni.map((elemento) => {
-        console.log(i)
-        if (data.data == orario.data && data.orario == orario.orario && elemento.type == "default") {
-          console.log("default")
+  );
+
+  if (data){ 
+
+    if(selected) return (
+      <div style={{ overflow: 'hidden' }}>
+        <PixelPrenotatoTipo1 />
+        <div />
+      </div>
+    );
+   
+    if(data.prenotazioni){
+
+      if (data.prenotazioni.length==0){
+          
+        return <Pixelnormale />
+
+      }else if (data.prenotazioni.length > 0){
+        
+        console.log("sono entrato")
+
+        if(data.prenotazioni.type == "default"){
+
+          console.log("ho scelto default")
+
           return (
             <div style={{ overflow: 'hidden' }}>
               <PixelPrenotatoTipo1 />
               <div />
             </div>
-          )
-        }
-        if (data.data == orario.data && data.orario == orario.orario && elemento.type == "covid") {
-          console.log("covid")
+          );
+
+        }else if (data.prenotazioni.type == "covid"){
+        
+          console.log("ho scelto covid")
+
           return (
             <div style={{ overflow: 'hidden' }}>
               <PixelPrenotatorossoTipo1 />
               <div />
             </div>
-          )
-        } else {
-          console.log("nada")
-          return (
-            <div style={{ overflow: 'hidden' }}>
-              <PixelSelezionatoTipo1 />
-              <div />
-            </div>
-          )
-        }
-      })
-  } if (selected) {
-    return (
-      <div style={{ overflow: 'hidden' }}>
-        <PixelPrenotatoTipo1 />
-        <div />
-      </div>
-    )
-  } else return null;
-}));
+          );
 
+        }else return <Pixelnormale />;
+
+      }else return null;
+
+
+    }else return <Pixelnormale />;
+    
+  }else if (!data){
+     
+    return <PixelNonSelezionatoTipo0 />
+
+  }else return null;
+
+
+  
+}))
 
 export default Pixel;
