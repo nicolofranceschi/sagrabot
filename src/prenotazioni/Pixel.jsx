@@ -33,7 +33,7 @@ const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => 
       <Sedia color={"red"} />
     </PixelTavolo>
   );
-
+  console.log('PIXEL: ', i, data, selected, orario);
   if (!data) return <PixelNonSelezionatoTipo0 />;
   if (data && !selected && data.prenotazioni.length == 0) {
     return (

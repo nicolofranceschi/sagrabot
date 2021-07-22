@@ -3,7 +3,7 @@ import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled";
-import { getUserDocument } from "../firebase";
+import { updateUserDocument, getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from "../App";
@@ -158,6 +158,12 @@ export default function Prenotazioni() {
         ] }
       };
     }, {});
+    try {
+      const res = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData }});
+      console.log('risultato firebase salvataggio dati', res);
+    } catch (error) {
+      console.log(error);
+    }
      setPrenotazioni(newData);
   }
 
