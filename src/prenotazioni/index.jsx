@@ -3,7 +3,7 @@ import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid } from "./Styled";
-import { updateUserDocument, getUserDocument } from "../firebase";
+import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from "../App";

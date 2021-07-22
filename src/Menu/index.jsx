@@ -51,7 +51,7 @@ export const Menu = () => {
 
   const put = async () => {
     try {
-      const res = await updateUserDocument({ uid: SALEUID }, { ..."nif", sale: { SAGRA: newData }});
+      const res = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData }});
       console.log('risultato firebase salvataggio dati', res);
     } catch (error) {
       console.log(error);

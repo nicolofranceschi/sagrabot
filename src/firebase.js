@@ -45,7 +45,7 @@ export const sendVerificationCode = async (code) => {
   }
 }
 
-export const generateUserDocument = async (user, additionalData) => {
+export const generateUserDocument = async (user, additionalData = {}) => {
   if (!user) return;
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
@@ -107,4 +107,6 @@ export const getMenuDocument = async () => {
 };
 export const auth = firebase.auth()
 export const firestore = firebase.firestore();
-firestore.settings({ experimentalForceLongPolling: true });
+// TODO: da eliminare. Non è la soluzione giusta, invece nei catch delle chiamate a firebase provare a rifare la chiamata
+// e se anche quella va in errore, mostrare un messaggio all'utente dicendo di controllare la sua connessione
+// firestore.settings({ experimentalForceLongPolling: true });
