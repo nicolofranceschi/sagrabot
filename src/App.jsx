@@ -18,6 +18,8 @@ export const useSala = () => useContext(SalaContext);
 function App() {
 
   const [user, setUser] = useState(null);
+  const [sala, setSala] = useLocalStorage('sala', '');
+  const context = { sala, setSala, user, };
 
   useEffect(() => {
      auth.onAuthStateChanged(async firebaseUser => {
@@ -32,10 +34,6 @@ function App() {
     });
    }, []);
 
-  const context = {
-    sala: useLocalStorage('sala', ''),
-    user: user ,
-  };
 
   return true ? (
     <SalaContext.Provider value={context}>

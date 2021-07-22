@@ -11,7 +11,7 @@ function getHeight(length, height) {
 }
 
 export default function Sale() {
-  const [, setSala] = useSala();
+  const { setSala } = useSala();
   const [arr, setArr] = useLocalStorage("items", []);
   const { width, height } = useWindowSize();
   const { register, handleSubmit, formState: { errors } } = useForm();
