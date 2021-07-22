@@ -18,22 +18,30 @@ export const useSala = () => useContext(SalaContext);
 function App() {
 
   const [user, setUser] = useState(null);
-  const [sala, setSala] = useLocalStorage('sala', '');
-  const context = { sala, setSala, user, };
+  const [prenotazioni, setPrenotazioni] = useState(null);
+
+  const [{ data, orario }, setMomento] = useState({});
+
 
   useEffect(() => {
-     auth.onAuthStateChanged(async firebaseUser => {
-       if (firebaseUser) {
+    auth.onAuthStateChanged(async firebaseUser => {
+      if (firebaseUser) {
         try {
-         const data = await generateUserDocument(firebaseUser.uid);
-          setUser({ ...data });
+          const data = await generateUserDocument(firebaseUser.uid);
+          setUser(firebaseUser);
         } catch (error) {
           toast.error(error.message);
         }
       }
     });
-   }, []);
+  }, []);
 
+  const context = {
+    sala: useLocalStorage('sala', ''),
+    user: [user, setUser],
+    orario: [{ data, orario }, setMomento],
+    prenotazioni: [prenotazioni, setPrenotazioni],
+  };
 
   return true ? (
     <SalaContext.Provider value={context}>

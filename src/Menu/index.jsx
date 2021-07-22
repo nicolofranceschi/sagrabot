@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import { images } from "./image-data";
-import { Next, Prev, Container, Qty, Pezzo, Back, Svg } from "./styled"
+import { Next, Prev, Container, Qty, Pezzo, Back, Svg, P , ButtonTavoli } from "./styled"
 import { Link } from "react-router-dom";
+import { updateUserDocument } from "../firebase";
 
 const variants = {
   enter: (direction) => {
@@ -33,6 +34,7 @@ const swipePower = (offset, velocity) => {
 };
 
 export const Menu = () => {
+
   const [[page, direction], setPage] = useState([0, 0]);
 
   const imageIndex = wrap(0, images.length, page);
@@ -44,6 +46,17 @@ export const Menu = () => {
   const paginate = (newDirection) => {
     setPage([page + newDirection, newDirection]);
   };
+
+  console.log(menu);
+
+  const put = async () => {
+    try {
+      const res = await updateUserDocument({ uid: SALEUID }, { ..."nif", sale: { SAGRA: newData }});
+      console.log('risultato firebase salvataggio dati', res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Container>
@@ -83,17 +96,17 @@ export const Menu = () => {
         {"‣"}
       </Prev>
       <Qty>
-        <Pezzo onClick={setMenu((current) => ({ index: imageIndex, qty: current.qty + 1 }))}>
+        <Pezzo onClick={() => setMenu((current) => ({ index: imageIndex, qty: current.qty + 1 }))}>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </Svg>
         </Pezzo>
-        <Pezzo onClick={setMenu((current) => ({ index: imageIndex, qty: current.qty - 1 }))}>
+        <Pezzo onClick={() =>setMenu((current) => ({ index: imageIndex, qty: current.qty - 1 }))}>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
           </Svg>
         </Pezzo>
-        <Pezzo>{menu.qty}</Pezzo>
+        <Pezzo><P>{menu.qty}</P></Pezzo>
       </Qty>
       <Link to="/choose">
         <Back>
@@ -102,6 +115,7 @@ export const Menu = () => {
           </Svg>
         </Back>
       </Link>
+      <ButtonTavoli >Completa la prenotazione</ButtonTavoli>
     </Container>
   );
 };

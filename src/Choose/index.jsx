@@ -1,6 +1,5 @@
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { Line, Container, ButtonTavoli, Card, Giorni, Mese, Descrizione } from "./styled";
 import { Link } from "react-router-dom";
 import { useSala } from "../App";
@@ -8,9 +7,7 @@ import { useSala } from "../App";
 
 export default function Choose() {
 
-  const { user } = useSala();
-
-  console.log(user)
+  const { orario: [{ data, orario }, setMomento] } = useSala();
 
   const giorni = [
     { "giorno": "20", },
@@ -26,23 +23,19 @@ export default function Choose() {
     { "orario": "10", }
   ]
 
-  const [{ data, orario }, setMomento] = useState({});
-
-  useEffect(() => { console.log(data, orario) }, [orario, data])
-
   return (
     <Container>
       <Descrizione vh="5vh" >Seleziona una data</Descrizione>
       <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
         <Line >
           {giorni.map((b) => (
-            data === b.giorno) ? (
-            <Card key={b.giorno} color={"pink"} onClick={() => { setMomento({ orario, data: b.giorno }) }}>
+            data === b.giorno + " Agosto") ? (
+            <Card key={b.giorno} color={"pink"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
               <Giorni>{b.giorno}</Giorni>
               <Mese>AGOSTO</Mese>
             </Card>
           ) : (
-            <Card key={b.giorno} color={"black"} onClick={() => { setMomento({ orario, data: b.giorno }) }}>
+            <Card key={b.giorno} color={"black"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
               <Giorni>{b.giorno}</Giorni>
               <Mese>AGOSTO</Mese>
             </Card>
@@ -54,13 +47,13 @@ export default function Choose() {
       <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
         <Line>
           {orari.map((c) => (
-            orario === c.orario) ? (
-            <Card key={c.orario} color={"pink"} onClick={() => { setMomento({ orario: c.orario, data }) }}>
+            orario === "alle " + c.orario) ? (
+            <Card key={c.orario} color={"pink"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
               <Giorni>{c.orario}</Giorni>
               <Mese>PM</Mese>
             </Card>
           ) : (
-            <Card key={c.orario} color={"black"} onClick={() => { setMomento({ orario: c.orario, data }) }}>
+            <Card key={c.orario} color={"black"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
               <Giorni>{c.orario}</Giorni>
               <Mese>PM</Mese>
             </Card>
