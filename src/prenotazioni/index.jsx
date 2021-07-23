@@ -24,9 +24,8 @@ const getxy = i => {
 
 function getClosePlaces(i,available) {
   const { x, y } = getxy(i);
-  console.log(i,available)
-
-  if(available.rotation==0 || available.rotation==360 ) return [
+  const rotation = available.rotation % 360;
+  if(rotation === 0) return [
     getIndexFromXY(x + 1, y + 0),
     getIndexFromXY(x - 2, y + 0),
     getIndexFromXY(x + 1, y + 1),
@@ -38,7 +37,7 @@ function getClosePlaces(i,available) {
     getIndexFromXY(x - 1, y - 1),
   ]
 
-  if(available.rotation==180 || available.rotation== -180) return [
+  if(rotation === 180 || rotation === -180) return [
     getIndexFromXY(x + 1, y + 0),
     getIndexFromXY(x + 2, y + 0),
     getIndexFromXY(x + 1, y + 1),
@@ -50,7 +49,7 @@ function getClosePlaces(i,available) {
     getIndexFromXY(x - 1, y - 1),
   ]
 
-  if(available.rotation==90 || available.rotation==-270) return [
+  if(rotation === 90 || rotation === -270) return [
     getIndexFromXY(x + 1, y + 0),
     getIndexFromXY(x + 1, y + 1),
     getIndexFromXY(x + 1, y - 1),
@@ -62,7 +61,7 @@ function getClosePlaces(i,available) {
     getIndexFromXY(x - 1, y - 1),
   ]
 
-  if(available.rotation==-90 || available.rotation==270 ) return [
+  if(rotation === -90 || rotation === 270 ) return [
     getIndexFromXY(x + 1, y + 0),
     getIndexFromXY(x + 1, y + 1),
     getIndexFromXY(x + 1, y - 1),

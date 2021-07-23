@@ -8,12 +8,12 @@ const firebaseConfig = {
   projectId: "sagrabot",
   storageBucket: "sagrabot.appspot.com",
   messagingSenderId: "583569284042",
+  databaseURL: "https://sagrabot-default-rtdb.europe-west1.firebasedatabase.app/",
   appId: "1:583569284042:web:a39954381f226446bc8d33",
   measurementId: "G-Z6L7W1LECB"
 };
 
 firebase.initializeApp(firebaseConfig);
-
 
 export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {

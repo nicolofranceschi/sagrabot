@@ -21,49 +21,42 @@ export default function Home() {
         }
     }, [])
 
-    let temp = null;
-
     if (data != null) {
 
-        const result = Object.entries(data).reduce((abb,pixel) => {
+        const result = Object.entries(data).reduce((acc, pixel) => {
+            const [key, value] = pixel;
+            const { prenotazioni } = value;
 
-            const [key,value] = pixel
+            if (!prenotazioni || prenotazioni.length === 0) return acc;
 
-            if (value.prenotazioni?.length > 0) {
+            const temp = value.prenotazioni.reduce((accPrenotazioni, prenotazione) => prenotazione.type !== 'default' && prenotazione.user === '3495141095' ? accPrenotazioni : ({
+                ...accPrenotazioni,
+                [`${prenotazione.data}-${prenotazione.orario}`]: { ...prenotazione, pixel: key }
+            }), {});
+            return {
+                ...acc,
+                ...Object.entries(temp).reduce((externalAcc, [id, current]) => ({
+                    ...externalAcc,
+                    [id]: [...(acc[id] ?? []), current]
+                }), {})
+            }
+        }, {});
+    }
 
-                temp = value.prenotazioni.reduce((acc , prenotazioni) => {
-                    
-                return prenotazioni.type === "default" && prenotazioni.user === "3495141095" ? {...acc,[key]:prenotazioni} : {...acc}
-
-                },{})}
-            return  [...abb,temp] 
-
-    },[])
-
-    console.log(result.filter(data=>{
-       if (data!= null)console.log(data.type)
-        return data != null && data != {}
-    }))
-
-
-    
-    
-}
-
-return (
-    <div>
-        <ToastContainer
-            position="top-right"
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            pauseOnHover
-            draggable
-            hideProgressBar
-        />
-    </div>
-);
+    return (
+        <div>
+            <ToastContainer
+                position="top-right"
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                pauseOnHover
+                draggable
+                hideProgressBar
+            />
+        </div>
+    );
 
 
 }

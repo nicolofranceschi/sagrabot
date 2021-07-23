@@ -12,7 +12,6 @@ import { Menu } from './Menu';
 import Prenotazioni from "./Prenotazioni"
 import Home from "./Home";
 
-
 const SalaContext = createContext(null);
 
 export const useSala = () => useContext(SalaContext);
@@ -37,7 +36,6 @@ function App() {
       }
     });
   }, []);
-
 
   const context = {
     sala: useLocalStorage('sala', ''),

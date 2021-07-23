@@ -4,103 +4,51 @@ import { Sedia } from "./Svg";
 
 const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => {
 
-  const selectPixel = useCallback(() => {
-    onSelect(i);
-  }, [selected]);
+  const selectPixel = useCallback(() => onSelect(i), [selected]);
 
   const pixelProps = { ref, rotation: data?.rotation, border: data?.border };
 
   const PixelNonSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} />;
 
-  const PixelSelezionatoTipo0 = () => <Pixelstyle {...pixelProps} pixelColor={data?.color} />;
+  const PixelSelezionatoTipo0 = () => <div style={{ overflow: 'hidden' }}><Pixelstyle {...pixelProps} pixelColor={data?.color} /></div>;
+
   const PixelSelezionatoTipo1 = () => (
-    <PixelTavolo {...pixelProps} onClick={selectPixel}>
-      <OnlyTavolo pixelColor={data?.color} border={data?.border} />
-      <Sedia color={data?.color} />
-    </PixelTavolo>
+    <div style={{ overflow: 'hidden' }}>
+      <PixelTavolo {...pixelProps} onClick={selectPixel}>
+        <OnlyTavolo pixelColor={data?.color} border={data?.border} />
+        <Sedia color={data?.color} />
+      </PixelTavolo>
+    </div>
   );
-  const PixelSelezionatoTipo2 = () => <TestoPixel {...pixelProps} pixelColor={data?.color}>{data?.text}</TestoPixel>;
+  const PixelSelezionatoTipo2 = () => <div style={{ overflow: 'hidden' }}><TestoPixel {...pixelProps} pixelColor={data?.color}>{data?.text}</TestoPixel></div>;
 
   const PixelPrenotatoTipo1 = () => (
-    <PixelTavolo {...pixelProps} >
-      <OnlyTavolo pixelColor={"white"} border={data?.border} />
-      <Sedia color={"white"} />
-    </PixelTavolo>
-  );
-  const PixelPrenotatorossoTipo1 = () => (
-    <PixelTavolo {...pixelProps} >
-      <OnlyTavolo pixelColor={"red"} border={data?.border} />
-      <Sedia color={"red"} />
-    </PixelTavolo>
-  );
-
-  const Pixelnormale = () => (
     <div style={{ overflow: 'hidden' }}>
-        {
-          data.type === 2 ? <PixelSelezionatoTipo2 />
-            : data.type === 1 ? <PixelSelezionatoTipo1 />
-              : <PixelSelezionatoTipo0 />
-        }
-        <div />
-      </div>
+      <PixelTavolo {...pixelProps} >
+        <OnlyTavolo pixelColor={"white"} border={data?.border} />
+        <Sedia color={"white"} />
+      </PixelTavolo>
+    </div>
+  );
+  const PixelPrenotatoCovidTipo1 = () => (
+    <div style={{ overflow: 'hidden' }}>
+      <PixelTavolo {...pixelProps} >
+        <OnlyTavolo pixelColor={"red"} border={data?.border} />
+        <Sedia color={"red"} />
+      </PixelTavolo>
+    </div>
   );
 
-  if (data){ 
-
-    if(selected) return (
-      <div style={{ overflow: 'hidden' }}>
-        <PixelPrenotatoTipo1 />
-        <div />
-      </div>
-    );
-   
-    if(data.prenotazioni){
-
-      if (data.prenotazioni.length==0){
-          
-        return <Pixelnormale />
-
-      }else if (data.prenotazioni.length > 0){
-        
-        console.log("sono entrato")
-
-        if(data.prenotazioni.type == "default"){
-
-          console.log("ho scelto default")
-
-          return (
-            <div style={{ overflow: 'hidden' }}>
-              <PixelPrenotatoTipo1 />
-              <div />
-            </div>
-          );
-
-        }else if (data.prenotazioni.type == "covid"){
-        
-          console.log("ho scelto covid")
-
-          return (
-            <div style={{ overflow: 'hidden' }}>
-              <PixelPrenotatorossoTipo1 />
-              <div />
-            </div>
-          );
-
-        }else return <Pixelnormale />;
-
-      }else return null;
-
-
-    }else return <Pixelnormale />;
-    
-  }else if (!data){
-     
-    return <PixelNonSelezionatoTipo0 />
-
-  }else return null;
-
-
-  
+  if (!data) return <PixelNonSelezionatoTipo0 />;
+  if (data.type === 0) return <PixelSelezionatoTipo0 />;
+  if (data.type === 2) return <PixelSelezionatoTipo2 />;
+  if (selected) return <PixelPrenotatoTipo1 />;
+  if (!data.prenotazioni || data.prenotazioni.length === 0) return <PixelSelezionatoTipo1 />;
+  const prenotazione = data.prenotazioni.find(prenotazione => prenotazione.orario === 'alle 8');
+  if (!prenotazione) return <PixelSelezionatoTipo1 />;
+  if (prenotazione.type === 'default') return <PixelPrenotatoTipo1 />;
+  else if (prenotazione.type === 'covid') return <PixelPrenotatoCovidTipo1 />;
+  else null;
 }))
 
 export default Pixel;
