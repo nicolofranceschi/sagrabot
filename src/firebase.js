@@ -45,7 +45,7 @@ export const sendVerificationCode = async (code) => {
   }
 }
 
-export const generateUserDocument = async (user, additionalData = {}) => {
+export const generateUserDocument = async (user, additionalData ) => {
   if (!user) return;
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();

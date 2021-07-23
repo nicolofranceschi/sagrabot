@@ -10,6 +10,8 @@ import { toast, ToastContainer } from "react-toastify";
 import Choose from './Choose';
 import { Menu } from './Menu';
 import Prenotazioni from "./Prenotazioni"
+import Home from "./Home";
+
 
 const SalaContext = createContext(null);
 
@@ -27,14 +29,15 @@ function App() {
     auth.onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         try {
-          const data = await generateUserDocument(firebaseUser.uid);
-          setUser(firebaseUser);
+          const data = await generateUserDocument(firebaseUser,{numero: firebaseUser.phoneNumber});
+          setUser(firebaseUser.phoneNumber);
         } catch (error) {
           toast.error(error.message);
         }
       }
     });
   }, []);
+
 
   const context = {
     sala: useLocalStorage('sala', ''),
@@ -65,8 +68,11 @@ const LoggedRouter = () => (
       <Route path="/menu">
         <Menu />
       </Route>
-      <Route path="/">
+      <Route path="/data">
         <Choose />
+      </Route>
+      <Route path="/">
+        <Home />
       </Route>
     </Switch>
   </AnimateSharedLayout>
