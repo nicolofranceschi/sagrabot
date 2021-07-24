@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Line, Container, ButtonTavoli, Card, Giorni, Mese, Descrizione } from "./styled";
+import { Line, Container, ButtonTavoli, Card, Giorni, Mese, Descrizione , Back , Svg } from "./styled";
 import { Link } from "react-router-dom";
 import { useSala } from "../App";
 
@@ -25,12 +25,19 @@ export default function Choose() {
 
   return (
     <Container>
-      <Descrizione vh="5vh" >Seleziona una data</Descrizione>
+         <Link to="/">
+        <Back>
+          <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </Svg>
+        </Back>
+        </Link>
+      <Descrizione vh="10vh" >Seleziona una data</Descrizione>
       <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
         <Line >
           {giorni.map((b) => (
             data === b.giorno + " Agosto") ? (
-            <Card key={b.giorno} color={"pink"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
+            <Card key={b.giorno} color={"#ffade3"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
               <Giorni>{b.giorno}</Giorni>
               <Mese>AGOSTO</Mese>
             </Card>

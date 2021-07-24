@@ -21,7 +21,7 @@ export const Grid = styled(motion.div)`
 `;
 
 export const Line = styled.div`
-  height: 40vh;
+  height: 35vh;
   width: 1200px;
   display: flex;
 `;
@@ -41,13 +41,14 @@ export const Backdrop = styled.div`
 export const Card = styled.div`
   height: 80%;
   width: 300px;
-  background-color: white;
+  background-color: var(--line);
   border-radius: 20px;
-  margin: 10vh 40px 40px 40px;
+  color:white;
+  margin: 15vh 40px 40px 40px;
   color: ${props => props.color};;
   :hover{
       p{ 
-          color:pink;
+          color:#ffade3;
       }
   }
 `;
@@ -69,7 +70,7 @@ export const CardMenu = styled.div`
   }
   :hover{
       p{ 
-          color:pink;
+          color:#ffade3;
       }
   }
 `;
@@ -77,13 +78,15 @@ export const CardMenu = styled.div`
 export const Giorni = styled.p`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 120px;
-  padding-left: 10px
+  padding-left: 10px;
+  color: white;
 `;
 
 export const Mese = styled.p`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
   padding-left:10px;
+  color: white;
 `;
 
 export const Descrizione = styled.p`
@@ -103,8 +106,33 @@ export const ButtonTavoli = styled.button`
   left:5vw;
   height: 6vh;
   width: 90vw;
+  color: white;
   border-radius: 20px;
-  background-color: white;
+  background-color: var(--line);
   z-index:10;
 `;
+
+export const Back = styled.div`
+  position: absolute;
+  top:20px;
+  left:10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:10;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
+
+export const Svg = styled.svg`
+  margin:15px;
+  height:20px;
+  width:20px;
+  stroke: white;
+`;
+
+
+
 
