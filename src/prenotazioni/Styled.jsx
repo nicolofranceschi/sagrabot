@@ -164,7 +164,6 @@ export const TestoPixel = styled.div`
   vertical-align: middle;
   line-height: 100%; 
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 50px;
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};

@@ -105,6 +105,20 @@ export const getMenuDocument = async () => {
     console.error("Error fetching user", error);
   }
 };
+
+export const Deleteprenotazioni = async pixel => {
+  try {
+    const userDocument = await firestore.collection(`users/sala/sale/sagra/${pixel}/prenotazioni`).where('data', '==', "27").get();
+    const batch = firestore.batch();
+    console.log(batch);
+    userDocument.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+    return await batch.commit();
+  } catch (error) {
+    console.error("Error fetching user", error);
+  }
+};
 export const auth = firebase.auth()
 export const firestore = firebase.firestore();
 // TODO: da eliminare. Non è la soluzione giusta, invece nei catch delle chiamate a firebase provare a rifare la chiamata

@@ -30,6 +30,14 @@ const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => 
       </PixelTavolo>
     </div>
   );
+  const PixelPrenotato = () => (
+    <div style={{ overflow: 'hidden' }}>
+      <PixelTavolo {...pixelProps} >
+        <OnlyTavolo pixelColor={"var(--line)"} border={data?.border} />
+        <Sedia color={"var(--line)"} />
+      </PixelTavolo>
+    </div>
+  );
   const PixelPrenotatoCovidTipo1 = () => (
     <div style={{ overflow: 'hidden' }}>
       <PixelTavolo {...pixelProps} >
@@ -44,9 +52,9 @@ const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => 
   if (data.type === 2) return <PixelSelezionatoTipo2 />;
   if (selected) return <PixelPrenotatoTipo1 />;
   if (!data.prenotazioni || data.prenotazioni.length === 0) return <PixelSelezionatoTipo1 />;
-  const prenotazione = data.prenotazioni.find(prenotazione => prenotazione.orario === 'alle 8');
+  const prenotazione = data.prenotazioni.find(prenotazione => prenotazione.orario === orario.orario && prenotazione.data === orario.data);
   if (!prenotazione) return <PixelSelezionatoTipo1 />;
-  if (prenotazione.type === 'default') return <PixelPrenotatoTipo1 />;
+  if (prenotazione.type === 'default') return <PixelPrenotato />;
   else if (prenotazione.type === 'covid') return <PixelPrenotatoCovidTipo1 />;
   else null;
 }))

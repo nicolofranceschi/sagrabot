@@ -87,7 +87,7 @@ export const Title = styled.div`
         font-size: ${props => props.size}vw; 
         @media only screen and (min-width: 600px) {
             grid-template-columns: 1fr 1fr 1fr  ;
-            font-size: 5vw; 
+            font-size: 6vw; 
   }
 `;
 
@@ -101,7 +101,7 @@ export const Dati = styled.div`
         font-size: ${props => props.size}vw; 
         @media only screen and (min-width: 600px) {
             grid-template-columns: 1fr 1fr 1fr  ;
-            font-size: 5vw; 
+            font-size: 1vw; 
   }
 `;
 export const Flex = styled.div`

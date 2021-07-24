@@ -15,7 +15,7 @@ const initialGridSize = 2500;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
-const getIndexFromXY = (x, y) => cellsNumber * y + x;
+
 
 const defaultOptions = {
   loop: true,
@@ -32,84 +32,11 @@ const getxy = i => {
   return { x, y }
 }
 
-function getClosePlaces(i,available) {
-  const { x, y } = getxy(i);
-  const rotation = available.rotation % 360;
-  if(rotation === 0) return [
-    getIndexFromXY(x + 1, y + 0),
-    getIndexFromXY(x - 2, y + 0),
-    getIndexFromXY(x + 1, y + 1),
-    getIndexFromXY(x + 1, y - 1),
-    getIndexFromXY(x + 0, y + 1),
-    getIndexFromXY(x + 0, y - 1),
-    getIndexFromXY(x - 1, y + 0),
-    getIndexFromXY(x - 1, y + 1),
-    getIndexFromXY(x - 1, y - 1),
-  ]
-
-  if(rotation === 180 || rotation === -180) return [
-    getIndexFromXY(x + 1, y + 0),
-    getIndexFromXY(x + 2, y + 0),
-    getIndexFromXY(x + 1, y + 1),
-    getIndexFromXY(x + 1, y - 1),
-    getIndexFromXY(x + 0, y + 1),
-    getIndexFromXY(x + 0, y - 1),
-    getIndexFromXY(x - 1, y + 0),
-    getIndexFromXY(x - 1, y + 1),
-    getIndexFromXY(x - 1, y - 1),
-  ]
-
-  if(rotation === 90 || rotation === -270) return [
-    getIndexFromXY(x + 1, y + 0),
-    getIndexFromXY(x + 1, y + 1),
-    getIndexFromXY(x + 1, y - 1),
-    getIndexFromXY(x + 0, y + 1),
-    getIndexFromXY(x + 0, y - 2),
-    getIndexFromXY(x + 0, y - 1),
-    getIndexFromXY(x - 1, y + 0),
-    getIndexFromXY(x - 1, y + 1),
-    getIndexFromXY(x - 1, y - 1),
-  ]
-
-  if(rotation === -90 || rotation === 270 ) return [
-    getIndexFromXY(x + 1, y + 0),
-    getIndexFromXY(x + 1, y + 1),
-    getIndexFromXY(x + 1, y - 1),
-    getIndexFromXY(x + 0, y + 1),
-    getIndexFromXY(x + 0, y + 2),
-    getIndexFromXY(x + 0, y - 1),
-    getIndexFromXY(x - 1, y + 0),
-    getIndexFromXY(x - 1, y + 1),
-    getIndexFromXY(x - 1, y - 1),
-  ]
-  
-  else return [
-    getIndexFromXY(x + 1, y + 0),
-    getIndexFromXY(x + 1, y + 1),
-    getIndexFromXY(x + 1, y - 1),
-    getIndexFromXY(x + 0, y + 1),
-    getIndexFromXY(x + 0, y - 1),
-    getIndexFromXY(x - 1, y + 0),
-    getIndexFromXY(x - 1, y + 1),
-    getIndexFromXY(x - 1, y - 1),
-  ]
-}
 
 const SALEUID = 'sala';
 
-const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce((acc, [i, spot]) => ({
-  ...acc,
-  [i]: spot,
-  ...(getClosePlaces(i,available[i]).filter(close => {
-    if (!available[close] || available[close].type !== 1) return false;
-    if (occupied[close]) return false;
-    else return true;
-  }).reduce((internalAcc, j) => ({ ...internalAcc, [j]: { type: 'covid' } }), {}))
-}), {});
-
 export default function Prenotazioni() {
-  const {orario: [orario]} = useSala();
-  const {prenotazioni: [, setPrenotazioni]} = useSala();
+  const {prenotazioni: [, setPrenotazioni],user:[user],orario: [orario]} = useSala();
   console.log(orario)
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [data, setData] = useState({});
@@ -155,25 +82,8 @@ export default function Prenotazioni() {
     </ObservedPixel>
   )), [data, selected]);
 
-  const confirm = async () => {
-    const covidPixels = getCovidPixels(selected, data);
-    const newData = Object.entries(data).reduce((acc, [key, value]) => {
-      const selectedSpot = covidPixels[key];
-      return {
-        ...acc,
-        [key]: { ...value, prenotazioni: [
-          ...value?.prenotazioni ?? [],
-          ...(selectedSpot ? [{ ...selectedSpot, data: orario.data , orario: orario.orario, user: '3495141095' }] : [])
-        ] }
-      };
-    }, {});
-    try {
-      const res = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData }});
-      console.log('risultato firebase salvataggio dati', res);
-    } catch (error) {
-      console.log(error);
-    }
-     setPrenotazioni(newData);
+  const confirm = () => {
+     setPrenotazioni([data, selected]);
   }
 
   return (
