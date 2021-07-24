@@ -2,11 +2,12 @@ import { useRef, useState, lazy, Suspense, useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid } from "./Styled";
+import { Container, Grid , Animation } from "./Styled";
 import { updateUserDocument, getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from "../App";
+import Load from "./Animation.json";
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
 
@@ -15,6 +16,15 @@ const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
 const getIndexFromXY = (x, y) => cellsNumber * y + x;
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: Load,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
 
 const getxy = i => {
   const y = Math.trunc(i / cellsNumber);
@@ -111,7 +121,7 @@ export default function Prenotazioni() {
   useEffect(async ()=> {
   try {
         const res = await getUserDocument(SALEUID);
-        if (!res) throw "No connection"
+        if (!res) {res = await getUserDocument(SALEUID); throw "No connection"}
         setData(res?.sale['SAGRA']); 
     } catch (error) {
       toast.error(error, {
@@ -189,7 +199,7 @@ export default function Prenotazioni() {
   );
 }
 
-const Loading = () => <span>Loading...</span>;
+const Loading = () => <Animation  options={defaultOptions} />;;
 
 function ObservedPixel({ children }) {
   const ref = useRef();

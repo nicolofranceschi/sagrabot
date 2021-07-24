@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 import { motion } from "framer-motion";
+import Lottie from 'react-lottie';
+
+export const Animation = styled(Lottie)`
+  width: 400px;
+  bottom: 45vh;
+`;
 
 export const Container = styled.div`
   height: 100vh;

@@ -37,12 +37,12 @@ export default function Choose() {
         <Line >
           {giorni.map((b) => (
             data === b.giorno + " Agosto") ? (
-            <Card key={b.giorno} color={"#ffade3"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
+            <Card key={b.giorno} color={"pink"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
               <Giorni>{b.giorno}</Giorni>
               <Mese>AGOSTO</Mese>
             </Card>
           ) : (
-            <Card key={b.giorno} color={"black"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
+            <Card key={b.giorno} color={"white"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
               <Giorni>{b.giorno}</Giorni>
               <Mese>AGOSTO</Mese>
             </Card>
@@ -60,7 +60,7 @@ export default function Choose() {
               <Mese>PM</Mese>
             </Card>
           ) : (
-            <Card key={c.orario} color={"black"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
+            <Card key={c.orario} color={"white"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
               <Giorni>{c.orario}</Giorni>
               <Mese>PM</Mese>
             </Card>
