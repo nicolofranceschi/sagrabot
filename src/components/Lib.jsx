@@ -12,26 +12,36 @@ export const Flex = styled.div`
 `;
 
 export const Input = styled.input`
-  border: 1.3px solid var(--border-gray);
-  border-radius: var(--border-radius);
-  outline: none;
-  background-color: var(--white);
-  padding: 5px 12px;
-  width: ${({ width }) => width ? width : 'auto'};
-  height: ${({ height }) => height ? height : 'auto'};
-  margin: ${({ margin }) => margin ? margin : '0'};
-  transition: background-color 0.4s ease, border-color 0.4s ease;
-  :focus {
-    border-color: var(--main-light);
-    background-color: var(--main-light);
-  }
-  :disabled {
-    background-color: var(--border-gray);
-  }
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    color: rgb(255, 255, 255);
+    padding: 0px 0px 8px;
+    border: none;
+    outline: none;
+    border-radius: 0px;
+    appearance: none;
+    background-image: none;
+    background-position: initial;
+    background-size: initial;
+    background-repeat: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    transform: translateZ(0px);
+    font-size: 30px;
+    -webkit-font-smoothing: antialiased;
+    line-height: unset;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+    animation: 1ms ease 0s 1 normal none running native-autofill-in;
+    transition: background-color 1e+08s ease 0s, box-shadow 0.1s ease-out 0s;
+    box-shadow: rgb(255 255 255 / 30%) 0px 1px;
+    background-color: transparent !important;
+
 `;
 
 export const Button = styled.button`
-  width: 100%;
+  width: 20vw;
   height:6vh;
   display: flex;
   align-items: center;

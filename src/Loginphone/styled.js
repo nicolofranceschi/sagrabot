@@ -3,6 +3,27 @@ import { Flex } from "../components/Lib";
 import Lottie from 'react-lottie';
 
 
+export const Back = styled.div`
+  position: absolute;
+  top:20px;
+  left:10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:10;
+  :hover{ 
+    transform: scale(1.2);
+  }
+`;
+
+export const Svg = styled.svg`
+  margin:15px;
+  height:20px;
+  width:20px;
+  stroke: white;
+`;
+
 export const InputProps = {
   width: '100%',
   margin: "45px 0 0 0"
@@ -11,6 +32,10 @@ export const InputProps = {
 export const Animation = styled(Lottie)`
   width: 400px;
   background-color: var(--black-light);
+`;
+
+export const Accordion = styled.div`
+  display: ${({ show = true }) => show ? 'block' : 'none'};
 `;
 
 export const Container = styled(Flex)`
@@ -43,15 +68,78 @@ export const LoginForm = styled.form`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  margin-top: 20vh;
 `;
 
 export const Label = styled.label`
   position: relative;
   width: 100%;
-  span {
+  display: flex;
+  vertical-align: center;
+`;
+
+export const Divspace = styled.div`
+  height: ${props => props.space}
+`;
+
+
+export const DivCheckbox = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  vertical-align: center;
+  margin-top: 10px;
+`;
+
+export const Checkbox = styled.input`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 20px;
+  height: 20px;
+  align-items: left;
+  vertical-align: center;
+  margin-top:auto;
+  margin-bottom: auto;
+`;
+
+export const Textconstol = styled.span`
+  margin-left: 10px;
+  margin-top:auto;
+  margin-bottom: auto;
+  color: var(--white);
+  font-size: ${props => props.font};
+  font-weight: ${props => props.bold};
+`;
+
+export const ButtonStart = styled.button`
+  width: 80vw;
+  height:6vh;
+  position: absolute;
+  bottom: 10vh;
+  z-index:10;
+  left:10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2vh; 
+  text-align: center;
+  vertical-align: middle;
+  background-color: ${({ color }) => color ? color : "#ffade3" };
+  color: var(--white);
+  border-radius: var(--border-radius);
+  padding: ${({ padding }) => padding ? padding : '0'};
+  font-weight: bold;
+  margin: ${({ margin }) => margin ? margin : '0'};
+`;
+
+export const Span = styled.span`
     color: var(--white);
-    position: absolute;
-    top: 20px;
-    font-size: 0.7rem;
-  }
+    position: relative;
+    margin: 5px;
+    margin-top:auto;
+    margin-bottom: auto;
+    font-size: ${props => props.font};
+    font-weight: ${props => props.bold};
+  
 `;
