@@ -9,7 +9,7 @@ import useLocalStorage from './useLocalStorage';
 import { toast, ToastContainer } from "react-toastify";
 import Choose from './Choose';
 import { Menu } from './Menu';
-import Prenotazioni from "./Prenotazioni"
+import Prenotazioni from "./SelectTable"
 import Home from "./Home";
 
 const SalaContext = createContext(null);
