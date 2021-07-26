@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import { toast } from "react-toastify";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAygild3Ju3r3jHL9f-KfEVAHvQFBhowxc",
@@ -19,7 +20,7 @@ export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {
     'size': 'invisible',
     'callback': (response) => {
-      console.log(response)
+      toast.success("Messaggio inviato")
     },
     'expired-callback': () => {
       console.log("expired")
@@ -33,31 +34,34 @@ export const signInWithPhoneNumber = async (numero) => {
     const confirmationResult = await firebase.auth().signInWithPhoneNumber(numero, window.recaptchaVerifier);
     window.confirmationResult = confirmationResult;
   } catch (error) {
-    console.log({ error });
-  }
-}
-
-export const sendVerificationCode = async (code) => {
-  try {
-    return await window.confirmationResult.confirm(code);
-  } catch (error) {
-    console.log({ error })
+    toast.error(error.message)
   }
 }
 
 export const generateUserDocument = async (user, additionalData ) => {
   if (!user) return;
-  const userRef = firestore.doc(`users/${user.uid}`);
+  const userRef = firestore.doc(`users/${user}`);
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
     try {
       await userRef.set(additionalData);
     } catch (error) {
       console.error("Error creating user document", error);
+      toast.error("Error creating user document")
     }
   }
   return getUserDocument(user.uid);
 };
+
+export const sendVerificationCode = async (code,data) => {
+  try {
+    await window.confirmationResult.confirm(code);
+    generateUserDocument(data.numero,data)
+  } catch (error) {
+    toast.error(error.message)
+  }
+}
+
 
 export const updateUserDocument = async (user, additionalData) => {
   if (!user) return;
@@ -77,6 +81,17 @@ export const getUserDocument = async uid => {
       uid,
       ...userDocument.data()
     };
+  } catch (error) {
+    console.error("Error fetching user", error);
+  }
+};
+
+export const Controlluser = async uid => {
+  if (!uid) return null;
+  try {
+    const userDocument = await firestore.doc(`users/${uid}`).get();
+    if(userDocument.exists) return userDocument.data()
+    else return null;
   } catch (error) {
     console.error("Error fetching user", error);
   }

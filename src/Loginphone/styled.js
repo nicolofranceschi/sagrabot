@@ -17,11 +17,36 @@ export const Back = styled.div`
   }
 `;
 
+export const Scroll = styled.div`
+  max-height: 30vh;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const Svg = styled.svg`
   margin:15px;
   height:20px;
   width:20px;
   stroke: white;
+`;
+
+export const Icona = styled.img`
+  z-index: 0;
+  position: absolute;
+  top:-20vh;
+  right: -10vh;
+  height: 60vh;
+  width: 100vw;
+  max-width: 600px;
+  animation: pulse 2s;
+  @keyframes pulse{
+  25%  {transform: scale(0.9);}
+  75%  {transform: scale(1.1);}
+}
 `;
 
 export const InputProps = {
@@ -61,6 +86,26 @@ export const Input = styled.input`
   position: relative;
   width: 100%;
   height: 100%;
+`;
+
+export const Accedi = styled.button`
+  width: 25vw;
+  max-width: 120px;
+  height:6vh;
+  position: absolute;
+  top:0;
+  right:20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  vertical-align: middle;
+  backdrop-filter: blur(30px);
+  color: #ffade3;
+  border-radius: 20px;
+  padding: ${({ padding }) => padding ? padding : '0'};
+  font-weight: bold;
+  margin: ${({ margin }) => margin ? margin : '0'};
 `;
 
 export const LoginForm = styled.form`
@@ -110,6 +155,7 @@ export const Textconstol = styled.span`
   color: var(--white);
   font-size: ${props => props.font};
   font-weight: ${props => props.bold};
+  width: 80%;
 `;
 
 export const ButtonStart = styled.button`

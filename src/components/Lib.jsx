@@ -42,6 +42,7 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   width: 20vw;
+  max-width: 80px;
   height:6vh;
   display: flex;
   align-items: center;
@@ -49,7 +50,25 @@ export const Button = styled.button`
   margin-top: 2vh; 
   text-align: center;
   vertical-align: middle;
-  background-color: ${({ color }) => color ? color : "var(--main)" };
+  background-color: ${({ color }) => color ? color : "#ffade3" };
+  color: var(--white);
+  border-radius: var(--border-radius);
+  padding: ${({ padding }) => padding ? padding : '0'};
+  font-weight: bold;
+  margin: ${({ margin }) => margin ? margin : '0'};
+`;
+
+export const ButtonBig = styled.button`
+  width: 25vw;
+  max-width: 120px;
+  height:6vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2vh; 
+  text-align: center;
+  vertical-align: middle;
+  background-color: ${({ color }) => color ? color : "#ffade3" };
   color: var(--white);
   border-radius: var(--border-radius);
   padding: ${({ padding }) => padding ? padding : '0'};

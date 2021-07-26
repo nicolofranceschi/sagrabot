@@ -27,7 +27,6 @@ function App() {
     auth.onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         try {
-          const data = await generateUserDocument(firebaseUser,{numero: firebaseUser.phoneNumber,data: user});
           setUser(firebaseUser.phoneNumber);
         } catch (error) {
           toast.error(error.message);
@@ -47,7 +46,11 @@ function App() {
     <SalaContext.Provider value={context}>
       <LoggedRouter />
     </SalaContext.Provider>
-  ) : <NonLoggedRouter setUser={setUser}/>;
+  ) : (
+    <SalaContext.Provider value={context}>
+      <NonLoggedRouter />
+    </SalaContext.Provider>
+  );
 }
 
 const LoggedRouter = () => (
@@ -75,7 +78,7 @@ const LoggedRouter = () => (
   </AnimateSharedLayout>
 );
 
-const NonLoggedRouter = (setUser) => (
+const NonLoggedRouter = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
       <Route path="/">
@@ -89,7 +92,7 @@ const NonLoggedRouter = (setUser) => (
           draggable
           hideProgressBar
         />
-        <Loginphone setUser={setUser}/>
+        <Loginphone setUser={props.setUser}/>
       </Route>
     </Switch>
   </AnimateSharedLayout>
