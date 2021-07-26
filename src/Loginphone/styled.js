@@ -189,3 +189,6 @@ export const Span = styled.span`
     font-weight: ${props => props.bold};
   
 `;
+
+
+

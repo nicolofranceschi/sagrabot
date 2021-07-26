@@ -19,10 +19,10 @@ export default function AccediForm ({set}){
     const onSubmit = async data => {
         try {
            if (!isSubmitted) {
-              const verification =  await Controlluser(data.numero);
+              const verification = await Controlluser(data.numero);
               console.log(verification)
               if (verification!==null){
-                signInWithPhoneNumber(data.numero);
+                signInWithPhoneNumber("+39"+data.numero);
               }else {
                   toast.error("Registrati prima di accedere");
                   set(false);
@@ -65,7 +65,10 @@ export default function AccediForm ({set}){
                 <Span font={"1.5rem"} bold={"bold"} >numero</Span>
             </Label>
             <Divspace space={"10vh"}></Divspace>
+            <Label>
+                <Span font={"1rem"} bold={"normal"} >+39</Span>
             <Input {...InputProps} type="tel" {...register("numero")} />
+            </Label>
             <Button onClick={() => setStep((step) => step + 1)} type="submit" margin="5vh 0 0 0" padding="15px 0">AVANTI</Button>
             <input id="recaptcha-container" type="hidden" />
 
