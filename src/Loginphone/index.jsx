@@ -67,7 +67,7 @@ export default function Loginphone(setUser) {
                         <Span font={"1.5rem"} bold={"bold"} >nome</Span>
                         </Label>
                         <Divspace space={"10vh"}></Divspace>
-                        <Input {...InputProps} autocomplete={"name"} type="tel" {...register("nome")} />
+                        <Input {...InputProps} autocomplete={"name"} type="text" {...register("nome")} />
                         <Button onClick={next} type="submit" margin="5vh 0 0 0" padding="15px 0">AVANTI</Button>
                     </>
             </Accordion>
@@ -79,7 +79,7 @@ export default function Loginphone(setUser) {
                         <Span font={"1.5rem"} bold={"bold"} >cognome</Span>
                         </Label>
                         <Divspace space={"10vh"}></Divspace>
-                        <Input {...InputProps} autocomplete={"name"} type="tel" {...register("cognome")} />
+                        <Input {...InputProps} autocomplete={"name"} type="text" {...register("cognome")} />
                         <Button onClick={next} type="submit" margin="5vh 0 0 0" padding="15px 0">AVANTI</Button>
                     </>
             </Accordion>
