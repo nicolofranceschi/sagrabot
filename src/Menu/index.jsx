@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Container, Qty, Pezzo, Back, Svg, P, ButtonTavoli, Line, Descrizione, Card , Testo1, Testo2, Testo3,  Menuimg} from "./styled"
+import { Container, Qty, Pezzo, Back, Svg, Pop,P, ButtonTavoli, Line, Descrizione, Card , Testo1, Testo2, Testo3,  Menuimg} from "./styled"
 import { Link, Redirect } from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
@@ -100,10 +100,10 @@ export const Menu = () => {
   const { prenotazioni: [temp], user: [user], orario: [orario] } = useSala();
 
   const menu = [
-    { key: 1, menu: "Menu adulti", qty: 0 },
-    { key: 2, menu: "Menu bambini", qty: 0 },
-    { key: 3, menu: "Menu adulti ciliaci", qty: 0 },
-    { key: 4, menu: "Menu bambini ciliaci", qty: 0 }
+    { key: 0, menu: "Menu adulti", qty: 0 },
+    { key: 1, menu: "Menu bambini", qty: 0 },
+    { key: 2, menu: "Menu adulti ciliaci", qty: 0 },
+    { key: 3, menu: "Menu bambini ciliaci", qty: 0 }
 
   ]
 
@@ -150,27 +150,30 @@ export const Menu = () => {
         <Line >
           {menu.map((current) => (
             <Card key={current.key}>
+              <Pop>
+                <P>{counter[current.key]}</P>
+              </Pop>
               <Menuimg></Menuimg>
-             { current.key===1 ? <Testo1>{current.menu}</Testo1> : current.key===2 || current.key===3 ? <Testo2>{current.menu}</Testo2> :  <Testo3>{current.menu}</Testo3>  }
+
+             { current.key===0 ? <Testo1>{current.menu}</Testo1> : current.key===1 || current.key===2 ? <Testo2>{current.menu}</Testo2> :  <Testo3>{current.menu}</Testo3>  }
               <Qty>
                 <Pezzo onClick={() => {
                   let arr=[];
                   arr=counter;
-                  arr[current.key-1]++;
+                  arr[current.key]++;
                   setCounter(arr);
-                  console.log(counter)
+                  console.log(counter[current.key])
                   }}>
                   <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </Svg>
                 </Pezzo>
-                <Pezzo><P>{counter[current.key]}</P></Pezzo>
                 <Pezzo onClick={() => {
                   let arr=[];
                   arr=counter;
-                  arr[current.key-1]=arr[current.key-1]-1;
+                  arr[current.key]=arr[current.key]-1;
                   setCounter(arr);
-                  console.log(counter)
+                  console.log(counter[current.key])
                   }}>
                   <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />

@@ -12,14 +12,13 @@ export const Container = styled.div`
 `;
 
 export const Qty = styled.div`
-  height: 10%;
-  width: 150px;
+  height: 30%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   position:relative;
   bottom:0;
-  z-index:10;
-  border-radius: 10px;
+  border-radius: 20px;
   vertical-align: sub;
 `;
 
@@ -62,13 +61,25 @@ export const Card = styled.div`
   p{
      color: ${props => props.color};
   }
-  :hover{
-      p{ 
-          color:#ffade3;
-      }
-  }
 `;
 
+export const Pop = styled.div`
+  height: 40px;
+  width: 40px;
+  z-index: 20;
+  background-color: var(--line);
+  border-radius: 20px;
+  color:white;
+  margin-top: -20px;
+  margin-right: -20px;
+  position: absolute;
+  display: flex;
+  right: 0;
+  flex-direction: column;
+  p{
+     color: white;
+  }
+`;
 
 export const Giorni = styled.p`
   font-family: Arial, Helvetica, sans-serif;
@@ -174,27 +185,29 @@ export const Back = styled.div`
 
 
 export const Svg = styled.svg`
-  margin:  15px;
-  height:20px;
-  width:20px;
+  margin : 20%;
+  height: 60%;
+  width: 60%;
   stroke: white;
 `;
 
 export const P = styled.p`
-    line-height: 50px;
+    line-height: 40px;
+    padding-left:10px;
+    font-size: 30px;
 `;
 
 export const Pezzo = styled.div`
-  height: 50px;
-  width: 50px;
+  height: 100%;
+  width: 50%;
   border-radius: 20px;
-  z-index:10;
   font-size: 30px;
   text-align: center;
   color: white;
   margin: 5px;
+  background-color: #ffade3;
   :hover{ 
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 `;
 
