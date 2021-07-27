@@ -24,10 +24,12 @@ function App() {
   const [{ data, orario }, setMomento] = useState({});
 
   useEffect(() => {
+    console.log('inizio login')
     auth.onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         try {
           setUser(firebaseUser.phoneNumber);
+          console.log('fine login')
         } catch (error) {
           toast.error(error.message);
         }

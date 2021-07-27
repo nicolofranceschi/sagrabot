@@ -6,9 +6,6 @@ import { Link, Redirect } from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
 import { toast, ToastContainer } from "react-toastify";
-import { set } from "react-hook-form";
-
-
 
 const cellsNumber = 50;
 
@@ -104,16 +101,13 @@ export const Menu = () => {
     { key: 1, menu: "Menu bambini", qty: 0 },
     { key: 2, menu: "Menu adulti ciliaci", qty: 0 },
     { key: 3, menu: "Menu bambini ciliaci", qty: 0 }
-
   ]
 
   const [counter, setCounter] = useState([0,0,0,0]);
 
-  console.log(counter);
-
   const confirm = async () => {
-    const covidPixels = getCovidPixels(temp[0], temp[1]);
-    const newData = Object.entries(data).reduce((acc, [key, value]) => {
+    const covidPixels = getCovidPixels(temp[1], temp[0]);
+    const newData = Object.entries(temp[0]).reduce((acc, [key, value]) => {
       const selectedSpot = covidPixels[key];
       return {
         ...acc,
@@ -132,7 +126,6 @@ export const Menu = () => {
       toast.error(error);
     }
   }
-
   return (
     <Container>
       <ToastContainer
@@ -157,24 +150,12 @@ export const Menu = () => {
 
              { current.key===0 ? <Testo1>{current.menu}</Testo1> : current.key===1 || current.key===2 ? <Testo2>{current.menu}</Testo2> :  <Testo3>{current.menu}</Testo3>  }
               <Qty>
-                <Pezzo onClick={() => {
-                  let arr=[];
-                  arr=counter;
-                  arr[current.key]++;
-                  setCounter(arr);
-                  console.log(counter[current.key])
-                  }}>
+                <Pezzo onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
                   <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </Svg>
                 </Pezzo>
-                <Pezzo onClick={() => {
-                  let arr=[];
-                  arr=counter;
-                  arr[current.key]=arr[current.key]-1;
-                  setCounter(arr);
-                  console.log(counter[current.key])
-                  }}>
+                <Pezzo onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] - 1, ...c.slice(current.key + 1)])}>
                   <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                   </Svg>
@@ -191,7 +172,7 @@ export const Menu = () => {
         </Back>
       </Link>
       <Link to="/">
-        <ButtonTavoli onClick={() => confirm()}>Completa la prenotazione</ButtonTavoli>
+        <ButtonTavoli onClick={confirm}>Completa la prenotazione</ButtonTavoli>
       </Link>
     </Container>
   );

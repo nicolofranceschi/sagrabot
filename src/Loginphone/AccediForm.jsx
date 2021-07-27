@@ -2,7 +2,7 @@
 import { Container, LoginForm, Accedi, Label, InputProps, Icona, Span, Accordion,  Divspace, Back, Svg } from "./styled";
 import { Input, Button, ButtonBig } from "../components/Lib";
 import { useForm } from "react-hook-form";
-import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode , Controlluser } from "../firebase";
+import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode , controllUser } from "../firebase";
 import { useEffect, useState } from "react";
 import Restaurant from './Animations.json';
 import { toast } from "react-toastify";
@@ -19,7 +19,7 @@ export default function AccediForm ({set}){
     const onSubmit = async data => {
         try {
            if (!isSubmitted) {
-              const verification = await Controlluser(data.numero);
+              const verification = await controllUser(data.numero);
               console.log(verification)
               if (verification!==null){
                 signInWithPhoneNumber("+39"+data.numero);

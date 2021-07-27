@@ -53,7 +53,7 @@ export const generateUserDocument = async (user, additionalData ) => {
   return getUserDocument(user.uid);
 };
 
-export const Logout = () => firebase.auth().signOut();
+export const logout = () => firebase.auth().signOut();
 
 export const sendVerificationCode = async (code,data) => {
   try {
@@ -88,7 +88,7 @@ export const getUserDocument = async uid => {
   }
 };
 
-export const Controlluser = async uid => {
+export const controllUser = async uid => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
@@ -123,7 +123,7 @@ export const getMenuDocument = async () => {
   }
 };
 
-export const Deleteprenotazioni = async pixel => {
+export const deletePrenotazioni = async pixel => {
   try {
     const userDocument = await firestore.collection(`users/sala/sale/sagra/${pixel}/prenotazioni`).where('data', '==', "27").get();
     const batch = firestore.batch();
@@ -138,6 +138,3 @@ export const Deleteprenotazioni = async pixel => {
 };
 export const auth = firebase.auth()
 export const firestore = firebase.firestore();
-// TODO: da eliminare. Non è la soluzione giusta, invece nei catch delle chiamate a firebase provare a rifare la chiamata
-// e se anche quella va in errore, mostrare un messaggio all'utente dicendo di controllare la sua connessione
-// firestore.settings({ experimentalForceLongPolling: true });
