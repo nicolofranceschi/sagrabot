@@ -47,12 +47,13 @@ const Data = styled.div`
 
 export const ButtonTavoli = styled.button`
     position: absolute;
-    bottom:2vh;
+    bottom:5vh;
     left:5vw;
-    height: 6vh;
+    height: 10vh;
     width: 90vw;
     border-radius: 20px;
-    background-color: white;
+    background-color: var(--line);
+    font-weight: bold;
     z-index:10;
 `;
 

@@ -49,14 +49,14 @@ export const Card = styled.div`
     display: flex;
     flex-direction: row;
   `;
-  
+
 export const Testo = styled.div`
     text-align: center;
     vertical-align: middle;
     position: relative;
     width: 100%;
     padding: 10px ;
-    line-height: 5vh;
+    line-height: ${props => props.line};
     color: white;
     font-weight: bold;
     font-size: 3vw; 
@@ -71,7 +71,7 @@ export const TestoBig = styled.div`
         position: relative;
         width: 100%;
         padding: 10px ;
-        line-height: 10vh;
+        line-height: ${props => props.line};
         color: white;
         font-weight: bold;
         font-size: 20vw; 
@@ -79,6 +79,11 @@ export const TestoBig = styled.div`
             grid-template-columns: 1fr 1fr 1fr  ;
             font-size: 5vw; 
   }
+`;
+
+
+export const Space = styled.div`
+        height: 10vh;
 `;
 
 export const Scroll = styled.div`

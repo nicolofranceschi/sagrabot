@@ -12,7 +12,7 @@ export const Container = styled.div`
 `;
 
 export const Qty = styled.div`
-  height: 30%;
+  height: 20%;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -76,9 +76,7 @@ export const Pop = styled.div`
   display: flex;
   right: 0;
   flex-direction: column;
-  p{
-     color: white;
-  }
+  
 `;
 
 export const Giorni = styled.p`
@@ -185,29 +183,36 @@ export const Back = styled.div`
 
 
 export const Svg = styled.svg`
-  margin : 20%;
+  margin : 15%;
   height: 60%;
   width: 60%;
+  stroke: ${props => props.color};
+`;
+
+export const SvgBack = styled.svg`
+  margin:15px;
+  height:20px;
+  width:20px;
   stroke: white;
 `;
 
 export const P = styled.p`
     line-height: 40px;
-    padding-left:10px;
+    padding-left:11px;
+    color: white;
     font-size: 30px;
+    font-weight: bold;
 `;
 
 export const Pezzo = styled.div`
   height: 100%;
   width: 50%;
-  border-radius: 20px;
+  border-radius: ${props => props.border};
   font-size: 30px;
   text-align: center;
-  color: white;
-  margin: 5px;
-  background-color: #ffade3;
+  background-color: ${props => props.color};
   :hover{ 
-    transform: scale(1.1);
+    transform: scale(0.95);
   }
 `;
 

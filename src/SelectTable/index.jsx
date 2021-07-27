@@ -3,15 +3,16 @@ import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid , Animation } from "./Styled";
-import { updateUserDocument, getUserDocument } from "../firebase";
+import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from "../App";
 import Load from "./Animation.json";
 
+
 const Pixel = lazy(() => import('./Pixel.jsx'));
 
-const initialGridSize = 2500;
+const initialGridSize = 1000;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
@@ -36,6 +37,9 @@ const getxy = i => {
 const SALEUID = 'sala';
 
 export default function Prenotazioni() {
+  
+  const { height, width } = useWindowSize();
+  console.log(width)
   const {prenotazioni: [, setPrenotazioni],user:[user],orario: [orario]} = useSala();
   console.log(orario)
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
@@ -43,7 +47,6 @@ export default function Prenotazioni() {
   const [selected, setSelected] = useState({});
 
   const DrawingGrid = useRef(null);
-  const { height, width } = useWindowSize();
 
   useEffect(async ()=> {
   try {
@@ -109,7 +112,7 @@ export default function Prenotazioni() {
   );
 }
 
-const Loading = () => <Animation  options={defaultOptions} />;;
+const Loading = () => <span>Loading...</span>;
 
 function ObservedPixel({ children }) {
   const ref = useRef();

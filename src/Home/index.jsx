@@ -1,43 +1,44 @@
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { getUserDocument } from "../firebase";
+import { getUserDocument , updateUserDocument } from "../firebase";
 import { Link } from "react-router-dom";
-import { useWindowSize } from "../useWindowSize";
-import { Card, Container, Grid, Svg, Svg1, Testo, Left, Right, TestoBig, Blocco, Close, Title, Flex, Dati , Svgout , Scroll } from './styled';
+import { Card, Container,  Svg, Svg1, Testo, Left, Right,Space, TestoBig, Blocco, Close, Title, Flex,  Svgout , Scroll } from './styled';
 import { logout } from "../firebase";
 import { useSala } from "../App";
+import { set } from "react-hook-form";
 
-function getHeight(length, height) {
-    const totalScroll = length * height / 6;
-    return totalScroll;
-}
+const SALEUID = 'sala';
 
 export default function Home() {
 
     const [data, setData] = useState(null);
     const [prenotazioni, setPrenotazioni] = useState({});
+    const [onlydefault, setOnlyDefault] = useState([]);
+    const [deletes, setDeletes] = useState(true);
     const [page, setPage] = useState({
         state: false,
         data: null
     });
-    const { width, height } = useWindowSize();
     const { user: [user,setUser] } = useSala();
 
     useEffect(async () => {
+
         try {
             const res = await getUserDocument("sala");
             if (!res) throw new Error("No connection");
             if (!res.sale['SAGRA']) throw new Error('Errore');
             console.log('firebase obj', res.sale['SAGRA']);
             setData(res.sale['SAGRA']);
+
             const newPrenotazioni = Object.entries(res.sale['SAGRA']).reduce((acc, pixel) => {
+
                 const [key, value] = pixel;
                 const { prenotazioni } = value;
     
                 if (!prenotazioni || prenotazioni.length === 0) return acc;
     
                 const temp = value.prenotazioni.reduce((accPrenotazioni, prenotazione) => {
-                    if (prenotazione.type !== 'default' || prenotazione.user !== user) return accPrenotazioni;
+                    if (prenotazione.user !== user) return accPrenotazioni;
                     else return ({
                         ...accPrenotazioni,
                         [`${prenotazione.data}-${prenotazione.orario}`]: { ...prenotazione, pixel: key }
@@ -51,7 +52,18 @@ export default function Home() {
                     }), {})
                 }
             }, {});
+
+            const defaultposti = Object.entries(newPrenotazioni).reduce((acc,current)=> {
+                
+                const [key, value] = current;
+                const temp = value.filter((currents)=> currents.type==="default");
+                return {...acc,[key]: temp}
+            },{});
+
+            setOnlyDefault(defaultposti);
+
             setPrenotazioni(newPrenotazioni);
+
         } catch (error) {
             console.log(error)
             toast.error(error, {
@@ -61,29 +73,35 @@ export default function Home() {
                 draggable: true,
             });
         }
-    }, [])
+    }, [deletes])
 
-    const deleteprenotazioni = (value) => {
+    const deleteprenotazioni = async (value) => {   
 
-        function removePrenotazione (pixel, prenotazione) {
-            const index = pixel.prenotazioni.findIndex(p => p.data === prenotazione.data && p.orario === prenotazione.orario && p.user === prenotazione.user);
-            console.log('INT', int)
-            return {
-                ...pixel,
-                prenotazioni: [...pixel.prenotazioni.slice(0, index), ...pixel.prenotazioni.slice(index + 1)]
-            }
-        }
-
-        console.log(value, data);
-        const newData = Object.entries(data).reduce((acc, [key, pixel]) => {
-            const prenotazione = value.find(v => v.pixel === key);
-            return {
-                ...acc,
-                [key]: !prenotazione ? pixel : removePrenotazione(pixel, prenotazione)
-            }
-        }, {});
-        console.log(newData);
+            function removePrenotazione (pixel, prenotazione) {
+                const index = pixel.prenotazioni.findIndex(p => p.data === prenotazione.data && p.orario === prenotazione.orario && p.user === prenotazione.user);
+                return {
+                    ...pixel,
+                    prenotazioni: [...pixel.prenotazioni.slice(0, index), ...pixel.prenotazioni.slice(index + 1)]
+                }
+            }           
+            console.log(value, data);
+            const newData = Object.entries(data).reduce((acc, [key, pixel]) => {
+                const prenotazione = value.find(v => v.pixel === key);
+                return {
+                    ...acc,
+                    [key]: !prenotazione ? pixel : removePrenotazione(pixel, prenotazione)
+                }
+            }, {});
+            try {
+                const res = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
+                setDeletes(!deletes)
+                toast.success("Prenotazione cancellata");
+                console.log(newData);
+              } catch (error) {
+                toast.error(error);
+              }
     }
+
 
     if (!page.state) return (
         <div>
@@ -105,22 +123,24 @@ export default function Home() {
             </Flex>
             <Container>
                 <Scroll>
-                    {Object.entries(prenotazioni).map(([key, value], i) => (
+                    {Object.entries(onlydefault).map(([key, value], i) => (
                         <Card key={i}>
-                            <Svg onClick={() => deleteprenotazioni(value)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
+                            <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
                                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </Svg>
                             <Right onClick={() => setPage({ state: true, data: value })}>
-                                <TestoBig>{key.substr(0, 2)}</TestoBig>
-                                <Testo>{key.substr(2)}</Testo>
+                                <Testo line={"2vh"}>Prenotazione confermata per il</Testo>
+                                <TestoBig line={"10vh"}>{key.substr(0, 2)}</TestoBig>
+                                <Testo line={"5vh"}>{key.substr(2)}</Testo>
                             </Right>
                             <Left onClick={() => setPage({ state: true, data: value })}>
-                                <TestoBig>{value.length}</TestoBig>
-                                <Testo>POSTI</Testo>
+                                <TestoBig line={"15vh"}>{value.length}</TestoBig>
+                                <Testo line={"5vh"}>POSTI</Testo>
                             </Left>
                         </Card>
                     ))
                     }
+                <Space></Space>
                 </Scroll>
                 <Link to="/data">
                     <Svg1 xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffade3">

@@ -40,7 +40,7 @@ export const Backdrop = styled.div`
 
 export const Card = styled.div`
   height: 80%;
-  width: 300px;
+  width: 400px;
   background-color: var(--line);
   border-radius: 20px;
   color:white;
@@ -97,7 +97,7 @@ export const CardMenu = styled.div`
 
 export const Giorni = styled.p`
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 120px;
+  font-size: 110px;
   padding-left: 10px;
   color: white;
 `;

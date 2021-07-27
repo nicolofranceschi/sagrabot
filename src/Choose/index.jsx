@@ -18,15 +18,14 @@ export default function Choose() {
   ]
 
   const orari = [
-    { "orario": "12", },
-    { "orario": "13", },
-    { "orario": "18", },
-    { "orario": "19", }
+    { "orario": "12:00", },
+    { "orario": "18:30", },
+    { "orario": "19:30", }
   ]
 
   const oraricena = [
-    { "orario": "18", },
-    { "orario": "19", }
+    { "orario": "18:30", },
+    { "orario": "20:30", }
   ]
 
   useEffect(() => { console.log(data, orario) }, [data, orario])
