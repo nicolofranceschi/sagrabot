@@ -49,6 +49,7 @@ export const Card = styled.div`
     display: flex;
     flex-direction: row;
   `;
+  
 export const Testo = styled.div`
     text-align: center;
     vertical-align: middle;

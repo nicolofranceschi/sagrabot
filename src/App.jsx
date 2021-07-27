@@ -72,7 +72,7 @@ const LoggedRouter = () => (
         <Choose />
       </Route>
       <Route path="/">
-        <Home />
+        <Home/>
       </Route>
     </Switch>
   </AnimateSharedLayout>

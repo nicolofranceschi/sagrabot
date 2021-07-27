@@ -12,20 +12,28 @@ export const Container = styled.div`
 `;
 
 export const Qty = styled.div`
-  height: 150px;
-  width: 50px;
+  height: 10%;
+  width: 150px;
   display: flex;
   flex-direction: row;
-  position: absolute;
-  top: 20px;
-  right: 10px;
+  position:relative;
+  bottom:0;
   z-index:10;
   border-radius: 10px;
+  vertical-align: sub;
+`;
+
+export const Menuimg = styled.img`
+  height: 80%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
 `;
 
 export const Line = styled.div`
-  height: 35vh;
-  width: 1200px;
+  margin-top: 15vh;
+  height: 75vh;
+  width: 1400px;
   display: flex;
 `;
 
@@ -42,12 +50,15 @@ export const Backdrop = styled.div`
 `;
 
 export const Card = styled.div`
-  height: 80%;
+  height: 90%;
   width: 300px;
   background-color: var(--line);
   border-radius: 20px;
   color:white;
-  margin: 15vh 40px 40px 40px;
+  margin: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   p{
      color: ${props => props.color};
   }
@@ -58,45 +69,6 @@ export const Card = styled.div`
   }
 `;
 
-export const CardBig = styled.div`
-  height: 80%;
-  width: 510px;
-  background-color: var(--line);
-  border-radius: 20px;
-  color:white;
-  margin: 15vh 40px 40px 40px;
-  p{
-     color: ${props => props.color};
-     padding: 20px;
-  }
-  :hover{
-      p{ 
-          color:#ffade3;
-      }
-  }
-`;
-export const CardMenu = styled.div`
-  height: 80%;
-  width: 300px;
-  background-color: white;
-  border-radius: 20px;
-  margin: 20px;
-  p{
-      z-index: 1;
-      margin-top: -20px;
-      margin-bottom: 30px;
-      border-radius: 20px;
-      margin-left:10px;
-      font-size: 30px;
-      word-wrap: break-word;
-      font-family: Arial, Helvetica, sans-serif;
-  }
-  :hover{
-      p{ 
-          color:#ffade3;
-      }
-  }
-`;
 
 export const Giorni = styled.p`
   font-family: Arial, Helvetica, sans-serif;
@@ -105,10 +77,42 @@ export const Giorni = styled.p`
   color: white;
 `;
 
-export const Mese = styled.p`
+export const Testo2 = styled.p`
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
-  padding-left:10px;
+  font-size: 40px;
+  width: 80%;
+  height: 20%;
+  margin-top: -20%;
+  z-index: 10;
+  backdrop-filter: blur(30px);
+  border-radius: 20px;
+  font-weight: bold;
+  color: white;
+`;
+
+export const Testo1 = styled.p`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 40px;
+  width: 80%;
+  height: 10%;
+  margin-top: -10%;
+  z-index: 10;
+  backdrop-filter: blur(30px);
+  border-radius: 20px;
+  font-weight: bold;
+  color: white;
+`;
+
+export const Testo3 = styled.p`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 40px;
+  width: 80%;
+  height: 30%;
+  margin-top: -30%;
+  z-index: 10;
+  backdrop-filter: blur(30px);
+  border-radius: 20px;
+  font-weight: bold;
   color: white;
 `;
 
@@ -184,7 +188,6 @@ export const Pezzo = styled.div`
   height: 50px;
   width: 50px;
   border-radius: 20px;
-  backdrop-filter: blur(30px);
   z-index:10;
   font-size: 30px;
   text-align: center;
@@ -201,7 +204,7 @@ export const ButtonSlider = styled.div`
   position: absolute;
   backdrop-filter: blur(30px);
   border-radius: 30px;
-  width: 40px;
+  width: 70px;
   height: 40px;
   display: flex;
   justify-content: center;
