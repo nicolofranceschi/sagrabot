@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { getUserDocument } from "../firebase";
 import { Link } from "react-router-dom";
 import { useWindowSize } from "../useWindowSize";
-import { Card, Container, Grid, Svg, Svg1, Testo, Left, Right, TestoBig, Blocco, Close, Title, Flex, Dati , Svgout } from './styled';
+import { Card, Container, Grid, Svg, Svg1, Testo, Left, Right, TestoBig, Blocco, Close, Title, Flex, Dati , Svgout , Scroll } from './styled';
 import { Logout } from "../firebase";
 import { useSala } from "../App";
 
@@ -90,18 +90,7 @@ export default function Home() {
                 </Svgout>
             </Flex>
             <Container>
-                <Grid
-                    style={{
-                        width,
-                        height: getHeight(width < 600 ? length : length, height),
-                        y: scrollY
-                    }}
-                    drag="y"
-                    dragConstraints={{
-                        top: -getHeight(width < 600 ? length : length, height),
-                        bottom: 0
-                    }}
-                >
+                <Scroll>
                     {Object.entries(result).map(([key, value], i) => (
                         <Card key={i}>
                             <Svg onClick={() => deleteprenotazioni(value)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
@@ -118,7 +107,7 @@ export default function Home() {
                         </Card>
                     ))
                     }
-                </Grid>
+                </Scroll>
                 <Link to="/data">
                     <Svg1 xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffade3">
                         <path margin="60px" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

@@ -37,7 +37,10 @@ export const Prenota = styled.div`
 
 export const Card = styled.div`
     height: 90%;
-    width: 100%;
+    margin-top: 5vh;
+    margin-left:5%;
+    margin-right:5%;
+    width: 90%;
     border-radius: 20px;
     position: relative;
     cursor: grab;
@@ -74,6 +77,16 @@ export const TestoBig = styled.div`
         @media only screen and (min-width: 600px) {
             grid-template-columns: 1fr 1fr 1fr  ;
             font-size: 5vw; 
+  }
+`;
+
+export const Scroll = styled.div`
+  max-height: 80vh;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
   }
 `;
 

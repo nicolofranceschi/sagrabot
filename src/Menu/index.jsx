@@ -1,34 +1,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { wrap } from "popmotion";
-import { images } from "./image-data";
-import { Next, Prev, Container, Qty, Pezzo, Back, Svg, P , ButtonTavoli } from "./styled"
-import { Link } from "react-router-dom";
+import {  Container, Qty, Pezzo, Back, Svg, P , ButtonTavoli, Line , Descrizione } from "./styled"
+import { Link , Redirect} from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
 import { toast, ToastContainer } from "react-toastify";
 
-const variants = {
-  enter: (direction) => {
-    return {
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
-    };
-  },
-  center: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1
-  },
-  exit: (direction) => {
-    return {
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    };
-  }
-};
+
 
 const cellsNumber = 50;
 
@@ -103,12 +82,6 @@ const getxy = i => {
 
 const getIndexFromXY = (x, y) => cellsNumber * y + x;
 
-
-const swipeConfidenceThreshold = 10000;
-const swipePower = (offset, velocity) => {
-  return Math.abs(offset) * velocity;
-};
-
 const SALEUID = 'sala';
 
 const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce((acc, [i, spot]) => ({
@@ -123,28 +96,20 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
 
 export const Menu = () => {
 
-  const {prenotazioni: [[data,selected]],user:[user],orario: [orario]} = useSala();
+  const {prenotazioni:[temp],user:[user],orario: [orario]} = useSala();
 
-  const [[page, direction], setPage] = useState([0, 0]);
+  const [menu, setMenu] = useState(null);
 
-  const imageIndex = wrap(0, images.length, page);
+  //console.log(menu);
 
-  useEffect(() => { console.log(imageIndex) }, [page]);
+  //if (temp===null) {
+    //toast.error("Hai perso lo stack di prenotazione ricaricando la pagina , RICOMINCIA");
+    //return <Redirect to={"/prenotazioni"}></Redirect>
+  //}
 
-  const [menu, setMenu] = useState({
-    0:0,
-    1:0,
-    2:0
-  });
-
-  const paginate = (newDirection) => {
-    setPage([page + newDirection, newDirection]);
-  };
-
-  console.log(menu);
-
+  
   const confirm = async () => {
-    const covidPixels = getCovidPixels(selected, data);
+    const covidPixels = getCovidPixels(temp[0], temp[1]);
     const newData = Object.entries(data).reduce((acc, [key, value]) => {
       const selectedSpot = covidPixels[key];
       return {
@@ -175,54 +140,26 @@ export const Menu = () => {
           draggable
           hideProgressBar
         />
-      <AnimatePresence initial={false} custom={direction}>
-        <motion.img
-          key={page}
-          src={images[imageIndex]}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: "spring", stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 }
-          }}
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={1}
-          onDragEnd={(e, { offset, velocity }) => {
-            const swipe = swipePower(offset.x, velocity.x);
-
-            if (swipe < -swipeConfidenceThreshold) {
-              paginate(1);
-
-            } else if (swipe > swipeConfidenceThreshold) {
-              paginate(-1);
-
-            }
-          }}
-        />
-      </AnimatePresence>
-      <Next className="next" onClick={() => paginate(1)}>
-        {"‣"}
-      </Next>
-      <Prev className="prev" onClick={() => paginate(-1)}>
-        {"‣"}
-      </Prev>
+        <Descrizione vh="10vh" >Seleziona una data</Descrizione>
+      <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
+        <Line >
+      <Menu></Menu>
       <Qty>
-        <Pezzo onClick={() => setMenu(() => ({ [imageIndex]:menu[imageIndex] + 1 }))}>
+        <Pezzo onClick={() => {}}>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </Svg>
         </Pezzo>
-        <Pezzo onClick={() =>setMenu((current) => ({ [imageIndex]:menu[imageIndex] - 1 }))}>
+        <Pezzo><P>0</P></Pezzo>
+        <Pezzo onClick={() =>{}}>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
           </Svg>
         </Pezzo>
-        <Pezzo><P>{menu[imageIndex]}</P></Pezzo>
       </Qty>
+      </Line>
+      </motion.div>
+
       <Link to="/choose">
         <Back>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
