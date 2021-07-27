@@ -36,7 +36,7 @@ export const Prenota = styled.div`
     `;
 
 export const Card = styled.div`
-    height: 100%;
+    height: 90%;
     width: 100%;
     border-radius: 20px;
     position: relative;
@@ -80,7 +80,7 @@ export const TestoBig = styled.div`
 export const Title = styled.div`
     
         width: 100%;
-        padding: 10px ;
+        padding: 20px ;
         line-height: 15vh;
         color: white;
         font-weight: bold;
@@ -91,11 +91,25 @@ export const Title = styled.div`
   }
 `;
 
+export const Svgout = styled.svg`
+
+      padding-right: 20px;
+      height: 10vh;
+      width: 60px;
+      border-radius: 20px;
+      overflow: hidden;
+      stroke: white;
+      &:hover {
+      height: 10vh;
+      width: 55px;
+      }
+`;
+
 export const Dati = styled.div`
     
         width: 100%;
         padding: 2px ;
-        padding-right:30px;
+        padding-right:40px;
         color: white;
         font-weight: bold;
         font-size: ${props => props.size}vw; 
@@ -110,6 +124,7 @@ export const Flex = styled.div`
         flex-direction:${props => props.orientation};
         align-items: center;
         justify-content: center;
+        height: 20vh;
 `;
 
 export const Svg = styled.svg`

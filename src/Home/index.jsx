@@ -3,9 +3,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { getUserDocument } from "../firebase";
 import { Link } from "react-router-dom";
 import { useWindowSize } from "../useWindowSize";
-import { Card, Container, Grid, Svg, Svg1, Testo, Left, Right, TestoBig, Blocco, Close, Title, Flex, Dati } from './styled';
-import { Deleteprenotazioni } from "../firebase";
+import { Card, Container, Grid, Svg, Svg1, Testo, Left, Right, TestoBig, Blocco, Close, Title, Flex, Dati , Svgout } from './styled';
+import { Logout } from "../firebase";
 import { useSala } from "../App";
+
 function getHeight(length, height) {
     const totalScroll = length * height / 6;
     return totalScroll;
@@ -21,7 +22,7 @@ export default function Home() {
         data: null
     });
     const { width, height } = useWindowSize();
-    const { user: [user] } = useSala();
+    const { user: [user,setUser] } = useSala();
     console.log(user);
 
     useEffect(async () => {
@@ -38,6 +39,10 @@ export default function Home() {
             });
         }
     }, [])
+
+    const deleteprenotazioni = (value) => {
+        console.log(value);
+    }
 
     if (data != null) {
 
@@ -63,7 +68,6 @@ export default function Home() {
             }
         }, {});
 
-        console.log(result);
     }
 
 
@@ -80,11 +84,10 @@ export default function Home() {
                 hideProgressBar
             />
             <Flex orientation={"row"}>
-                <Title size={27}>Ciao</Title>
-                <Flex orientation={"column"}>
-                    <Dati size={3}>Nicolo</Dati>
-                    <Dati size={3}>Franceschi</Dati>
-                </Flex>
+                <Title size={20}>Ciao</Title>
+                <Svgout className="w-6 h-6" fill="none" onClick={()=>{ Logout(); setUser(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </Svgout>
             </Flex>
             <Container>
                 <Grid

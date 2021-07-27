@@ -53,6 +53,8 @@ export const generateUserDocument = async (user, additionalData ) => {
   return getUserDocument(user.uid);
 };
 
+export const Logout = () => firebase.auth().signOut();
+
 export const sendVerificationCode = async (code,data) => {
   try {
     await window.confirmationResult.confirm(code);

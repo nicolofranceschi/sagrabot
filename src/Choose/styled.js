@@ -45,7 +45,27 @@ export const Card = styled.div`
   border-radius: 20px;
   color:white;
   margin: 15vh 40px 40px 40px;
-  color: ${props => props.color};;
+  p{
+     color: ${props => props.color};
+  }
+  :hover{
+      p{ 
+          color:#ffade3;
+      }
+  }
+`;
+
+export const CardBig = styled.div`
+  height: 80%;
+  width: 510px;
+  background-color: var(--line);
+  border-radius: 20px;
+  color:white;
+  margin: 15vh 40px 40px 40px;
+  p{
+     color: ${props => props.color};
+     padding: 20px;
+  }
   :hover{
       p{ 
           color:#ffade3;
@@ -110,6 +130,25 @@ export const ButtonTavoli = styled.button`
   border-radius: 20px;
   background-color: var(--line);
   z-index:10;
+`;
+
+export const Data = styled.div`
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  color: white;
+  top:20px;
+  right:10px;
+  height: 50px;
+  width: 150px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:10;
+  p{
+    padding-left: 10px;
+    font-weight: bold;
+  }
 `;
 
 export const Back = styled.div`
