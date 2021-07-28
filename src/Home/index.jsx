@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { getUserDocument , updateUserDocument } from "../firebase";
+import { motion} from "framer-motion";
 import { Link } from "react-router-dom";
-import { Card, Container,  Svg, Svg1, Testo, Left, Right,Space, TestoBig, Blocco, Close, Title, Flex,  Svgout , Scroll } from './styled';
+import { Card, Container,  Svg, Svg1, Testo, Left,P,Menuimg ,Menu, Right,Space, TestoBig, Qr, Line,Pop, Blocco, Close,Div, Title, Titlelitte, Flex,  Svgout , Scroll } from './styled';
 import { logout } from "../firebase";
 import { useSala } from "../App";
-import { set } from "react-hook-form";
+import QRCode from "react-qr-code";
+import Menu0 from "./MENU0.png";
+import Menu1 from "./MENU1.png";
+import Menu2 from "./MENU2.png";
+import Menu3 from "./MENU3.png";
 
 const SALEUID = 'sala';
+
+const menu = [
+    { key: 0, menu: "Menu adulti",img: Menu0 },
+    { key: 1, menu: "Menu bambini",img: Menu1},
+    { key: 2, menu: "Menu adulti ciliaci",img: Menu3},
+    { key: 3, menu: "Menu bambini ciliaci",img: Menu2}
+  ]
 
 export default function Home() {
 
@@ -17,7 +29,8 @@ export default function Home() {
     const [deletes, setDeletes] = useState(true);
     const [page, setPage] = useState({
         state: false,
-        data: null
+        data: null,
+        counter: [0,0,0,0]
     });
     const { user: [user,setUser] } = useSala();
 
@@ -123,24 +136,25 @@ export default function Home() {
             </Flex>
             <Container>
                 <Scroll>
+                <Space size={1}></Space>
                     {Object.entries(onlydefault).map(([key, value], i) => (
                         <Card key={i}>
                             <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
                                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </Svg>
-                            <Right onClick={() => setPage({ state: true, data: value })}>
+                            <Right onClick={() => setPage({ state: true, data: value , counter : value[0].menu})}>
                                 <Testo line={"2vh"}>Prenotazione confermata per il</Testo>
-                                <TestoBig line={"10vh"}>{key.substr(0, 2)}</TestoBig>
+                                <TestoBig line={"10vh"} size={"20vw"}>{key.substr(0, 2)}</TestoBig>
                                 <Testo line={"5vh"}>{key.substr(2)}</Testo>
                             </Right>
-                            <Left onClick={() => setPage({ state: true, data: value })}>
-                                <TestoBig line={"15vh"}>{value.length}</TestoBig>
+                            <Left onClick={() => setPage({ state: true, data: value ,  counter : value[0].menu })}>
+                                <TestoBig line={"15vh"} size={"20vw"}>{value.length}</TestoBig>
                                 <Testo line={"5vh"}>POSTI</Testo>
                             </Left>
                         </Card>
                     ))
                     }
-                <Space></Space>
+                <Space size={10}></Space>
                 </Scroll>
                 <Link to="/data">
                     <Svg1 xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffade3">
@@ -152,6 +166,26 @@ export default function Home() {
     );
     else return (
         <Blocco>
+             <Titlelitte size={15} line={"10vh"}>Repilogo</Titlelitte >
+            <Testo line={"2vh"}>Mostra il QR CODE all' entrata</Testo>
+            <Div>
+                <Qr>
+                    <QRCode value="id" level="H" size={200} fgColor="var(--line)" bgColor="var(--black-light)" />
+                </Qr>
+            </Div>
+            <Titlelitte size={3} line={3}>Menu selezionati</Titlelitte>
+        <motion.div drag="x" position="relative" dragConstraints={{ left: -500, right: 0 }}>
+        <Line >
+          {menu.map((current) => (
+            <Menu key={current.key}>
+              <Pop>
+                <P>{page.counter[current.key]}</P>
+              </Pop>
+              <Menuimg src={current.img}></Menuimg>
+            </Menu>
+            ))}
+        </Line>
+      </motion.div>
             <Close onClick={() => setPage({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </Close>

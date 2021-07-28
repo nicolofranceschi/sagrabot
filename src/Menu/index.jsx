@@ -109,7 +109,10 @@ export const Menu = () => {
 
   const [counter, setCounter] = useState([0,0,0,0]);
 
-  if(temp===null) {return <Redirect to="/"></Redirect>}
+  if(temp===null) {
+    toast.error("Hai perso lo stack di prenotazione , RIPROVA")
+    return <Redirect to="/"></Redirect>
+  }
 
   const confirm = async () => {
     const covidPixels = getCovidPixels(temp[1], temp[0]);

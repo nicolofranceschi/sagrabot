@@ -5,11 +5,9 @@ import {
 
 export const Container = styled(motion.div)`
     height: 85vh;
-    bottom:0;
     width: 100vw;
     border-radius: 20px;
     overflow: hidden;
-    position: absolute;
     cursor: grab;
     word-wrap: break-word;
   `;
@@ -20,8 +18,27 @@ export const Blocco = styled.div`
     width: 100vw;
     overflow: hidden;
     position: absolute;
-    background-color: var(--line);
+    background-color: var(--black-light);
   `;
+
+export const Qr = styled.div`
+      overflow: hidden;
+      position: relative;
+      border-radius: 20px;
+      display: table;
+      margin: 0 auto;
+`;
+
+export const Line = styled.div`
+  margin-top: 10px;
+  width: 800px;
+  display: flex;
+`;
+
+export const Div = styled.div`
+      width: 100vw;
+      overflow: hidden;
+`;
 
 export const Prenota = styled.div`
         height: 100px;
@@ -35,9 +52,40 @@ export const Prenota = styled.div`
         background-color: #3498DB;
     `;
 
+export const P = styled.p`
+line-height: 40px;
+padding-left:11px;
+color: white;
+font-size: 30px;
+font-weight: bold;
+`;
+
+export const Menuimg = styled.img`
+  height: 80%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
+`;
+
+
+export const Pop = styled.div`
+  height: 40px;
+  width: 40px;
+  z-index: 20;
+  background-color: var(--line);
+  border-radius: 20px;
+  color:white;
+  margin-top: -20px;
+  margin-right: -20px;
+  position: absolute;
+  display: flex;
+  right: 0;
+  flex-direction: column;
+  
+`;
+
 export const Card = styled.div`
     height: 90%;
-    margin-top: 5vh;
     margin-left:5%;
     margin-right:5%;
     width: 90%;
@@ -49,6 +97,16 @@ export const Card = styled.div`
     display: flex;
     flex-direction: row;
   `;
+
+export const Menu = styled.div`
+    height: 80%;
+    margin-left:20px;
+    margin-right:20px;
+    width: 200px;
+    border-radius: 20px;
+    position: relative;
+`;
+
 
 export const Testo = styled.div`
     text-align: center;
@@ -74,7 +132,7 @@ export const TestoBig = styled.div`
         line-height: ${props => props.line};
         color: white;
         font-weight: bold;
-        font-size: 20vw; 
+        font-size: ${props => props.size}; 
         @media only screen and (min-width: 600px) {
             grid-template-columns: 1fr 1fr 1fr  ;
             font-size: 5vw; 
@@ -82,8 +140,10 @@ export const TestoBig = styled.div`
 `;
 
 
+
+
 export const Space = styled.div`
-        height: 10vh;
+        height: ${props => props.size}vh;
 `;
 
 export const Scroll = styled.div`
@@ -101,6 +161,20 @@ export const Title = styled.div`
         width: 100%;
         padding: 20px ;
         line-height: 15vh;
+        color: white;
+        font-weight: bold;
+        font-size: ${props => props.size}vw; 
+        @media only screen and (min-width: 600px) {
+            grid-template-columns: 1fr 1fr 1fr  ;
+            font-size: 6vw; 
+  }
+`;
+
+export const Titlelitte = styled.div`
+    
+        width: 100%;
+        padding: 20px ;
+        line-height: ${props => props.line}vh;
         color: white;
         font-weight: bold;
         font-size: ${props => props.size}vw; 

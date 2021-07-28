@@ -12,7 +12,7 @@ import Load from "./Animation.json";
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
 
-const initialGridSize = 1000;
+const initialGridSize = 1500;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
