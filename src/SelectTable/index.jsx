@@ -2,12 +2,13 @@ import { useRef, useState, lazy, Suspense, useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid , Animation } from "./Styled";
+import { Container, Grid  } from "./Styled";
 import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from "../App";
 import Load from "./Animation.json";
+import {Redirect} from "react-router-dom"
 
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
@@ -41,6 +42,10 @@ export default function Prenotazioni() {
   const { height, width } = useWindowSize();
   console.log(width)
   const {prenotazioni: [, setPrenotazioni],user:[user],orario: [orario]} = useSala();
+  if(orario.data===undefined || user===null) {
+    toast.error("Hai perso lo stack di prenotazione , RIPROVA");
+    return <Redirect to="/"></Redirect>
+  }
   console.log(orario)
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [data, setData] = useState({});
@@ -74,14 +79,16 @@ export default function Prenotazioni() {
     eventOptions: { passive: false },
   });
 
+  
+
   const select = (i) => {
     console.log('ho prenotato il posto ', i, getxy(i));
-    setSelected(current => ({ ...current, [i]: { type: 'default' } }))
+    setSelected(current => ({ ...current, [i]: { type: 'default' } }));
   };
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} orario={orario} onSelect={select} ref={ref} />}
+      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} setSelected={setSelected} orario={orario} onSelect={select} ref={ref} />}
     </ObservedPixel>
   )), [data, selected]);
 

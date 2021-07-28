@@ -26,6 +26,11 @@ export const Line = styled.div`
   display: flex;
 `;
 
+export const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 
 export const Logo = styled.div`
   height: 10vh;
@@ -40,7 +45,7 @@ export const Backdrop = styled.div`
 
 export const Card = styled.div`
   height: 80%;
-  width: 400px;
+  width: 200px;
   background-color: var(--line);
   border-radius: 20px;
   color:white;
@@ -50,28 +55,28 @@ export const Card = styled.div`
   }
   :hover{
       p{ 
-          color:#ffade3;
+          color:${props => props.color};
       }
   }
 `;
 
 export const CardBig = styled.div`
   height: 80%;
-  width: 510px;
+  width: 200px;
   background-color: var(--line);
   border-radius: 20px;
   color:white;
   margin: 15vh 40px 40px 40px;
   p{
      color: ${props => props.color};
-     padding: 20px;
   }
   :hover{
       p{ 
-          color:#ffade3;
+          color:${props => props.color};
       }
   }
 `;
+
 export const CardMenu = styled.div`
   height: 80%;
   width: 300px;
@@ -102,10 +107,19 @@ export const Giorni = styled.p`
   color: white;
 `;
 
+export const Orari = styled.p`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: ${props => props.size};
+  padding: ${props => props.padding};
+  margin-bottom: auto;
+  margin-top: auto;
+  color: white;
+`;
+
 export const Mese = styled.p`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10px;
-  padding-left:10px;
+  padding:15px;
   color: white;
 `;
 
@@ -124,9 +138,10 @@ export const ButtonTavoli = styled.button`
   position: absolute;
   bottom:2vh;
   left:5vw;
-  height: 6vh;
+  height: 10vh;
   width: 90vw;
-  color: white;
+  color: #ffade3;
+  font-weight: bold;
   border-radius: 20px;
   background-color: var(--line);
   z-index:10;

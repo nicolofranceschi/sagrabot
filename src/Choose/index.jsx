@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Line, Container, ButtonTavoli, Card, Giorni, Mese, Descrizione, Back, Svg, Data, CardBig } from "./styled";
+import { Line, Container, ButtonTavoli, Card, Giorni, Mese, Orari, Flex, Descrizione, Back, Svg, Data, CardBig } from "./styled";
 import { Link } from "react-router-dom";
 import { useSala } from "../App";
 import { useEffect } from "react";
@@ -20,7 +20,7 @@ export default function Choose() {
   const orari = [
     { "orario": "12:00", },
     { "orario": "18:30", },
-    { "orario": "19:30", }
+    { "orario": "20:30", }
   ]
 
   const oraricena = [
@@ -41,7 +41,7 @@ export default function Choose() {
         </Back>
       </Link>
       <Descrizione vh="10vh" >Seleziona una data</Descrizione>
-      <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
+      <motion.div drag="x" dragConstraints={{ left: -740, right: 0 }}>
         <Line >
           {giorni.map((b) => (
             data === b.giorno + " Agosto") ? (
@@ -56,33 +56,46 @@ export default function Choose() {
             </Card>
           )
           )}
+
         </Line>
       </motion.div>
       <Descrizione vh="45vh" >Seleziona un orario</Descrizione>
-      <motion.div drag="x" dragConstraints={{ left: -850, right: 0 }}>
+      <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
         <Line>
-          {data === "21 Agosto" || data === "28 Agosto" ? ( oraricena.map((c) => (
+          {data === "21 Agosto" || data === "28 Agosto" ? (oraricena.map((c) => (
             orario === "alle " + c.orario) ? (
-            <CardBig key={c.orario} color={"#ffade3"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
-              <Giorni>{c.orario}</Giorni>
+            <CardBig key={c.orario} color={"#adaeff"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
+              <Flex>
+                <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
+                <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
+              </Flex>
               <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
             </CardBig>
           ) : (
             <CardBig key={c.orario} color={"white"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
-              <Giorni>{c.orario}</Giorni>
+              <Flex>
+                <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
+                <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
+              </Flex>
               <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
             </CardBig>
           ))
           ) : (
             orari.map((c) => (
               orario === "alle " + c.orario) ? (
-              <Card key={c.orario} color={"#ffade3"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
-                <Giorni>{c.orario}</Giorni>
+              <Card key={c.orario} color={"#adaeff"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
+                <Flex>
+                  <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
+                  <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
+                </Flex>
                 <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
               </Card>
             ) : (
               <Card key={c.orario} color={"white"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
-                <Giorni>{c.orario}</Giorni>
+                <Flex>
+                  <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
+                  <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
+                </Flex>
                 <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
               </Card>
             )

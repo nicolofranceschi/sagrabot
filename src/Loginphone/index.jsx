@@ -114,7 +114,7 @@ export default function Loginphone() {
                             </DivCheckbox>
                             <DivCheckbox>
                                 <Checkbox onClick={() => setClausole({ privacy, covid: !covid, pass })} type="checkbox" {...register("covid", { required: true })} ></Checkbox>
-                                <Textconstol font={"0.7rem"} bold={"bold"} > Confermo di aver letto le  <a href="https://sagrealidosiane.files.wordpress.com/2021/07/rispetto-linee-guide-covid.pdf" target="_blank">Linee guida</a>: indicazioni per le sagre e le fiere locali organizzate
+                                <Textconstol font={"0.7rem"} bold={"bold"} > Confermo di aver letto le  <a href="https://sagrealidosiane.files.wordpress.com/2021/07/rispetto-linee-guide-covid.pdf" target="_blank">Linee guida</a> di gestione emergenza Covid: indicazioni per le sagre e le fiere locali organizzate
                                 da Proloco Alidosiana e che sono a conoscenza che il rispetto di tale linea guida è condizione
                                 essenziale per ricevere i servizi richiesti e poter accedere alle aree dove si svlgono le sagre indicate .</Textconstol>
                             </DivCheckbox>

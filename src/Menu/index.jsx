@@ -1,7 +1,7 @@
 
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import { motion} from "framer-motion";
-import { Container, Qty, Pezzo, Back, Svg, Pop,P, SvgBack, ButtonTavoli, Line, Descrizione, Card , Testo1, Testo2, Testo3,  Menuimg} from "./styled"
+import { Container, Qty, Pezzo, Back, Svg, Pop,P, SvgBack, ButtonTavoli,Close, Line, Descrizione, Card ,  Menuimg} from "./styled"
 import { Link, Redirect } from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
@@ -10,6 +10,7 @@ import Menu0 from "./MENU0.png";
 import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
+
 
 const cellsNumber = 50;
 
@@ -109,8 +110,10 @@ export const Menu = () => {
 
   const [counter, setCounter] = useState([0,0,0,0]);
 
+  const [zoom, setZoom] = useState({state:false,value:null});
+
   if(temp===null) {
-    toast.error("Hai perso lo stack di prenotazione , RIPROVA")
+    toast.error("Hai perso lo stack di prenotazione , RIPROVA");
     return <Redirect to="/"></Redirect>
   }
 
@@ -135,7 +138,16 @@ export const Menu = () => {
       toast.error(error);
     }
   }
-  return (
+
+  if (zoom.state){ return (
+    <Container>
+            <Close onClick={() => setZoom({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
+                <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </Close>
+            <img src={zoom.value}></img>
+    </Container>
+  )
+  }else return (
     <Container>
       <ToastContainer
         position="top-right"
@@ -147,6 +159,13 @@ export const Menu = () => {
         draggable
         hideProgressBar
       />
+      <Link to="/choose">
+        <Back>
+          <SvgBack xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </SvgBack>
+        </Back>
+      </Link>
       <Descrizione vh="10vh" >Seleziona i menu per la tua prenotazione</Descrizione>
       <motion.div drag="x" position="relative" dragConstraints={{ left: -1000, right: 0 }}>
         <Line >
@@ -155,7 +174,7 @@ export const Menu = () => {
               <Pop>
                 <P>{counter[current.key]}</P>
               </Pop>
-              <Menuimg src={current.img}></Menuimg>
+              <Menuimg onClick={() => setZoom({state:true,value:current.img})} src={current.img}></Menuimg>
               {current.key==0 || current.key==2 ? (
               <Qty>
                 <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
@@ -189,13 +208,7 @@ export const Menu = () => {
             </Card>))}
         </Line>
       </motion.div>
-      <Link to="/choose">
-        <Back>
-          <SvgBack xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </SvgBack>
-        </Back>
-      </Link>
+      
       <Link to="/">
         <ButtonTavoli onClick={confirm}>Completa la prenotazione</ButtonTavoli>
       </Link>

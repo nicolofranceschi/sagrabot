@@ -4,6 +4,9 @@ import styled from "styled-components";
 export const Container = styled.div`
   height: 100vh;
   width: 100vw;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   ::-webkit-scrollbar {
@@ -31,7 +34,7 @@ export const Menuimg = styled.img`
 
 export const Line = styled.div`
   margin-top: 15vh;
-  height: 75vh;
+  height: 70vh;
   width: 1400px;
   display: flex;
 `;
@@ -136,13 +139,29 @@ export const Descrizione = styled.p`
   top: ${props => props.vh};
   left: 10px;
 `;
+
+export const Close = styled.svg`
+        right: 15px;
+        z-index: 20;
+        fill: red;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 15px;
+        backdrop-filter: blur(30px);
+        border-radius:20px;
+        :hover{
+        transform: scale(1.2);
+        }
+`;
 export const ButtonTavoli = styled.button`
   position: absolute;
   bottom:2vh;
   left:5vw;
-  height: 6vh;
+  height: 10vh;
   width: 90vw;
-  color: white;
+  color: #ffade3;
+  font-weight: bold;
   border-radius: 20px;
   background-color: var(--line);
   z-index:10;

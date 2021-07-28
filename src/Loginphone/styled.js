@@ -38,7 +38,6 @@ export const Icona = styled.img`
   z-index: 0;
   position: absolute;
   top:-20vh;
-  right: -10vh;
   height: 60vh;
   width: 100vw;
   max-width: 600px;

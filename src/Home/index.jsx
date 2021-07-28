@@ -143,13 +143,13 @@ export default function Home() {
                                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </Svg>
                             <Right onClick={() => setPage({ state: true, data: value , counter : value[0].menu})}>
-                                <Testo line={"2vh"}>Prenotazione confermata per il</Testo>
-                                <TestoBig line={"10vh"} size={"20vw"}>{key.substr(0, 2)}</TestoBig>
-                                <Testo line={"5vh"}>{key.substr(2)}</Testo>
+                                <Testo line={"2vh"} padding={"10px"}>Prenotazione confermata per il</Testo>
+                                <TestoBig line={"10vh"} size={"20vw"} padding={"10px"}>{key.substr(0, 2)}</TestoBig>
+                                <Testo line={"5vh"} padding={"10px"}>{key.substr(2)} </Testo>
                             </Right>
                             <Left onClick={() => setPage({ state: true, data: value ,  counter : value[0].menu })}>
-                                <TestoBig line={"15vh"} size={"20vw"}>{value.length}</TestoBig>
-                                <Testo line={"5vh"}>POSTI</Testo>
+                                <TestoBig line={"12vh"} size={"20vw"} padding={"20px"}>{value.length}</TestoBig>
+                                <Testo line={"5vh"} padding={"10px"}>POSTI</Testo>
                             </Left>
                         </Card>
                     ))
@@ -166,14 +166,14 @@ export default function Home() {
     );
     else return (
         <Blocco>
-             <Titlelitte size={15} line={"10vh"}>Repilogo</Titlelitte >
-            <Testo line={"2vh"}>Mostra il QR CODE all' entrata</Testo>
+             <Titlelitte size={3} line={"10vh"}>Repilogo</Titlelitte >
+            <Testo line={"5vh"}>Mostra il QR CODE all' entrata</Testo>
             <Div>
                 <Qr>
                     <QRCode value="id" level="H" size={200} fgColor="var(--line)" bgColor="var(--black-light)" />
                 </Qr>
             </Div>
-            <Titlelitte size={3} line={3}>Menu selezionati</Titlelitte>
+            <Titlelitte size={1.5} line={3}>Menu selezionati</Titlelitte>
         <motion.div drag="x" position="relative" dragConstraints={{ left: -500, right: 0 }}>
         <Line >
           {menu.map((current) => (

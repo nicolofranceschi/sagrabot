@@ -2,7 +2,7 @@ import { memo, useCallback, forwardRef } from "react";
 import { OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
-const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => {
+const Pixel = memo(forwardRef(({ i, data, selected, onSelect, setSelected, orario }, ref) => {
 
   const selectPixel = useCallback(() => onSelect(i), [selected]);
 
@@ -24,7 +24,7 @@ const Pixel = memo(forwardRef(({ i, data, selected, onSelect, orario }, ref) => 
 
   const PixelPrenotatoTipo1 = () => (
     <div style={{ overflow: 'hidden' }}>
-      <PixelTavolo {...pixelProps} >
+      <PixelTavolo {...pixelProps} onClick={()=>setSelected((current) => { const {[i]:remove,...data} = current ; return data; })}>
         <OnlyTavolo pixelColor={"white"} border={data?.border} />
         <Sedia color={"white"} />
       </PixelTavolo>

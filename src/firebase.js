@@ -72,6 +72,12 @@ export const updateUserDocument = async (user, additionalData) => {
     return await userRef.update(additionalData);
   } catch (error) {
     console.error("Error updating user document", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
   }
 };
 
@@ -85,6 +91,12 @@ export const getUserDocument = async uid => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
   }
 };
 
@@ -96,6 +108,12 @@ export const controllUser = async uid => {
     else return null;
   } catch (error) {
     console.error("Error fetching user", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
   }
 };
 
@@ -108,6 +126,12 @@ export const getFramment = async uid => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
   }
 };
 
@@ -120,6 +144,12 @@ export const getMenuDocument = async () => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
   }
 };
 
@@ -134,6 +164,12 @@ export const deletePrenotazioni = async pixel => {
     return await batch.commit();
   } catch (error) {
     console.error("Error fetching user", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
   }
 };
 export const auth = firebase.auth()

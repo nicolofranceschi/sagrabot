@@ -89,10 +89,10 @@ export const Card = styled.div`
     margin-left:5%;
     margin-right:5%;
     width: 90%;
+    padding-top: 20px;
     border-radius: 20px;
     position: relative;
     cursor: grab;
-    background-color: var(--line);
     perspective: 600px;
     display: flex;
     flex-direction: row;
@@ -113,7 +113,7 @@ export const Testo = styled.div`
     vertical-align: middle;
     position: relative;
     width: 100%;
-    padding: 10px ;
+    padding: ${props => props.padding} ;
     line-height: ${props => props.line};
     color: white;
     font-weight: bold;
@@ -128,7 +128,7 @@ export const TestoBig = styled.div`
         vertical-align: middle;
         position: relative;
         width: 100%;
-        padding: 10px ;
+        padding: ${props => props.padding} ;
         line-height: ${props => props.line};
         color: white;
         font-weight: bold;
@@ -164,10 +164,7 @@ export const Title = styled.div`
         color: white;
         font-weight: bold;
         font-size: ${props => props.size}vw; 
-        @media only screen and (min-width: 600px) {
-            grid-template-columns: 1fr 1fr 1fr  ;
-            font-size: 6vw; 
-  }
+        
 `;
 
 export const Titlelitte = styled.div`
@@ -177,11 +174,8 @@ export const Titlelitte = styled.div`
         line-height: ${props => props.line}vh;
         color: white;
         font-weight: bold;
-        font-size: ${props => props.size}vw; 
-        @media only screen and (min-width: 600px) {
-            grid-template-columns: 1fr 1fr 1fr  ;
-            font-size: 6vw; 
-  }
+        font-size: ${props => props.size}em; 
+       
 `;
 
 export const Svgout = styled.svg`
@@ -227,7 +221,7 @@ export const Svg = styled.svg`
     width: 40px;
     height: 40px;
     position: absolute;
-    top: -15px;
+    top: 0px;
     backdrop-filter: blur(30px);
     border-radius:20px;
     :hover{
