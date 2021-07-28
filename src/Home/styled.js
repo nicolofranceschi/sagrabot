@@ -38,7 +38,10 @@ export const Line = styled.div`
 export const Div = styled.div`
       width: 100vw;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
 `;
+
 
 export const Prenota = styled.div`
         height: 100px;

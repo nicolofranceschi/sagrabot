@@ -202,7 +202,7 @@ export const Back = styled.div`
 
 
 export const Svg = styled.svg`
-  margin : 15%;
+  margin : auto;
   height: 60%;
   width: 60%;
   stroke: ${props => props.color};
@@ -226,6 +226,8 @@ export const P = styled.p`
 export const Pezzo = styled.div`
   height: 100%;
   width: 50%;
+  display: flex;
+  justify-content: center;
   border-radius: ${props => props.border};
   font-size: 30px;
   text-align: center;

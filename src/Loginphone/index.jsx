@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import icon from "./icon.png";
 import AccediForm from "./AccediForm"
-import { useSala } from "../App";
+
 
 
 export default function Loginphone() {
@@ -65,7 +65,7 @@ export default function Loginphone() {
                         <>
                             <Label>
                                 <Span font={"1.5rem"} bold={"normal"} >Benvenuto in</Span>
-                                <Span font={"1.5rem"} bold={"bold"} >SagraBot</Span>
+                                <Span font={"1.5rem"} bold={"bold"} >SagraBot </Span>
                             </Label>
                             <Divspace space={"10vh"}></Divspace>
                             <ButtonBig onClick={next} type="submit" margin="5vh 0 0 0" padding="15px 0">PRENOTA</ButtonBig>

@@ -134,11 +134,12 @@ export const Descrizione = styled.p`
   top: ${props => props.vh};
   left: 10px;
 `;
+
 export const ButtonTavoli = styled.button`
   position: absolute;
   bottom:2vh;
   left:5vw;
-  height: 10vh;
+  height: 15vh;
   width: 90vw;
   color: #ffade3;
   font-weight: bold;
