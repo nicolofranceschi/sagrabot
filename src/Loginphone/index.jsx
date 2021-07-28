@@ -110,17 +110,17 @@ export default function Loginphone() {
                                 <Checkbox onClick={() => setClausole({ privacy: !privacy, covid, pass })} type="checkbox" {...register("privacy", { required: true })} ></Checkbox>
                                 <Textconstol font={"0.7rem"} bold={"bold"} >Ai sensi e per gli effetti degli artt. 13 e 23 del D. L.gs. n. 196/2003, con l’accettazione del presente
                                 modulo esprimo il mio consenso al trattamento dei miei dati personali, secondo le modalità e nei
-                                limiti di cui all’informativa <a href="https://www.html.it/" target="_blank">(INFORMATIVA PRIVACY)</a> </Textconstol>
+                                limiti di cui all’informativa <a href="https://sagrealidosiane.files.wordpress.com/2021/07/informativa-privacy-rev-2021.pdf" target="_blank">(INFORMATIVA PRIVACY)</a> </Textconstol>
                             </DivCheckbox>
                             <DivCheckbox>
                                 <Checkbox onClick={() => setClausole({ privacy, covid: !covid, pass })} type="checkbox" {...register("covid", { required: true })} ></Checkbox>
-                                <Textconstol font={"0.7rem"} bold={"bold"} > Confermo di aver letto le  <a href="https://www.html.it/" target="_blank">Linee guida</a>: indicazioni per le sagre e le fiere locali organizzate
+                                <Textconstol font={"0.7rem"} bold={"bold"} > Confermo di aver letto le  <a href="https://sagrealidosiane.files.wordpress.com/2021/07/rispetto-linee-guide-covid.pdf" target="_blank">Linee guida</a>: indicazioni per le sagre e le fiere locali organizzate
                                 da Proloco Alidosiana e che sono a conoscenza che il rispetto di tale linea guida è condizione
                                 essenziale per ricevere i servizi richiesti e poter accedere alle aree dove si svlgono le sagre indicate .</Textconstol>
                             </DivCheckbox>
                             <DivCheckbox>
                                 <Checkbox onClick={() => setClausole({ privacy, covid, pass: !pass })} type="checkbox" {...register("greenpass", { required: true })} ></Checkbox>
-                                <Textconstol font={"0.7rem"} bold={"bold"} > Alla luce degli obblighi introdotti con <a href="https://www.html.it/" target="_blank">DECRETO-LEGGE 23 luglio 2021, n. 105</a> con la presente confermo di conoscerne i contenuti e che al momento dell’accesso allo
+                                <Textconstol font={"0.7rem"} bold={"bold"} > Alla luce degli obblighi introdotti con <a href="https://sagrealidosiane.files.wordpress.com/2021/07/atto-completo-___.pdf" target="_blank">DECRETO-LEGGE 23 luglio 2021, n. 105</a> con la presente confermo di conoscerne i contenuti e che al momento dell’accesso allo
                                 stand alimentare dell’area Feste io e le persone per cui ho eseguito la prenotazione saranno in regola con
                                 quanto previsto dal DECRETO-LEGGE 23 luglio 2021, n. 105 , con l’esclusione dei casi indicati esse saranno
                                 dotati di Certificazioni verdi Covid 19 , ovvero a richiesta delle autorità potranno dimostrare di possedere il
