@@ -12,22 +12,12 @@ import {Redirect} from "react-router-dom"
 import ReactLoading from 'react-loading';
 
 
-const Pixel = lazy(() => import('./Pixel.jsx'));
+
 
 const initialGridSize = 1500;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 
-
-
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: Load,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice"
-  }
-};
 
 const getxy = i => {
   const y = Math.trunc(i / cellsNumber);
@@ -38,10 +28,13 @@ const getxy = i => {
 
 const SALEUID = 'sala';
 
+const Pixel = lazy(() => import('./Pixel.jsx'));
+
 export default function Prenotazioni() {
   
   const { height, width } = useWindowSize();
   const {prenotazioni: [, setPrenotazioni],user:[user],orario: [orario]} = useSala();
+
   if(orario.data===undefined || user===null) {
     toast.error("Hai perso lo stack di prenotazione , RIPROVA");
     return <Redirect to="/"></Redirect>
@@ -54,19 +47,32 @@ export default function Prenotazioni() {
 
   useEffect(async ()=> {
   try {
+        toast.info("🚀🚀🚀🚀🚀🚀🚀🚀🚀", {
+          position: "top-right",
+          autoClose: 3000,
+          closeOnClick: true,
+          draggable: true,
+        });
         const res = await getUserDocument(SALEUID);
-        if (!res) throw "No connection";
+        if (!res) throw "ERRORE 😞, ricarica";
+        toast.info("Stanza creata 🤪", {
+          position: "top-right",
+          autoClose: 3000,
+          closeOnClick: true,
+          draggable: true,
+        });
         setData(res?.sale['SAGRA']); 
     } catch (error) {
       toast.error(error, {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 5000,
         closeOnClick: true,
         draggable: true,
       });
-      if(error==="No connection") return <Redirect to="/"></Redirect>
+      return <Redirect to="/"></Redirect>
     }
   }, []);
+
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
       if (width < currentGridSize + vdva[0] * 50 && height < currentGridSize + vdva[0] * 50) {
@@ -78,8 +84,6 @@ export default function Prenotazioni() {
     domTarget: DrawingGrid,
     eventOptions: { passive: false },
   });
-
-  
 
   const select = (i) => {
     console.log('ho prenotato il posto ', i, getxy(i));
@@ -134,5 +138,5 @@ function ObservedPixel({ children }) {
   const isVisible = !!entry?.isIntersecting;
 
   useEffect(() => { if (isVisible) setVisible(true) }, [isVisible]);
-  return isVisible ? children(ref) : <div ref={ref} style={{ backgroundColor: 'hsl(218, 24%, 15%)' }} />;
+  return isVisible ? children(ref) : <div ref={ref} style={{ backgroundColor: 'hsl(218, 24%, 15%)' , borderColor: 'var(--line)'}} />;
 }

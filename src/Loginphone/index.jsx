@@ -7,10 +7,22 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import icon from "./icon.png";
 import AccediForm from "./AccediForm"
+import { useIdleTimer } from 'react-idle-timer'
 
 
 
 export default function Loginphone() {
+
+
+    const handleOnIdle = event => {
+        if(step===5) toast.info("Hey 👋🏻, controlla il di aver inserito correttamente numero se il messaggio non è ancora arrivato");
+      }
+    
+      const { getRemainingTime, getLastActiveTime } = useIdleTimer({
+        timeout: 100 * 60 * 3,
+        onIdle: handleOnIdle,
+        debounce: 500
+      })
 
     
     const [step, setStep] = useState(0);

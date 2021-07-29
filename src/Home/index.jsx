@@ -40,7 +40,7 @@ export default function Home() {
             const res = await getUserDocument("sala");
             if (!res) throw new Error("No connection");
             if (!res.sale['SAGRA']) throw new Error('Errore');
-            console.log('firebase obj', res.sale['SAGRA']);
+           
             setData(res.sale['SAGRA']);
 
             const newPrenotazioni = Object.entries(res.sale['SAGRA']).reduce((acc, pixel) => {
@@ -139,8 +139,8 @@ export default function Home() {
                     <Space size={1}></Space>
                     {Object.entries(onlydefault).map(([key, value], i) => (
                         <Card key={i}>
-                            <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
-                                <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </Svg>
                             <Right onClick={() => setPage({ state: true, data: value, counter: value[0].menu })}>
                                 <Testo line={"2vh"} padding={"10px"}>Prenotazione confermata per il</Testo>
@@ -186,7 +186,7 @@ export default function Home() {
     );
     else return (
         <Blocco>
-            <Titlelitte size={3} line={"10vh"}>Repilogo</Titlelitte >
+            <Titlelitte size={3} line={"10vh"}>Riepilogo</Titlelitte >
             <Testo line={"5vh"}>Mostra il QR CODE all' entrata</Testo>
             <Div>
                 <Qr>
