@@ -42,6 +42,18 @@ export const Pixelstyle = styled.div`
  
 `;
 
+
+export const LoadingDiv= styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-content: space-around;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+`;
+
 export const BottomPopup = styled(motion.div)`
   width: ${props => props.width};
   height: ${props => props.height};

@@ -2,7 +2,7 @@ import { useRef, useState, lazy, Suspense, useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid  } from "./Styled";
+import { Container, Grid, LoadingDiv  } from "./Styled";
 import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import { ToastContainer, toast } from 'react-toastify';
@@ -121,9 +121,9 @@ export default function Prenotazioni() {
 
 const Loading = () => {
   return (
-      <div style={{height: "100vh",width: "100vw",display: "flex",aligncontent: "space-around",flexdirection: "column",justifycontent: "center",alignitems: "center",}}>
+      <LoadingDiv >
           <ReactLoading type={"bubbles"} color={"#adaeff"} height={200} width={200}  />
-      </div>
+      </LoadingDiv>
 );}
 
 function ObservedPixel({ children }) {
