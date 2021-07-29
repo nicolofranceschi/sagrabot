@@ -166,7 +166,7 @@ export const Title = styled.div`
         line-height: 15vh;
         color: white;
         font-weight: bold;
-        font-size: ${props => props.size}vw; 
+        font-size: ${props => props.size}vh; 
         
 `;
 

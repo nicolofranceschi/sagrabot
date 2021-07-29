@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from "../App";
 import Load from "./Animation.json";
 import {Redirect} from "react-router-dom"
+import ReactLoading from 'react-loading';
 
 
 const Pixel = lazy(() => import('./Pixel.jsx'));
@@ -40,13 +41,11 @@ const SALEUID = 'sala';
 export default function Prenotazioni() {
   
   const { height, width } = useWindowSize();
-  console.log(width)
   const {prenotazioni: [, setPrenotazioni],user:[user],orario: [orario]} = useSala();
   if(orario.data===undefined || user===null) {
     toast.error("Hai perso lo stack di prenotazione , RIPROVA");
     return <Redirect to="/"></Redirect>
   }
-  console.log(orario)
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   const [data, setData] = useState({});
   const [selected, setSelected] = useState({});
@@ -56,7 +55,7 @@ export default function Prenotazioni() {
   useEffect(async ()=> {
   try {
         const res = await getUserDocument(SALEUID);
-        if (!res) {res = await getUserDocument(SALEUID); throw "No connection"}
+        if (!res) throw "No connection";
         setData(res?.sale['SAGRA']); 
     } catch (error) {
       toast.error(error, {
@@ -65,6 +64,7 @@ export default function Prenotazioni() {
         closeOnClick: true,
         draggable: true,
       });
+      if(error==="No connection") return <Redirect to="/"></Redirect>
     }
   }, []);
   usePinch(({ vdva }) => {
@@ -109,7 +109,7 @@ export default function Prenotazioni() {
         draggable
         pauseOnHover
       />
-      <PixelSettings onClick={confirm} data={orario} />
+      <PixelSettings onClick={confirm} data={orario} selected={selected} setSize={setSize} gridSize={gridSize} pixelSize={pixelSize} />
       <Container ref={DrawingGrid}>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
           {grid}
@@ -119,7 +119,12 @@ export default function Prenotazioni() {
   );
 }
 
-const Loading = () => <span>Loading...</span>;
+const Loading = () => {
+  return (
+      <div style={{height: "100vh",width: "100vw",display: "flex",aligncontent: "space-around",flexdirection: "column",justifycontent: "center",alignitems: "center",}}>
+          <ReactLoading type={"bubbles"} color={"#adaeff"} height={200} width={200}  />
+      </div>
+);}
 
 function ObservedPixel({ children }) {
   const ref = useRef();

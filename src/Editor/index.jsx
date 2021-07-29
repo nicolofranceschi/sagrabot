@@ -125,7 +125,7 @@ export default function Editor() {
   ]);
 
   const saveMap = async () => {
-    const user = await generateUserDocument({ uid: 'sala' }, { phone: '3451302071', sale: { 'SAGRA': selectedPixels }});
+    const user = await generateUserDocument( 'sala', { sale: { 'SAGRA': selectedPixels }});
     console.log(user);
   }
 

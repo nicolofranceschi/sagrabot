@@ -129,7 +129,7 @@ export default function Home() {
                 hideProgressBar
             />
             <Flex orientation={"row"}>
-                <Title size={20}>Ciao 👋🏻</Title>
+                <Title size={8}>Ciao 👋🏻</Title>
                 <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setUser(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </Svgout>
@@ -168,12 +168,12 @@ export default function Home() {
 
         <div>
             <Flex orientation={"row"}>
-                <Title size={20}>Ciao 👋🏻</Title>
+                <Title size={8}>Ciao 👋🏻</Title>
                 <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setUser(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </Svgout>
                 </Flex>  
-                <Title size={6}>Non hai prenotazioni al momento 😕 , CLICCA SUL TASTO  ✚  PER INIZIARE 😏</Title>
+                <Title size={3}>Non hai prenotazioni al momento 😕 , CLICCA sul tasto + per iniziare 😏</Title>
 
             <Link to="/data">
                 <Svg1 xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffade3">
