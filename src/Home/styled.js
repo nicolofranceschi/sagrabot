@@ -220,13 +220,14 @@ export const Flex = styled.div`
 export const Svg = styled.svg`
     right: -15px;
     z-index: 20;
-    fill: red;
-    width: 40px;
-    height: 40px;
+    stroke: red;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
     position: absolute;
     top: 0px;
     backdrop-filter: blur(30px);
-    border-radius:20px;
+    border-radius:50px;
     :hover{
       transform: scale(1.2);
     }

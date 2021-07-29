@@ -133,6 +133,7 @@ export const DivCheckbox = styled.div`
   flex-direction: row;
   vertical-align: center;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Checkbox = styled.input`
@@ -143,7 +144,6 @@ export const Checkbox = styled.input`
   height: 20px;
   align-items: left;
   vertical-align: center;
-  margin-top:auto;
   margin-bottom: auto;
 `;
 
