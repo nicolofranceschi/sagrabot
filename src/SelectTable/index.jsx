@@ -1,23 +1,20 @@
-import { useRef, useState, lazy, Suspense, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid, LoadingDiv  } from "./Styled";
+import { Container, Grid, LoadingDiv } from "./Styled";
 import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
-import { ToastContainer, toast } from 'react-toastify';
+import Pixel from './Pixel';
+import { toast, ToastContainer } from 'react-toastify';
 import { useSala } from "../App";
 import Load from "./Animation.json";
-import {Redirect} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import ReactLoading from 'react-loading';
-
-
-
 
 const initialGridSize = 1500;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
-
 
 const getxy = i => {
   const y = Math.trunc(i / cellsNumber);
@@ -25,30 +22,16 @@ const getxy = i => {
   return { x, y }
 }
 
-
 const SALEUID = 'sala';
 
-const Pixel = lazy(() => import('./Pixel.jsx'));
-
-export default function Prenotazioni() {
-  
-  const { height, width } = useWindowSize();
-  const {prenotazioni: [, setPrenotazioni],user:[user],orario: [orario]} = useSala();
-
-  if(orario.data===undefined || user===null) {
-    toast.error("Hai perso lo stack di prenotazione , RIPROVA");
-    return <Redirect to="/"></Redirect>
-  }
-  const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
+export default function Prenotazioni () {
+  const history = useHistory();
   const [data, setData] = useState({});
-  const [selected, setSelected] = useState({});
 
-  const DrawingGrid = useRef(null);
-
-  useEffect(async ()=> {
-  try {
+  useEffect(() => {
+    async function doStuff () {
+      try {
         toast.info("🚀🚀🚀🚀🚀🚀🚀🚀🚀", {
-          position: "top-right",
           autoClose: 3000,
           closeOnClick: true,
           draggable: true,
@@ -56,22 +39,37 @@ export default function Prenotazioni() {
         const res = await getUserDocument(SALEUID);
         if (!res) throw "ERRORE 😞, ricarica";
         toast.info("Stanza creata 🤪", {
-          position: "top-right",
           autoClose: 3000,
           closeOnClick: true,
           draggable: true,
         });
-        setData(res?.sale['SAGRA']); 
-    } catch (error) {
-      toast.error(error, {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
-        draggable: true,
-      });
-      return <Redirect to="/"></Redirect>
+        console.log("HO FINITO LA CHIAMATA", res?.sale)
+        setData(res?.sale['SAGRA']);
+      } catch (error) {
+        toast.error(error, {
+          autoClose: 5000,
+          closeOnClick: true,
+          draggable: true,
+        });
+        history.replace('/');
+      }
     }
+    doStuff();
   }, []);
+  if (Object.keys(data).length === 0) return <Loading />;
+  return <MappaPrenotazioni data={data} />
+}
+
+function MappaPrenotazioni ({ data }) {
+  const history = useHistory();
+  const { height, width } = useWindowSize();
+  const { prenotazioni: [, setPrenotazioni], user: [user], orario: [orario] } = useSala();
+
+  const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
+  
+  const [selected, setSelected] = useState({});
+
+  const DrawingGrid = useRef(null);
 
   usePinch(({ vdva }) => {
     setSize(([currentGridSize]) => {
@@ -97,38 +95,32 @@ export default function Prenotazioni() {
   )), [data, selected]);
 
   const confirm = () => {
-     setPrenotazioni([data, selected]);
+    setPrenotazioni([data, selected]);
+  }
+  
+  if (!orario.data || !user) {
+    toast.error("Hai perso lo stack di prenotazione, RIPROVA");
+    console.log("ERRORE, REDIRECT")
+    history.replace('/');
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-       <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+    <>
       <PixelSettings onClick={confirm} data={orario} selected={selected} setSize={setSize} gridSize={gridSize} pixelSize={pixelSize} />
       <Container ref={DrawingGrid}>
         <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
           {grid}
         </Grid>
       </Container>
-    </Suspense>
+    </>
   );
 }
 
-const Loading = () => {
-  return (
-      <LoadingDiv >
-          <ReactLoading type={"bubbles"} color={"#adaeff"} height={200} width={200}  />
-      </LoadingDiv>
-);}
+const Loading = () => (
+  <LoadingDiv>
+    <ReactLoading type={"bubbles"} color={"#adaeff"} height={200} width={200} />
+  </LoadingDiv>
+);
 
 function ObservedPixel({ children }) {
   const ref = useRef();
@@ -138,5 +130,5 @@ function ObservedPixel({ children }) {
   const isVisible = !!entry?.isIntersecting;
 
   useEffect(() => { if (isVisible) setVisible(true) }, [isVisible]);
-  return isVisible ? children(ref) : <div ref={ref} style={{ backgroundColor: 'hsl(218, 24%, 15%)' , borderColor: 'var(--line)'}} />;
+  return isVisible ? children(ref) : <div ref={ref} style={{ backgroundColor: 'hsl(218, 24%, 15%)', borderColor: 'var(--line)' }} />;
 }

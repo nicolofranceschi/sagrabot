@@ -51,7 +51,6 @@ export const LoadingDiv= styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 `;
 
 export const BottomPopup = styled(motion.div)`

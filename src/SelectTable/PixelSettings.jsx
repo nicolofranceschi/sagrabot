@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { useWindowSize } from "../useWindowSize";
 
-
-
 const Svg = styled.svg`
   margin:15px;
   height:20px;
@@ -50,7 +48,7 @@ const Data = styled.div`
   }
 `;
 
-export const ButtonTavoli = styled.button`
+const ButtonTavoli = styled.button`
     position: absolute;
     bottom:5vh;
     left:5vw;
@@ -64,9 +62,8 @@ export const ButtonTavoli = styled.button`
     :hover{
       transform: scale(1.2);
     }
-    
 `;
-export const Alert = styled.button`
+const Alert = styled.button`
     position: absolute;
     bottom:5vh;
     left:5vw;
@@ -80,26 +77,23 @@ export const Alert = styled.button`
     z-index:10;
 `;
 
-export const Zoom = styled.div`
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    bottom:20vh;
-    right:10px;
-    height: 100px;
-    width: 50px;
-    border-radius: 20px;
-    backdrop-filter: blur(30px);
-    color:white;
-    font-weight: bold;
-    z-index:10;
+const Zoom = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom:20vh;
+  right:10px;
+  height: 100px;
+  width: 50px;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  color:white;
+  font-weight: bold;
+  z-index:10;
 `;
-
-
 
 const initialGridSize = 1500;
 const cellsNumber = 50;
-
 
 export default function PixelSettings({ data, onClick ,selected,setSize,pixelSize,gridSize}) {
 
@@ -143,7 +137,4 @@ export default function PixelSettings({ data, onClick ,selected,setSize,pixelSiz
       )}
     </>
   );
-
 }
-
-
