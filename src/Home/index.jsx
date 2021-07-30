@@ -40,7 +40,7 @@ export default function Home() {
             const res = await getUserDocument("sala");
             if (!res) throw new Error("No connection");
             if (!res.sale['SAGRA']) throw new Error('Errore');
-           
+            console.log(res.sale['SAGRA']);
             setData(res.sale['SAGRA']);
 
             const newPrenotazioni = Object.entries(res.sale['SAGRA']).reduce((acc, pixel) => {
