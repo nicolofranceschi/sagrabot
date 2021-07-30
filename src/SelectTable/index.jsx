@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect, memo } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
@@ -88,12 +88,6 @@ function MappaPrenotazioni ({ data }) {
     setSelected(current => ({ ...current, [i]: { type: 'default' } }));
   };
 
-  const grid = useMemo(() => cells.map((_, i) => (
-    <ObservedPixel key={i}>
-      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} setSelected={setSelected} orario={orario} onSelect={select} ref={ref} />}
-    </ObservedPixel>
-  )), [data, selected]);
-
   const confirm = () => {
     setPrenotazioni([data, selected]);
   }
@@ -104,17 +98,33 @@ function MappaPrenotazioni ({ data }) {
     history.replace('/');
   }
 
+  const pixelsContainerRef = useRef();
+
+  const entry = useIntersectionObserver(pixelsContainerRef);
+  const isVisible = !!entry?.isIntersecting;
+
   return (
     <>
-      <PixelSettings onClick={confirm} data={orario} selected={selected} setSize={setSize} gridSize={gridSize} pixelSize={pixelSize} />
+      { !isVisible && <Loading />}
+      { isVisible && <PixelSettings onClick={confirm} data={orario} selected={selected} setSize={setSize} gridSize={gridSize} pixelSize={pixelSize} />}
       <Container ref={DrawingGrid}>
-        <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0}>
-          {grid}
+        <Grid gridSize={gridSize} pixelSize={pixelSize} tabIndex={0} ref={pixelsContainerRef}>
+          <Pixels data={data} selected={selected} setSelected={setSelected} orario={orario} onSelect={select} />
         </Grid>
       </Container>
     </>
   );
 }
+
+const Pixels = memo(({ data, selected, setSelected, orario, onSelect }) => (
+  <>
+  {cells.map((_, i) => (
+    <ObservedPixel key={i}>
+      {ref => <Pixel i={i} data={data[i]} selected={selected[i]} setSelected={setSelected} orario={orario} onSelect={onSelect} ref={ref} />}
+    </ObservedPixel>
+  ))}
+  </>
+));
 
 const Loading = () => (
   <LoadingDiv>
