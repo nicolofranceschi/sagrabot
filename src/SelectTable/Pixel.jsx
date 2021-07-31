@@ -41,7 +41,7 @@ const PixelPrenotatoCovidTipo1 = forwardRef(({ ...props }, ref) => (
 ));
 
 const Pixel = memo(forwardRef(({ i, data, selected, onSelect, setSelected, orario }, ref) => {
-  const selectPixel = useCallback(() => onSelect(i), [selected]);
+  const selectPixel = useCallback(() => onSelect({i,data}), [selected]);
   const pixelProps = { ref, rotation: data?.rotation, border: data?.border };
 
   const pixelSelezionatoTipo1Props = { ...pixelProps, selectPixel, color: data?.color };

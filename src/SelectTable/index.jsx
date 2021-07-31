@@ -1,16 +1,27 @@
-import { useRef, useState, useMemo, useEffect, memo } from "react";
+import { useRef, useState,  useEffect, memo } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid, LoadingDiv } from "./Styled";
+import { Container, Grid, LoadingDiv , Title } from "./Styled";
 import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import Pixel from './Pixel';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useSala } from "../App";
-import Load from "./Animation.json";
 import { useHistory } from "react-router-dom";
 import ReactLoading from 'react-loading';
+import Lottie from 'react-lottie';
+import Loadingani from "./Animation.json"
+
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true, 
+  animationData: Loadingani,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
 
 const initialGridSize = 1500;
 const cellsNumber = 50;
@@ -31,26 +42,11 @@ export default function Prenotazioni () {
   useEffect(() => {
     async function doStuff () {
       try {
-        toast.info("🚀🚀🚀🚀🚀🚀🚀🚀🚀", {
-          autoClose: 3000,
-          closeOnClick: true,
-          draggable: true,
-        });
         const res = await getUserDocument(SALEUID);
         if (!res) throw "ERRORE 😞, ricarica";
-        toast.info("Stanza creata 🤪", {
-          autoClose: 3000,
-          closeOnClick: true,
-          draggable: true,
-        });
         console.log("HO FINITO LA CHIAMATA", res?.sale)
         setData(res?.sale['SAGRA']);
       } catch (error) {
-        toast.error(error, {
-          autoClose: 5000,
-          closeOnClick: true,
-          draggable: true,
-        });
         history.replace('/');
       }
     }
@@ -83,10 +79,29 @@ function MappaPrenotazioni ({ data }) {
     eventOptions: { passive: false },
   });
 
-  const select = (i) => {
-    console.log('ho prenotato il posto ', i, getxy(i));
-    setSelected(current => ({ ...current, [i]: { type: 'default' } }));
+  const select = ({i,data}) => {
+    const tavolonumero = getnumber(i);
+    console.log('ho prenotato il posto ', i,"al tavolo", tavolonumero, getxy(i),data);
+    setSelected(current => ({ ...current, [i]: { type: 'default' , tavolo : tavolonumero } }));
   };
+
+  const getnumber = (i) => {
+    let a=i;
+    const giavisti=[i];
+    while (data[a]?.type!==2){
+      if(data[a+50]!==undefined && giavisti.find(elemento => elemento===a+50)===undefined) {a=a+50;giavisti.push(a);}
+      else if(data[a+49]!==undefined && giavisti.find(elemento => elemento===a+49)===undefined) {a=a+49;giavisti.push(a);}
+      else if(data[a+51]!==undefined && giavisti.find(elemento => elemento===a+51)===undefined) {a=a+51;giavisti.push(a);}
+      else if(data[a+1]!==undefined && giavisti.find(elemento => elemento===a+1)===undefined) {a=a+1;giavisti.push(a);}
+      else if(data[a-1]!==undefined && giavisti.find(elemento => elemento===a-1)===undefined) {a=a-1;giavisti.push(a);}
+      else if(data[a-50]!==undefined && giavisti.find(elemento => elemento===a-50)===undefined) {a=a-50;giavisti.push(a);}
+      else if(data[a-51]!==undefined && giavisti.find(elemento => elemento===a-51)===undefined) {a=a-51;giavisti.push(a);}
+      else if(data[a-49]!==undefined && giavisti.find(elemento => elemento===a-49)===undefined) {a=a-49;giavisti.push(a);}
+      else break
+    }
+   return data[a].text
+  };
+
 
   const confirm = () => {
     setPrenotazioni([data, selected]);
@@ -128,7 +143,7 @@ const Pixels = memo(({ data, selected, setSelected, orario, onSelect }) => (
 
 const Loading = () => (
   <LoadingDiv>
-    <ReactLoading type={"bubbles"} color={"#adaeff"} height={200} width={200} />
+    <Title>Caricamento ... </Title>
   </LoadingDiv>
 );
 

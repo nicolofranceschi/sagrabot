@@ -44,7 +44,19 @@ function App() {
     prenotazioni: [prenotazioni, setPrenotazioni],
   };
 
-  return user ? (
+  return (
+    <>
+     <ToastContainer
+          position="top-right"
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          draggable
+          hideProgressBar
+        />
+    {user ? (
     <SalaContext.Provider value={context}>
       <LoggedRouter />
     </SalaContext.Provider>
@@ -52,7 +64,8 @@ function App() {
     <SalaContext.Provider value={context}>
       <NonLoggedRouter />
     </SalaContext.Provider>
-  );
+  )}
+  </>);
 }
 
 const LoggedRouter = () => (
@@ -84,16 +97,6 @@ const NonLoggedRouter = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
       <Route path="/">
-        <ToastContainer
-          position="top-right"
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          pauseOnHover
-          draggable
-          hideProgressBar
-        />
         <Loginphone setUser={props.setUser}/>
       </Route>
     </Switch>

@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { getUserDocument, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Card, Container, Svg, Svg1, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Qr, Line, Pop, Blocco, Close, Div, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText, Svg, Svg1, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Qr, Line, Pop, Blocco, Close, Div, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import { useSala } from "../App";
 import QRCode from "react-qr-code";
@@ -30,7 +30,8 @@ export default function Home() {
     const [page, setPage] = useState({
         state: false,
         data: null,
-        counter: [0, 0, 0, 0]
+        counter: [0, 0, 0, 0],
+        tavoli : []
     });
     const { user: [user, setUser] } = useSala();
 
@@ -116,6 +117,33 @@ export default function Home() {
     }
 
 
+    const sumMenu = (value) => {
+
+        let state = 0;
+        let menu = []
+
+        for (let i = 0; i < value.length; i++) {
+            if (value[state].menu.toString() !== value[i].menu.toString()) {
+                for (let a = 0; a < 4; a++) { menu[a] = value[state].menu[a] + value[i].menu[a]; } state = i;
+            }
+        }
+
+        let temp = value[0].tavolo;
+        let tavoli = [value[0].tavolo];
+
+        for (let i = 0; i < value.length; i++) {
+
+            if (value[i].tavolo !== temp && !tavoli.find(elemento => elemento===value[i].tavolo)) {
+               
+                tavoli.push(value[i].tavolo);
+                temp = [value[i].tavolo]
+            }
+        }
+
+        setPage({ state: true, data: value, counter: menu , tavoli : tavoli});
+    }
+
+
     if (!page.state && Object.keys(onlydefault).length > 0) return (
         <div>
             <ToastContainer
@@ -142,12 +170,12 @@ export default function Home() {
                             <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </Svg>
-                            <Right onClick={() => setPage({ state: true, data: value, counter: value[0].menu })}>
+                            <Right onClick={() => sumMenu(value)}>
                                 <Testo line={"2vh"} padding={"10px"}>Prenotazione confermata per il</Testo>
                                 <TestoBig line={"10vh"} size={"20vw"} padding={"10px"}>{key.substr(0, 2)}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>{key.substr(2)} </Testo>
                             </Right>
-                            <Left onClick={() => setPage({ state: true, data: value, counter: value[0].menu })}>
+                            <Left onClick={() => sumMenu(value)}>
                                 <TestoBig line={"12vh"} size={"20vw"} padding={"20px"}>{value.length}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>POSTI</Testo>
                             </Left>
@@ -172,8 +200,8 @@ export default function Home() {
                 <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setUser(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </Svgout>
-                </Flex>  
-                <Title size={3}>Non hai prenotazioni al momento 😕 , CLICCA sul tasto + per iniziare 😏</Title>
+            </Flex>
+            <Title size={3}>Non hai prenotazioni al momento 😕 , CLICCA sul tasto + per iniziare 😏</Title>
 
             <Link to="/data">
                 <Svg1 xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#ffade3">
@@ -187,9 +215,18 @@ export default function Home() {
     else return (
         <Blocco>
             <Titlelitte size={3} line={"10vh"}>Riepilogo</Titlelitte >
-            <Testo line={"5vh"}>Mostra il QR CODE all' entrata</Testo>
+            
             <Div>
+                <Tavoli>
+                        { page.tavoli.map((current) => (
+                            <TavoliText key={current.key} >
+                                <Testo line={"2vh"} padding={"10px"}>Tavolo numero</Testo>
+                                <TestoBig line={"10vh"} size={"20vw"} padding={"10px"}>{current}</TestoBig>
+                            </TavoliText>
+                            ))}
+                </Tavoli>
                 <Qr>
+                   <Testo line={"5vh"}>Mostra il QR CODE all' entrata</Testo>
                     <QRCode value="id" level="H" size={200} fgColor="var(--line)" bgColor="var(--black-light)" />
                 </Qr>
             </Div>

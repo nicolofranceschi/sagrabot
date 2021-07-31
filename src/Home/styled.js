@@ -39,7 +39,22 @@ export const Div = styled.div`
       width: 100vw;
       overflow: hidden;
       display: flex;
+      flex-direction: row;
+`;
+
+export const Tavoli = styled.div`
+      overflow: scroll;
+      width: 40%;
+      height: 200px;
+      margin-left: 5%;
+      margin-right: 5%;
+      display: flex;
       flex-direction: column;
+      -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 
@@ -299,6 +314,22 @@ export const Right = styled.div`
       grid-template-columns: 1fr 1fr 1fr  ;
       font-size: 4vw; 
     }
+  `;
+
+
+export const TavoliText = styled.div`
+
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    background-color: #ffade3;
+    font-size: 20vw; 
+    font-weight: bold;
+    text-transform: uppercase;
+    
   `;
 
 

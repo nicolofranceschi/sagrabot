@@ -42,6 +42,15 @@ export const Pixelstyle = styled.div`
  
 `;
 
+export const Title = styled.div`
+    
+      color: #adaeff;
+      font-size: 20px;  
+      font-weight: 900;
+      
+        
+`;
+
 
 export const LoadingDiv= styled.div`
   height: 100vh;
@@ -51,6 +60,8 @@ export const LoadingDiv= styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: "Inter", sans-serif;
+	background-color: mix(#fff, #e91e63, 82%);
 `;
 
 export const BottomPopup = styled(motion.div)`
