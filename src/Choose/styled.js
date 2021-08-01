@@ -181,6 +181,92 @@ export const Back = styled.div`
   }
 `;
 
+export const Popup = styled.div`
+  position: absolute;
+  top:0px;
+  left:0px;
+  height: 100vh;
+  width: 100vw;
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  z-index:1000;
+ 
+`;
+
+export const Warinig = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top:10vh;
+  left:10vw;
+  height: 80vh;
+  width: 80vw;
+  border-radius: 20px;
+  background-color: var(--line);
+  z-index:1001;
+  
+`;
+
+export const FlexButton = styled.div`
+
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  bottom: 0;
+  left : 0;
+  height: 20vh;
+  width: 80vw;
+  border-radius: 20px;
+  z-index:1001;
+  
+`;
+
+export const Button = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  font-size: 50px;
+  font-weight: bold;
+  width: 50%;
+  background-color: ${props => props.bg};
+  color: ${props => props.color};
+  border-radius: 20px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  z-index:1001;
+  p{
+    font-size: 30px;
+    padding-left: 10px;
+  }
+
+  svg{ 
+    padding:40px;
+    :hover{ transform : scale(0.9)}
+  }
+  
+`;
+
+export const Ops = styled.p`
+  
+  padding: 20px;
+  color: white;
+  font-size:20px;
+  font-weight: bold;
+  z-index:1001;
+  
+`;
+
+export const Text = styled.p`
+  
+  padding: 20px;
+  color: white;
+  font-size:15px;
+  z-index:1001;
+  
+`;
+
+
 export const Svg = styled.svg`
   margin:15px;
   height:20px;
