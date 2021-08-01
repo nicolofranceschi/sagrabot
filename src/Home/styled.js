@@ -21,13 +21,7 @@ export const Blocco = styled.div`
     background-color: var(--black-light);
   `;
 
-export const Qr = styled.div`
-      overflow: hidden;
-      position: relative;
-      border-radius: 20px;
-      display: table;
-      margin: 0 auto;
-`;
+
 
 export const Line = styled.div`
   margin-top: 10px;
@@ -44,16 +38,16 @@ export const Div = styled.div`
 
 export const Tavoli = styled.div`
       overflow: scroll;
-      width: 40%;
-      height: 200px;
       margin-left: 5%;
       margin-right: 5%;
+      border-radius: 20px;
+      height: 10vh;
       display: flex;
       flex-direction: column;
       -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  ::-webkit-scrollbar {
-    display: none;
+      scrollbar-width: none;  /* Firefox */
+      ::-webkit-scrollbar {
+       display: none;
   }
 `;
 
@@ -184,6 +178,50 @@ export const Title = styled.div`
         font-size: ${props => props.size}vh; 
         
 `;
+
+export const Allergie = styled.div`
+  
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  border-radius: 20px;
+  height: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items:center;
+  max-width: 400px;
+
+  :hover{
+    transform: scale(0.9);
+  }
+
+  img{
+    padding:6px 0px 0px;
+    width: 50px;
+  }
+  
+  
+`;
+
+export const P1 = styled.div`
+    
+    padding: 20px 0px 20px 0px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 60%;
+       
+`;
+
+export const P2 = styled.div`
+    
+    padding: 20px 0px 20px 0px;
+    color: #ee404c;
+    font-size: 20px;
+    font-weight: bold;
+       
+`;
+
 
 export const Titlelitte = styled.div`
     
@@ -324,6 +362,8 @@ export const TavoliText = styled.div`
     position: relative;
     text-align: center;
     vertical-align: middle;
+    display: flex;
+    align-items: center;
     color: white;
     background-color: #ffade3;
     font-size: 20vw; 
@@ -331,6 +371,19 @@ export const TavoliText = styled.div`
     text-transform: uppercase;
     
   `;
+
+export const ButtonTavoli = styled.button`
+    position: absolute;
+    bottom:2vh;
+    left:5vw;
+    height: 15vh;
+    width: 90vw;
+    color: #ffade3;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: var(--line);
+    z-index:10;
+`;
 
 
 export const Grid = styled(motion.div)`

@@ -3,14 +3,16 @@ import { toast, ToastContainer } from "react-toastify";
 import { getUserDocument, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Card, Container, Tavoli, TavoliText, Svg, Svg1, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Qr, Line, Pop, Blocco, Close, Div, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText, Svg, Allergie,P1,P2, Svg1, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig,  Line, Pop, Blocco, Close,  Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import { useSala } from "../App";
-import QRCode from "react-qr-code";
+import allergie from "./allergie.png"
 import Menu0 from "./MENU0.png";
 import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
+import Qr from "./../Qr"
+
 
 const SALEUID = 'sala';
 
@@ -29,6 +31,7 @@ export default function Home() {
     const [deletes, setDeletes] = useState(true);
     const [page, setPage] = useState({
         state: false,
+        qr:false,
         data: null,
         counter: [0, 0, 0, 0],
         tavoli : []
@@ -41,7 +44,7 @@ export default function Home() {
             const res = await getUserDocument("sala");
             if (!res) throw new Error("No connection");
             if (!res.sale['SAGRA']) throw new Error('Errore');
-            console.log(res.sale['SAGRA']);
+            
             setData(res.sale['SAGRA']);
 
             const newPrenotazioni = Object.entries(res.sale['SAGRA']).reduce((acc, pixel) => {
@@ -110,7 +113,6 @@ export default function Home() {
             const res = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
             setDeletes(!deletes)
             toast.success("Prenotazione cancellata");
-            console.log(newData);
         } catch (error) {
             toast.error(error);
         }
@@ -120,7 +122,9 @@ export default function Home() {
     const sumMenu = (value) => {
 
         let state = 0;
-        let menu = []
+        let menu = value[state].menu;
+
+        console.log(value);
 
         for (let i = 0; i < value.length; i++) {
             if (value[state].menu.toString() !== value[i].menu.toString()) {
@@ -140,10 +144,13 @@ export default function Home() {
             }
         }
 
-        setPage({ state: true, data: value, counter: menu , tavoli : tavoli});
+        setPage({ state: true, qr:false, data: value, counter: menu , tavoli : tavoli});
     }
+   if(page.qr) return (
 
+       <Qr page={page} setPage={setPage} user={user} /> 
 
+   )
     if (!page.state && Object.keys(onlydefault).length > 0) return (
         <div>
             <ToastContainer
@@ -211,25 +218,18 @@ export default function Home() {
 
         </div>
 
-    );
+    ); 
     else return (
         <Blocco>
             <Titlelitte size={3} line={"10vh"}>Riepilogo</Titlelitte >
-            
-            <Div>
                 <Tavoli>
                         { page.tavoli.map((current) => (
-                            <TavoliText key={current.key} >
+                            <TavoliText key={current} >
                                 <Testo line={"2vh"} padding={"10px"}>Tavolo numero</Testo>
                                 <TestoBig line={"10vh"} size={"20vw"} padding={"10px"}>{current}</TestoBig>
                             </TavoliText>
                             ))}
                 </Tavoli>
-                <Qr>
-                   <Testo line={"5vh"}>Mostra il QR CODE all' entrata</Testo>
-                    <QRCode value="id" level="H" size={200} fgColor="var(--line)" bgColor="var(--black-light)" />
-                </Qr>
-            </Div>
             <Titlelitte size={1.5} line={3}>Menu selezionati</Titlelitte>
             <motion.div drag="x" position="relative" dragConstraints={{ left: -500, right: 0 }}>
                 <Line >
@@ -246,6 +246,12 @@ export default function Home() {
             <Close onClick={() => setPage({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </Close>
+           {page.data[0].allergie ? <Allergie>
+                <P1 color={"white"} size={"10px"}>Questa è una prenotazione con </P1>
+                <img src={allergie}></img>
+                <P2 color={"#ee404c"} size={"20px"}>ALLERGIE</P2>
+            </Allergie> : <div></div>}
+            <ButtonTavoli onClick={() => setPage(c  => {return {...c,qr:true}})} >Crea il mio QR code</ButtonTavoli>
         </Blocco>
     );
 

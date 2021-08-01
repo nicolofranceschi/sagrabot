@@ -1,7 +1,7 @@
 
-import { useEffect, useState} from "react";
-import { motion} from "framer-motion";
-import { Container, Qty, Pezzo, Back, Svg, Pop,P, SvgBack, ButtonTavoli,Close, Line, Descrizione, Card ,  Menuimg} from "./styled"
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form , Button, Input ,Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
 import { Link, Redirect } from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
@@ -10,6 +10,8 @@ import Menu0 from "./MENU0.png";
 import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
+import allergie from "./allergie.png"
+import { useForm } from "react-hook-form";
 
 
 const cellsNumber = 50;
@@ -100,19 +102,23 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
 export const Menu = () => {
 
   const { prenotazioni: [temp], user: [user], orario: [orario] } = useSala();
+  const { register, handleSubmit} = useForm();
+  const onSubmit = ({data}) => {setAllergie({ state: false , value : data})};
 
   const menu = [
-    { key: 0, menu: "Menu adulti",img: Menu0, qty: 0 },
-    { key: 1, menu: "Menu bambini",img: Menu1, qty: 0 },
-    { key: 2, menu: "Menu adulti ciliaci",img: Menu3, qty: 0 },
-    { key: 3, menu: "Menu bambini ciliaci",img: Menu2, qty: 0 }
+    { key: 0, menu: "Menu adulti", img: Menu0, qty: 0 },
+    { key: 1, menu: "Menu bambini", img: Menu1, qty: 0 },
+    { key: 2, menu: "Menu adulti ciliaci", img: Menu3, qty: 0 },
+    { key: 3, menu: "Menu bambini ciliaci", img: Menu2, qty: 0 }
   ]
 
-  const [counter, setCounter] = useState([0,0,0,0]);
+  const [counter, setCounter] = useState([0, 0, 0, 0]);
 
-  const [zoom, setZoom] = useState({state:false,value:null});
+  const [zoom, setZoom] = useState({ state: false, value: null });
 
-  if(temp===null) {
+  const [allergiedata, setAllergie] = useState({ state: false, value: "null" });
+
+  if (temp === null) {
     toast.error("Hai perso lo stack di prenotazione , RIPROVA");
     return <Redirect to="/"></Redirect>
   }
@@ -126,7 +132,7 @@ export const Menu = () => {
         [key]: {
           ...value, prenotazioni: [
             ...value?.prenotazioni ?? [],
-            ...(selectedSpot ? [{ ...selectedSpot, data: orario.data, orario: orario.orario, user, menu : counter }] : [])
+            ...(selectedSpot ? [{ ...selectedSpot, data: orario.data, orario: orario.orario, user, menu: counter , allergie : allergiedata.value }] : [])
           ]
         }
       };
@@ -139,15 +145,28 @@ export const Menu = () => {
     }
   }
 
-  if (zoom.state){ return (
+  if (zoom.state) return (
     <Container>
-            <Close onClick={() => setZoom({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
-                <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </Close>
-            <img src={zoom.value}></img>
+      <Close onClick={() => setZoom({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
+        <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      </Close>
+      <img src={zoom.value}></img>
     </Container>
   )
-  }else return (
+  if (allergiedata.state) {
+    return (
+      <Container>
+        <Close onClick={() => setAllergie({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
+          <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </Close>
+        <Descrizione vh="5vh" >Inserisici i tuoi allergeni</Descrizione>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Input type="text" {...register("data")} autoFocus/>
+          <Button type="submit"></Button>
+        </Form>
+      </Container>
+    )
+  } else return (
     <Container>
       <ToastContainer
         position="top-right"
@@ -159,6 +178,10 @@ export const Menu = () => {
         draggable
         hideProgressBar
       />
+      <Allergie onClick={() => setAllergie({ state: true })}>
+        <img src={allergie}></img>
+        <p>ALLERGIE</p>
+      </Allergie>
       <Link to="/choose">
         <Back>
           <SvgBack xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -174,41 +197,41 @@ export const Menu = () => {
               <Pop>
                 <P>{counter[current.key]}</P>
               </Pop>
-              <Menuimg onClick={() => setZoom({state:true,value:current.img})} src={current.img}></Menuimg>
-              {current.key==0 || current.key==2 ? (
-              <Qty>
-                <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
-                  <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </Svg>
-                </Pezzo>
-                <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] - 1, ...c.slice(current.key + 1)])}>
-                  <Svg color={"#ffade3"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                  </Svg>
-                </Pezzo>
-              </Qty>
-              ):(
+              <Menuimg onClick={() => setZoom({ state: true, value: current.img })} src={current.img}></Menuimg>
+              {current.key == 0 || current.key == 2 ? (
+                <Qty>
+                  <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
+                    <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </Svg>
+                  </Pezzo>
+                  <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] - 1, ...c.slice(current.key + 1)])}>
+                    <Svg color={"#ffade3"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                    </Svg>
+                  </Pezzo>
+                </Qty>
+              ) : (
 
                 <Qty>
-                <Pezzo border={"0px 0px 0px 20px"} color={"#adaeff"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
-                  <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </Svg>
-                </Pezzo>
-                <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] - 1, ...c.slice(current.key + 1)])}>
-                  <Svg color={"#adaeff"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                  </Svg>
-                </Pezzo>
-              </Qty>
+                  <Pezzo border={"0px 0px 0px 20px"} color={"#adaeff"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
+                    <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </Svg>
+                  </Pezzo>
+                  <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] - 1, ...c.slice(current.key + 1)])}>
+                    <Svg color={"#adaeff"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                    </Svg>
+                  </Pezzo>
+                </Qty>
 
               )
               }
             </Card>))}
         </Line>
       </motion.div>
-      
+
       <Link to="/">
         <ButtonTavoli onClick={confirm}>Completa la prenotazione</ButtonTavoli>
       </Link>

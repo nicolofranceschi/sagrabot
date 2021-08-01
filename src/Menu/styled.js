@@ -25,6 +25,34 @@ export const Qty = styled.div`
   vertical-align: sub;
 `;
 
+export const Allergie = styled.div`
+  
+  display: flex;
+  flex-direction: row;
+  position:absolute;
+  top:13px;
+  right:10px;
+  border-radius: 20px;
+  height: 50px;
+
+  :hover{
+    transform: scale(0.9);
+  }
+
+  img{
+    padding:6px 0px 0px;
+  }
+
+  p{
+    padding: 20px 0px 20px 0px;
+    color: #ee404c;
+    font-weight: bold;
+  }
+  
+`;
+
+
+
 export const Menuimg = styled.img`
   height: 80%;
   width: 100%;
@@ -37,6 +65,38 @@ export const Line = styled.div`
   height: 70vh;
   width: 1400px;
   display: flex;
+`;
+
+export const Form = styled.form`
+  margin-top: 10vh;
+  height: 70vh;
+  
+`;
+
+export const Button = styled.input`
+  height: 16vh;
+  position: absolute;
+  width: 90vw;
+  left: 5vw;
+  bottom: 5vh;
+  border-radius: 20px ;
+  background-color: #ffade3;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+`;
+export const Input = styled.textarea`
+  height: 70vh;
+  position: absolute;
+  width: 96vw;
+  left: 2vw;
+  top: 10vh;
+  font-size: 20px;
+  border-radius: 20px ;
+  padding: 20px;
+  background: var(--line);
+  color: white;
+  :focus { outline: none; }
 `;
 
 

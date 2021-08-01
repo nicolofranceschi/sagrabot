@@ -11,6 +11,7 @@ import Choose from './Choose';
 import { Menu } from './Menu';
 import Prenotazioni from "./SelectTable"
 import Home from "./Home";
+import Qr from "./Qr";
 
 const SalaContext = createContext(null);
 
@@ -85,6 +86,9 @@ const LoggedRouter = () => (
       </Route>
       <Route path="/data">
         <Choose />
+      </Route>
+      <Route path="/qr">
+        <Qr />
       </Route>
       <Route path="/">
         <Home/>
