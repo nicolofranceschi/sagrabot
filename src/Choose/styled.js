@@ -221,16 +221,41 @@ export const FlexButton = styled.div`
   
 `;
 
+export const Scroll = styled.div`
+
+  overflow: scroll;
+  max-height: 45vh;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  
+`;
+export const A = styled.a`
+
+  height: 100%;
+  width: 50%;
+  
+  
+`;
+export const Hyperlink = styled.a`
+
+  color: #adaeff;
+  
+  
+`;
 export const Button = styled.div`
 
   display: flex;
   flex-direction: column;
   font-size: 50px;
   font-weight: bold;
-  width: 50%;
   background-color: ${props => props.bg};
   color: ${props => props.color};
   border-radius: 20px;
+  width: ${props => props.width}; ;
   align-items: center;
   align-content: center;
   justify-content: center;
@@ -263,6 +288,7 @@ export const Text = styled.p`
   color: white;
   font-size:15px;
   z-index:1001;
+  
   
 `;
 

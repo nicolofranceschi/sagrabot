@@ -99,6 +99,15 @@ html {
     text-decoration: underline;
   }
 
+  h2{
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+  }
+
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   }

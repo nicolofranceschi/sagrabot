@@ -1,16 +1,16 @@
 
 import { motion } from "framer-motion";
-import { Line, Container, ButtonTavoli, Card,FlexButton,Button,Warinig, Ops,Text, Popup,Giorni, Mese, Orari, Flex, Descrizione, Back, Svg, Data, CardBig } from "./styled";
+import { Line, Container, ButtonTavoli, Card,Scroll, FlexButton,A, Button,Hyperlink, Warinig, Ops, Text, Popup, Giorni, Mese, Orari, Flex, Descrizione, Back, Svg, Data, CardBig } from "./styled";
 import { Link } from "react-router-dom";
 import { useSala } from "../App";
-import { useEffect , useState} from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Choose() {
 
   const { orario: [{ data, orario }, setMomento] } = useSala();
 
-  const [pop,setPOP] = useState(true);
+  const [pop, setPOP] = useState(true);
 
   const giorni = [
     { "giorno": "21", },
@@ -34,19 +34,37 @@ export default function Choose() {
 
   return (
     <Container>
-      { pop ? <Popup>
+      {pop ? <Popup>
         <Warinig>
           <Ops>Ops 😕</Ops>
-          <Text>Si ricorda che is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
-        <FlexButton>
-          <Button onClick={() => setPOP(false)} color={"white"} bg={"#adaeff"}>Ho<p>capito</p>
-          </Button>
-          <Button>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-          </Button>
-        </FlexButton>
+        <Scroll>
+          <Text>
+          <h2>🦽</h2>
+            Se hai esigenze particolari , difficoltà di deambulazione , necessità di accedere con carrozzine o sedie a 
+            rotelle ti chiediamo di rivolgerti al nostro Info Line <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> o scriverci su <Hyperlink href="mailto:info@prolococasteldelrio.it">info@prolococasteldelrio.it</Hyperlink> troveremo
+             assieme la miglior soluzione .
+          </Text>
+          <Text>
+            <h2>🐕‍🦺</h2> L’accesso ai cani è consentito , ti chiediamo però se vieni accompagnato dal tuo amico a 4 zampe di contattarci al Info Line 
+            <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> per trovare assieme il posto migliore .
+          </Text>
+          <Text>
+          <h2>🤧</h2>
+            Per segnalare allergie o intolleranze alimentari non risolvibili con i Menù proposti rivolgiti al Info Line <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> faremo 
+            il massimo per trovare assieme una soluzione .
+          </Text>
+          </Scroll>
+          <FlexButton>
+            <Button onClick={() => setPOP(false)} color={"white"} bg={"#adaeff"} width={"50%"}>Ho<p>capito</p>
+            </Button>
+              <A href="tel:+393516482510"   > 
+            <Button >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </Button>
+              </A>
+          </FlexButton>
         </Warinig>
       </Popup> : <></>}
       <Data>{data} {orario}</Data>
