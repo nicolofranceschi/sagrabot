@@ -10,7 +10,10 @@ export const Animation = styled(Lottie)`
 export const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  overflow: auto;
+  overflow: scroll;
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   ::-webkit-scrollbar {

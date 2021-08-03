@@ -42,7 +42,7 @@ export default function Choose() {
           <h2>🦽</h2>
             Se hai esigenze particolari , difficoltà di deambulazione , necessità di accedere con carrozzine o sedie a 
             rotelle ti chiediamo di rivolgerti al nostro Info Line <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> o scriverci su <Hyperlink href="mailto:info@prolococasteldelrio.it">info@prolococasteldelrio.it</Hyperlink> troveremo
-             assieme la miglior soluzione .
+            assieme la miglior soluzione .
           </Text>
           <Text>
             <h2>🐕‍🦺</h2> L’accesso ai cani è consentito , ti chiediamo però se vieni accompagnato dal tuo amico a 4 zampe di contattarci al Info Line 

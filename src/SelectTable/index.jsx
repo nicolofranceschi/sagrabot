@@ -23,7 +23,7 @@ const defaultOptions = {
   }
 };
 
-const initialGridSize = 1500;
+const initialGridSize = 1000;
 const cellsNumber = 50;
 const cells = [...Array(cellsNumber ** 2)];
 

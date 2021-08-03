@@ -251,6 +251,7 @@ export const Button = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 50px;
+  height: 100%;
   font-weight: bold;
   background-color: ${props => props.bg};
   color: ${props => props.color};
@@ -266,7 +267,8 @@ export const Button = styled.div`
   }
 
   svg{ 
-    padding:40px;
+   
+    height: 40px;
     :hover{ transform : scale(0.9)}
   }
   
