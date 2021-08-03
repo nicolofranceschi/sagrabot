@@ -294,6 +294,19 @@ export const Text = styled.p`
   
 `;
 
+export const Alert = styled.button`
+    position: absolute;
+    bottom:5vh;
+    left:5vw;
+    height: 10vh;
+    width: 90vw;
+    border-radius: 20px;
+    background-color: #adaeff;
+    color:white;
+    font-weight: bold;
+    z-index:10;
+`;
+
 
 export const Svg = styled.svg`
   margin:15px;

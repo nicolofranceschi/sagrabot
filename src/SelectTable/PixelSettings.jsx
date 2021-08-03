@@ -86,7 +86,6 @@ const Alert = styled.button`
     border-radius: 20px;
     background-color: #adaeff;
     color:white;
-    
     font-weight: bold;
     z-index:10;
 `;

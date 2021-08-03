@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { getUserDocument, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Card, Container, Tavoli, TavoliText, Svg, Allergie,P1,P2, Svg1, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig,  Line, Pop, Blocco, Close,  Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText, Svg, Allergie,P1,P2, Svg1,Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig,  Line, Pop, Blocco, Close,  Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import { useSala } from "../App";
 import allergie from "./allergie.png"
@@ -27,7 +27,7 @@ export default function Home() {
 
     const [data, setData] = useState(null);
     const [prenotazioni, setPrenotazioni] = useState({});
-    const [onlydefault, setOnlyDefault] = useState([]);
+    const [onlydefault, setOnlyDefault] = useState({});
     const [deletes, setDeletes] = useState(true);
     const [page, setPage] = useState({
         state: false,
@@ -147,6 +147,7 @@ export default function Home() {
 
         setPage({ state: true, qr:false, data: value, counter: menu , tavoli : tavoli});
     }
+
    if(page.qr) return (
 
        <Qr page={page} setPage={setPage} user={user} /> 
@@ -174,7 +175,7 @@ export default function Home() {
                 <Scroll>
                     <Space size={1}></Space>
                     {Object.entries(onlydefault).map(([key, value], i) => (
-                        <Card key={i}>
+                       value.length > 0 ? <Card key={i}>
                             <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </Svg>
@@ -187,7 +188,15 @@ export default function Home() {
                                 <TestoBig line={"12vh"} size={"20vw"} padding={"20px"}>{value.length}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>POSTI</Testo>
                             </Left>
-                        </Card>
+                        </Card> : 
+                        <Eliminazione>
+                            <div>
+                            <svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <p>Prenotazione in fase di cancellazione , clicca nuovamente 🗑 per confermare</p>
+                            </div>
+                        </Eliminazione>
                     ))
                     }
                     <Space size={10}></Space>

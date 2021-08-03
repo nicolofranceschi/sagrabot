@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Line, Container, ButtonTavoli, Card,Scroll, FlexButton,A, Button,Hyperlink, Warinig, Ops, Text, Popup, Giorni, Mese, Orari, Flex, Descrizione, Back, Svg, Data, CardBig } from "./styled";
+import { Line, Container, ButtonTavoli, Card,Scroll, FlexButton,A,Alert, Button,Hyperlink, Warinig, Ops, Text, Popup, Giorni, Mese, Orari, Flex, Descrizione, Back, Svg, Data, CardBig } from "./styled";
 import { Link } from "react-router-dom";
 import { useSala } from "../App";
 import { useEffect, useState } from "react";
@@ -137,9 +137,9 @@ export default function Choose() {
             ))}
         </Line>
       </motion.div>
-      <Link to="/choose">
+      {data !== undefined && orario!== undefined ? <Link to="/choose">
         <ButtonTavoli>Seleziona i posti</ButtonTavoli>
-      </Link>
+      </Link>:<Alert>Seleziona data e ora </Alert>}
     </Container>
   );
 }

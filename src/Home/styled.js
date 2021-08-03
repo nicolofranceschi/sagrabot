@@ -110,6 +110,62 @@ export const Card = styled.div`
     flex-direction: row;
   `;
 
+export const Eliminazione = styled.div`
+    height: 90%;
+    margin-left:5%;
+    margin-right:5%;
+    width: 90%;
+    padding-top: 20px;
+    border-radius: 20px;
+    position: relative;
+    cursor: grab;
+    perspective: 600px;
+    display: flex;
+    flex-direction: row;
+    div{
+      width: 100%;
+      height: 100%;
+      position: relative;
+      height: 10vh;
+      border-radius:20px ;
+      display: flex;
+      text-align: center;
+      vertical-align: middle;
+      justify-content:center;
+      align-items: center;
+      color: white;
+      background-color: var(--line);
+      font-size: 10px; 
+      font-weight: bold;
+      @media only screen and (min-width: 600px) {
+        grid-template-columns: 1fr 1fr 1fr  ;
+        font-size: 4vw; 
+      }
+    svg{ 
+      right: -15px;
+      z-index: 20;
+      stroke: red;
+      width: 50px;
+      height: 50px;
+      padding: 10px;
+      position: absolute;
+      top: -25px;
+      backdrop-filter: blur(30px);
+      border-radius:50px;
+      :hover{
+        transform: scale(1.2);
+      }
+    }
+
+    p{
+      padding:30px;
+      line-height: 1.6;
+    }
+
+    }
+`;
+
+
 export const Menu = styled.div`
     height: 80%;
     margin-left:20px;
