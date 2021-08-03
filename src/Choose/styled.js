@@ -261,9 +261,15 @@ export const Button = styled.div`
   align-content: center;
   justify-content: center;
   z-index:1001;
+
   p{
     font-size: 30px;
     padding-left: 10px;
+  }
+  span{ 
+    font-size: 10px;
+    color: white;
+    padding: 10px;
   }
 
   svg{ 

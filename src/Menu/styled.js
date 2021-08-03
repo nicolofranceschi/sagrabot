@@ -108,12 +108,59 @@ export const Info = styled.button`
   }
 `;
 
+export const Alert = styled.button`
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    font-size: 15px;
+    padding: 10px;
+    background-color:${props => props.color} ;
+    color:white;
+    font-weight: bold;
+    z-index:10;
+`;
+
+export const Alert2 = styled.button`
+    width: 30%;
+    height: 100%;
+    border-radius: 20px 0px 0px 20px;
+    font-size: 30px;
+    padding: 10px;
+    background-color:${props => props.color} ;
+    color:#ff9966;
+    font-weight: bold;
+    z-index:10;
+`;
+export const ButtonTavoli2 = styled.button`
+  width: 100%;
+  height: 100%;
+  color: #ffade3;
+  font-weight: bold;
+  border-radius: 0px 20px 20px 0px;
+  font-size: 15px;
+  background-color: var(--line);
+  z-index:10;
+`;
+
 export const ButtonFlex = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   height: 16vh;
+  position: absolute;
+  width: 90vw;
+  left: 5vw;
+  bottom: 5vh;
+  font-size: 25px;
+`;
+
+export const ButtonFlexend = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
   position: absolute;
   width: 90vw;
   left: 5vw;
@@ -251,14 +298,12 @@ export const Close = styled.svg`
         }
 `;
 export const ButtonTavoli = styled.button`
-  position: absolute;
-  bottom:2vh;
-  left:5vw;
-  height: 10vh;
-  width: 90vw;
+  width: 100%;
+  height: 100%;
   color: #ffade3;
   font-weight: bold;
   border-radius: 20px;
+  font-size: 15px;
   background-color: var(--line);
   z-index:10;
 `;

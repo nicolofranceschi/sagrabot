@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form ,ButtonFlex, Info, Button, Input ,Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
-import { Link, Redirect } from "react-router-dom";
+import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form,Alert,Alert2,ButtonTavoli2 ,ButtonFlex, ButtonFlexend, Info, Button, Input ,Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
 import { toast, ToastContainer } from "react-toastify";
@@ -102,6 +102,7 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
 export const Menu = () => {
 
   const { prenotazioni: [temp], user: [user], orario: [orario] } = useSala();
+  const history= useHistory();
   const { register, handleSubmit} = useForm();
   const onSubmit = ({data}) => {
    
@@ -118,17 +119,21 @@ export const Menu = () => {
 
   const [counter, setCounter] = useState([0, 0, 0, 0]);
 
+  const [numero, setNumero] = useState(0);
+
   const [zoom, setZoom] = useState({ state: false, value: null });
 
   const [allergiedata, setAllergie] = useState({ state: false, value: "null" });
 
-  if (temp === null) {
+  if (temp === null || orario.data ===undefined || orario.orario ===undefined || user===undefined || orario===undefined ) {
     toast.error("Hai perso lo stack di prenotazione , RIPROVA");
-    return <Redirect to="/"></Redirect>
+    history.replace('/');
   }
 
   const confirm = async () => {
+
     const covidPixels = getCovidPixels(temp[1], temp[0]);
+
     const newData = Object.entries(temp[0]).reduce((acc, [key, value]) => {
       const selectedSpot = covidPixels[key];
       return {
@@ -141,13 +146,25 @@ export const Menu = () => {
         }
       };
     }, {});
+
     try {
-      const res = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
+      if (temp === null || orario.data ===undefined || orario.orario === undefined || user===undefined|| allergiedata.value===undefined) throw "Alcuni dei cambi sono problematici , RIPROVA";
+      await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
       toast.success("Prenotazione effettuata");
+      history.replace('/');
     } catch (error) {
       toast.error(error);
     }
   }
+
+  useEffect(()=>{ 
+    const sum = counter.reduce((acc,value)=>acc+value);
+   
+    if(Object.keys(temp[1]).length !== sum) setNumero(1);
+    if(Object.keys(temp[1]).length === sum) setNumero(0);
+    if(Object.keys(temp[1]).length > sum*2) setNumero(2);
+
+  },counter)
 
   if (zoom.state) return (
     <Container>
@@ -245,10 +262,15 @@ export const Menu = () => {
             </Card>))}
         </Line>
       </motion.div>
-
-      <Link to="/">
-        <ButtonTavoli onClick={confirm}>Completa la prenotazione</ButtonTavoli>
-      </Link>
+     <ButtonFlexend>
+        {numero === 0 ? <ButtonTavoli onClick={confirm}>Completa la prenotazione</ButtonTavoli>
+        : numero === 1 ? 
+        <>
+        <Alert2 onClick={()=>toast.info("Numero dei menù divero rispetto al numero di posti selezionati")} color={"#ffcc00"} > ⚠ </Alert2>
+        <ButtonTavoli2 onClick={confirm}>Completa la prenotazione</ButtonTavoli2>
+        </>
+        : <Alert color={"#ee404c"}>Menu insufficenti</Alert>}
+     </ButtonFlexend>
     </Container>
   );
 };
