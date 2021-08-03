@@ -265,7 +265,6 @@ export const Tavoli = styled.img`
   
 `;
 
-
 const cellsNumber = 50;
 
 export default function PixelSettings({ data, onClick, selected, setSize,  gridSize }) {

@@ -44,7 +44,6 @@ export default function Prenotazioni () {
       try {
         const res = await getUserDocument(SALEUID);
         if (!res) throw "ERRORE 😞, ricarica";
-        console.log("HO FINITO LA CHIAMATA", res?.sale)
         setData(res?.sale['SAGRA']);
       } catch (error) {
         history.replace('/');
@@ -81,7 +80,6 @@ function MappaPrenotazioni ({ data }) {
 
   const select = ({i,data}) => {
     const tavolonumero = getnumber(i);
-    console.log('ho prenotato il posto ', i,"al tavolo", tavolonumero, getxy(i),data);
     setSelected(current => ({ ...current, [i]: { type: 'default' , tavolo : tavolonumero } }));
   };
 

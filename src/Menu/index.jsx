@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form , Button, Input ,Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
+import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form ,ButtonFlex, Info, Button, Input ,Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
 import { Link, Redirect } from "react-router-dom";
 import { updateUserDocument } from "../firebase";
 import { useSala } from "../App";
@@ -103,7 +103,11 @@ export const Menu = () => {
 
   const { prenotazioni: [temp], user: [user], orario: [orario] } = useSala();
   const { register, handleSubmit} = useForm();
-  const onSubmit = ({data}) => {setAllergie({ state: false , value : data})};
+  const onSubmit = ({data}) => {
+   
+    setAllergie({ state: false , value : data});
+
+  };
 
   const menu = [
     { key: 0, menu: "Menu adulti", img: Menu0, qty: 0 },
@@ -159,10 +163,20 @@ export const Menu = () => {
         <Close onClick={() => setAllergie({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
           <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </Close>
-        <Descrizione vh="5vh" >Inserisici i tuoi allergeni</Descrizione>
+        <Descrizione vh="4vh" >Inserisici i tuoi allergeni</Descrizione>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input type="text" {...register("data")} autoFocus/>
-          <Button type="submit"></Button>
+          <Input type="text" {...register("data")} />
+          <ButtonFlex>
+          <Button border={"20px 0px 0px 20px"} color={"#ffade3"} type="submit"></Button>
+          <Info  border={"0px 20px 20px 0px"} color={"#adaeff"} type="button">
+          <a href="https://sagrealidosiane.files.wordpress.com/2021/08/sagra-del-porcino-allergeni-2021-2-1.pdf" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p>Informazione sugli alimenti ai consumatori</p>
+          </a>
+          </Info>
+          </ButtonFlex>
         </Form>
       </Container>
     )

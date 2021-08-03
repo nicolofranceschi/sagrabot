@@ -125,8 +125,8 @@ export default function Editor() {
   ]);
 
   const saveMap = async () => {
-    const user = await generateUserDocument( 'backup', { sale: { 'SAGRA': selectedPixels }});
-    console.log(user);
+    const user = await generateUserDocument( 'sala', { sale: { 'SAGRA': selectedPixels }});
+   
   }
 
   return (

@@ -41,6 +41,7 @@ export default function Home() {
     useEffect(async () => {
 
         try {
+
             const res = await getUserDocument("sala");
             if (!res) throw new Error("No connection");
             if (!res.sale['SAGRA']) throw new Error('Errore');
@@ -101,7 +102,7 @@ export default function Home() {
                 prenotazioni: [...pixel.prenotazioni.slice(0, index), ...pixel.prenotazioni.slice(index + 1)]
             }
         }
-        console.log(value, data);
+        
         const newData = Object.entries(data).reduce((acc, [key, pixel]) => {
             const prenotazione = value.find(v => v.pixel === key);
             return {
@@ -124,7 +125,7 @@ export default function Home() {
         let state = 0;
         let menu = value[state].menu;
 
-        console.log(value);
+        
 
         for (let i = 0; i < value.length; i++) {
             if (value[state].menu.toString() !== value[i].menu.toString()) {
@@ -246,7 +247,7 @@ export default function Home() {
             <Close onClick={() => setPage({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </Close>
-           {page.data[0].allergie ? <Allergie>
+           {page.data.find(elemento => elemento.allergie!=="null") ? <Allergie>
                 <P1 color={"white"} size={"10px"}>Questa è una prenotazione con </P1>
                 <img src={allergie}></img>
                 <P2 color={"#ee404c"} size={"20px"}>ALLERGIE</P2>

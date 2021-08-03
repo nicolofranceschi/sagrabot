@@ -30,26 +30,26 @@ export default function Choose() {
     { "orario": "20:30", }
   ]
 
-  useEffect(() => { console.log(data, orario) }, [data, orario])
-
+  
   return (
     <Container>
       {pop ? <Popup>
         <Warinig>
           <Ops>Ops 😕</Ops>
         <Scroll>
-          <Text>
           <h2>🦽</h2>
+          <Text>
             Se hai esigenze particolari , difficoltà di deambulazione , necessità di accedere con carrozzine o sedie a 
             rotelle ti chiediamo di rivolgerti al nostro Info Line <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> o scriverci su <Hyperlink href="mailto:info@prolococasteldelrio.it">info@prolococasteldelrio.it</Hyperlink> troveremo
             assieme la miglior soluzione .
           </Text>
+            <h2>🐕‍🦺</h2> 
           <Text>
-            <h2>🐕‍🦺</h2> L’accesso ai cani è consentito , ti chiediamo però se vieni accompagnato dal tuo amico a 4 zampe di contattarci al Info Line 
+            L’accesso ai cani è consentito , ti chiediamo però se vieni accompagnato dal tuo amico a 4 zampe di contattarci al Info Line 
             <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> per trovare assieme il posto migliore .
           </Text>
-          <Text>
           <h2>🤧</h2>
+          <Text>
             Per segnalare allergie o intolleranze alimentari non risolvibili con i Menù proposti rivolgiti al Info Line <Hyperlink href="tel:+393516482510"> 3516482510</Hyperlink> faremo 
             il massimo per trovare assieme una soluzione .
           </Text>

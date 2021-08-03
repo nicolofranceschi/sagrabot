@@ -74,23 +74,59 @@ export const Form = styled.form`
 `;
 
 export const Button = styled.input`
+  
+  border-radius:${props => props.border}  ;
+  background-color: ${props => props.color};
+  color: white;
+  font-weight: bold;
+  height: 100%;
+  width: 50%;
+`;
+
+export const Info = styled.button`
+  
+  border-radius:${props => props.border}  ;
+  background-color: ${props => props.color};
+  color: white;
+  font-weight: bold;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  svg{ 
+    width: 40px;
+    height: 40px;
+  }
+  p{ 
+    font-size: 10px;
+    color: white;
+  }
+  a{ 
+    color: white;
+  }
+`;
+
+export const ButtonFlex = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   height: 16vh;
   position: absolute;
   width: 90vw;
   left: 5vw;
   bottom: 5vh;
-  border-radius: 20px ;
-  background-color: #ffade3;
-  color: white;
-  font-weight: bold;
   font-size: 25px;
 `;
+
 export const Input = styled.textarea`
-  height: 70vh;
+  height: 60vh;
   position: absolute;
   width: 96vw;
   left: 2vw;
-  top: 10vh;
+  top: 15vh;
   font-size: 20px;
   border-radius: 20px ;
   padding: 20px;

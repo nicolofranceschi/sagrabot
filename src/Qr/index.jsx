@@ -59,7 +59,7 @@ export default function Qr({page,setPage,user}) {
 
     const code = user+"/"+page.data[0].data.substr(0,2)+"/"+page.data[0].orario.substr(5)+"/"+page.data.length+"/"+page.tavoli.toString()+"/"+page.counter.toString();
 
-    console.log(code);
+    
 
     return (
         <>
