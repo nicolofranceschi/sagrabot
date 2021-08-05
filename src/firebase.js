@@ -43,7 +43,7 @@ export const signInWithPhoneNumber = async (numero) => {
   }
 }
 
-export const generateUserDocument = async (user, additionalData ) => {
+export const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
   const userRef = firestore.doc(`users/${user}`);
   const snapshot = await userRef.get();
@@ -60,10 +60,10 @@ export const generateUserDocument = async (user, additionalData ) => {
 
 export const logout = () => firebase.auth().signOut();
 
-export const sendVerificationCode = async (code,data) => {
+export const sendVerificationCode = async (code, data) => {
   try {
     await window.confirmationResult.confirm(code);
-    generateUserDocument(data.numero,data)
+    generateUserDocument(data.numero, data)
   } catch (error) {
     toast.error(error.message)
   }
@@ -105,11 +105,31 @@ export const getUserDocument = async uid => {
   }
 };
 
+export const getRealtimeDocument = async () => {
+  try {
+
+    firestore.collection("users").doc("sala").onSnapshot((doc) => {
+      console.log("Current data: ", doc.data());
+      return {...doc.data()};
+
+    });
+
+  } catch (error) {
+    console.error("Error fetching user", error);
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+    });
+  }
+};
+
 export const controllUser = async uid => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
-    if(userDocument.exists) return userDocument.data()
+    if (userDocument.exists) return userDocument.data()
     else return null;
   } catch (error) {
     console.error("Error fetching user", error);

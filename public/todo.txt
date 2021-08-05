@@ -1,3 +1,2 @@
-sistemare firebase
-
-selexionare prenotati i poti intorno ai tavoli esterni
+listing all prenotation 
+fix real timr db

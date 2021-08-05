@@ -41,6 +41,7 @@ export const Allergie = styled.div`
 
   img{
     padding:6px 0px 0px;
+    width: 50px;
   }
 
   p{

@@ -12,6 +12,8 @@ import { Menu } from './Menu';
 import Prenotazioni from "./SelectTable"
 import Home from "./Home";
 import Qr from "./Qr";
+import Admin from "./Admin";
+import HomeAdmin from "./HomeAdmin";
 import { useHistory } from 'react-router-dom';
 
 const SalaContext = createContext(null);
@@ -21,16 +23,19 @@ export const useSala = () => useContext(SalaContext);
 function App() {
   const history = useHistory();
   const [user, setUser] = useState(null);
+  const [admin, setAdmin] = useState(null);
   const [prenotazioni, setPrenotazioni] = useState(null);
 
   const [{ data, orario }, setMomento] = useState({});
 
   useEffect(() => {
+    
     console.log('inizio login')
     auth.onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         try {
           setUser(firebaseUser.phoneNumber);
+          setAdmin(firebaseUser.email);
           console.log('fine login')
         } catch (error) {
           toast.error(error.message);
@@ -39,16 +44,16 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = firestore.collection("users").doc("sala").onSnapshot(() => {
-      console.log('SNAPSHOT', prenotazioni);
-      if (prenotazioni) {
-        toast.error(`Prenotazione in conflitto, si prega di riprovare`);
-        history.push('/');
-      }
-    });
-    return unsubscribe;
-  }, [prenotazioni]);
+  //useEffect(() => {
+  //  const unsubscribe = firestore.collection("users").doc("sala").onSnapshot(() => {
+  //    console.log('SNAPSHOT', prenotazioni);
+  //    if (prenotazioni) {
+  //      toast.error(`Prenotazione in conflitto, si prega di riprovare`);
+  //      history.push('/');
+  //    }
+  //  });
+  //  return unsubscribe;
+  //}, [prenotazioni]);
 
   const context = {
     sala: useLocalStorage('sala', ''),
@@ -73,11 +78,15 @@ function App() {
     <SalaContext.Provider value={context}>
       <LoggedRouter />
     </SalaContext.Provider>
-  ) : (
+  ) : admin ? (
+
+      <AdminDom />
+
+  ): (
     <SalaContext.Provider value={context}>
       <NonLoggedRouter />
     </SalaContext.Provider>
-  )}
+  ) }
   </>);
 }
 
@@ -112,6 +121,9 @@ const LoggedRouter = () => (
 const NonLoggedRouter = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
+    <Route path="/admin">
+        <Admin/>
+      </Route>
       <Route path="/">
         <Loginphone setUser={props.setUser}/>
       </Route>
@@ -119,4 +131,14 @@ const NonLoggedRouter = (props) => (
   </AnimateSharedLayout>
 );
 
+
+const AdminDom = (props) => (
+  <AnimateSharedLayout type="crossfade">
+    <Switch>
+      <Route path="/">
+       <HomeAdmin/>
+      </Route>
+    </Switch>
+  </AnimateSharedLayout>
+);
 export default App;
