@@ -100,14 +100,11 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
 }), {});
 
 export const Menu = () => {
-
   const { prenotazioni: [temp], user: [user], orario: [orario] } = useSala();
   const history= useHistory();
   const { register, handleSubmit} = useForm();
   const onSubmit = ({data}) => {
-   
     setAllergie({ state: false , value : data});
-
   };
 
   const menu = [
@@ -148,12 +145,15 @@ export const Menu = () => {
     }, {});
 
     try {
-      if (temp === null || orario.data ===undefined || orario.orario === undefined || user===undefined|| allergiedata.value===undefined) throw "Alcuni dei cambi sono problematici , RIPROVA";
+      if (temp === null || orario.data ===undefined || orario.orario === undefined || user===undefined|| allergiedata.value===undefined) throw new Error("Alcuni dei cambi sono problematici , RIPROVA");
+      // chiamata a firestore per avere le Prenotazioni
+      // if non ci sono prenotazioni per gli stessi tavoli e alla stessa ora e giorno, vai avanti
+      
       await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
       toast.success("Prenotazione effettuata");
       history.replace('/');
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message);
     }
   }
 

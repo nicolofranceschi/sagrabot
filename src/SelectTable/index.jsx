@@ -43,7 +43,7 @@ export default function Prenotazioni () {
     async function doStuff () {
       try {
         const res = await getUserDocument(SALEUID);
-        if (!res) throw "ERRORE 😞, ricarica";
+        if (!res) throw new Error("ERRORE 😞, ricarica");
         setData(res?.sale['SAGRA']);
       } catch (error) {
         history.replace('/');
@@ -59,7 +59,7 @@ function MappaPrenotazioni ({ data }) {
   const history = useHistory();
   const { height, width } = useWindowSize();
   const { prenotazioni: [, setPrenotazioni], user: [user], orario: [orario] } = useSala();
-
+  
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   
   const [selected, setSelected] = useState({});
@@ -87,19 +87,18 @@ function MappaPrenotazioni ({ data }) {
     let a=i;
     const giavisti=[i];
     while (data[a]?.type!==2){
-      if(data[a+50]!==undefined && giavisti.find(elemento => elemento===a+50)===undefined) {a=a+50;giavisti.push(a);}
-      else if(data[a+49]!==undefined && giavisti.find(elemento => elemento===a+49)===undefined) {a=a+49;giavisti.push(a);}
-      else if(data[a+51]!==undefined && giavisti.find(elemento => elemento===a+51)===undefined) {a=a+51;giavisti.push(a);}
-      else if(data[a+1]!==undefined && giavisti.find(elemento => elemento===a+1)===undefined) {a=a+1;giavisti.push(a);}
-      else if(data[a-1]!==undefined && giavisti.find(elemento => elemento===a-1)===undefined) {a=a-1;giavisti.push(a);}
-      else if(data[a-50]!==undefined && giavisti.find(elemento => elemento===a-50)===undefined) {a=a-50;giavisti.push(a);}
-      else if(data[a-51]!==undefined && giavisti.find(elemento => elemento===a-51)===undefined) {a=a-51;giavisti.push(a);}
-      else if(data[a-49]!==undefined && giavisti.find(elemento => elemento===a-49)===undefined) {a=a-49;giavisti.push(a);}
+      if(data[a+50]!==undefined && !giavisti.some(elemento => elemento===a+50)) {a=a+50;giavisti.push(a);}
+      else if(data[a+49]!==undefined && !giavisti.some(elemento => elemento===a+49)) {a=a+49;giavisti.push(a);}
+      else if(data[a+51]!==undefined && !giavisti.some(elemento => elemento===a+51)) {a=a+51;giavisti.push(a);}
+      else if(data[a+1]!==undefined && !giavisti.some(elemento => elemento===a+1)) {a=a+1;giavisti.push(a);}
+      else if(data[a-1]!==undefined && !giavisti.some(elemento => elemento===a-1)) {a=a-1;giavisti.push(a);}
+      else if(data[a-50]!==undefined && !giavisti.some(elemento => elemento===a-50)) {a=a-50;giavisti.push(a);}
+      else if(data[a-51]!==undefined && !giavisti.some(elemento => elemento===a-51)) {a=a-51;giavisti.push(a);}
+      else if(data[a-49]!==undefined && !giavisti.some(elemento => elemento===a-49)) {a=a-49;giavisti.push(a);}
       else break
     }
-   return data[a].text
+    return data[a].text
   };
-
 
   const confirm = () => {
     setPrenotazioni([data, selected]);

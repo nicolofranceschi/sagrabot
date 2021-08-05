@@ -3,7 +3,7 @@ import Editor from "./Editor";
 import Sale from "./Sale";
 import Loginphone from "./Loginphone";
 import { AnimateSharedLayout } from 'framer-motion';
-import { auth, generateUserDocument } from './firebase';
+import { auth, firestore, generateUserDocument } from './firebase';
 import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
 import { toast, ToastContainer } from "react-toastify";
@@ -12,13 +12,14 @@ import { Menu } from './Menu';
 import Prenotazioni from "./SelectTable"
 import Home from "./Home";
 import Qr from "./Qr";
+import { useHistory } from 'react-router-dom';
 
 const SalaContext = createContext(null);
 
 export const useSala = () => useContext(SalaContext);
 
 function App() {
-
+  const history = useHistory();
   const [user, setUser] = useState(null);
   const [prenotazioni, setPrenotazioni] = useState(null);
 
@@ -37,6 +38,17 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = firestore.collection("users").doc("sala").onSnapshot(() => {
+      console.log('SNAPSHOT', prenotazioni);
+      if (prenotazioni) {
+        toast.error(`Prenotazione in conflitto, si prega di riprovare`);
+        history.push('/');
+      }
+    });
+    return unsubscribe;
+  }, [prenotazioni]);
 
   const context = {
     sala: useLocalStorage('sala', ''),
