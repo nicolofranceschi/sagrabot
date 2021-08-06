@@ -20,6 +20,12 @@ const SalaContext = createContext(null);
 
 export const useSala = () => useContext(SalaContext);
 
+function ciSonoConflitti (firestoreData, localData, user, data, orario) {
+  console.log('CI SONO CONFLITTI?', firestoreData, localData, user);
+  const prenotazioneInConflitto = prenotazione => prenotazione.data === data && prenotazione.orario === orario && prenotazione.user !== user;
+  return Object.keys(localData).some(local => firestoreData[local].prenotazioni.some(prenotazioneInConflitto));
+}
+
 function App() {
   const history = useHistory();
   const [user, setUser] = useState(null);
@@ -29,31 +35,23 @@ function App() {
   const [{ data, orario }, setMomento] = useState({});
 
   useEffect(() => {
-    
-    console.log('inizio login')
     auth.onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
-        try {
-          setUser(firebaseUser.phoneNumber);
-          setAdmin(firebaseUser.email);
-          console.log('fine login')
-        } catch (error) {
-          toast.error(error.message);
-        }
+        setUser(firebaseUser.phoneNumber);
+        setAdmin(firebaseUser.email);
       }
     });
   }, []);
 
-  //useEffect(() => {
-  //  const unsubscribe = firestore.collection("users").doc("sala").onSnapshot(() => {
-  //    console.log('SNAPSHOT', prenotazioni);
-  //    if (prenotazioni) {
-  //      toast.error(`Prenotazione in conflitto, si prega di riprovare`);
-  //      history.push('/');
-  //    }
-  //  });
-  //  return unsubscribe;
-  //}, [prenotazioni]);
+  useEffect(() => {
+    const unsubscribe = firestore.collection("users").doc("sala").onSnapshot((snapshot) => {
+      if (prenotazioni && ciSonoConflitti(snapshot.data()?.sale['SAGRA'], prenotazioni[1], user, data, orario)) {
+        toast.error(`Prenotazione in conflitto, si prega di riprovare`);
+        history.push('/');
+      }
+    });
+    return unsubscribe;
+  }, [prenotazioni, user]);
 
   const context = {
     sala: useLocalStorage('sala', ''),
@@ -64,30 +62,30 @@ function App() {
 
   return (
     <>
-     <ToastContainer
-          position="top-right"
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          pauseOnHover
-          draggable
-          hideProgressBar
-        />
-    {user ? (
-    <SalaContext.Provider value={context}>
-      <LoggedRouter />
-    </SalaContext.Provider>
-  ) : admin ? (
+      <ToastContainer
+        position="top-right"
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        draggable
+        hideProgressBar
+      />
+      {user ? (
+        <SalaContext.Provider value={context}>
+          <LoggedRouter />
+        </SalaContext.Provider>
+      ) : admin ? (
 
-      <AdminDom />
+        <AdminDom />
 
-  ): (
-    <SalaContext.Provider value={context}>
-      <NonLoggedRouter />
-    </SalaContext.Provider>
-  ) }
-  </>);
+      ) : (
+        <SalaContext.Provider value={context}>
+          <NonLoggedRouter />
+        </SalaContext.Provider>
+      )}
+    </>);
 }
 
 const LoggedRouter = () => (
@@ -112,7 +110,7 @@ const LoggedRouter = () => (
         <Qr />
       </Route>
       <Route path="/">
-        <Home/>
+        <Home />
       </Route>
     </Switch>
   </AnimateSharedLayout>
@@ -121,11 +119,11 @@ const LoggedRouter = () => (
 const NonLoggedRouter = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
-    <Route path="/admin">
-        <Admin/>
+      <Route path="/admin">
+        <Admin />
       </Route>
       <Route path="/">
-        <Loginphone setUser={props.setUser}/>
+        <Loginphone setUser={props.setUser} />
       </Route>
     </Switch>
   </AnimateSharedLayout>
@@ -136,7 +134,7 @@ const AdminDom = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
       <Route path="/">
-       <HomeAdmin/>
+        <HomeAdmin />
       </Route>
     </Switch>
   </AnimateSharedLayout>

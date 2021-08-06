@@ -72,17 +72,12 @@ export const sendVerificationCode = async (code, data) => {
 
 export const updateUserDocument = async (user, additionalData) => {
   if (!user) return;
-  const userRef = firestore.doc(`users/${user.uid}`);
   try {
+    const userRef = firestore.doc(`users/${user.uid}`);
     return await userRef.update(additionalData);
   } catch (error) {
-    console.error("Error updating user document", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
+    console.error("Error updating user document", error, user, additionalData);
+    toast.error(error);
   }
 };
 
@@ -96,12 +91,7 @@ export const getUserDocument = async uid => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
+    toast.error(error);
   }
 };
 
@@ -133,12 +123,8 @@ export const controllUser = async uid => {
     else return null;
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
+    toast.error(error);
+    return null;
   }
 };
 
