@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { firestore, getRealtimeDocument, getUserDocument, updateUserDocument } from "../firebase";
+import { firestore, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Card, Container, Tavoli, TavoliText, Svg,Find, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText, Svg, Find, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import allergie from "./allergie.png"
 import Menu0 from "./MENU0.png";
@@ -12,7 +12,6 @@ import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
 import Qr from "./../Qr"
 import { useForm } from "react-hook-form";
-
 
 const SALEUID = 'sala';
 
@@ -37,21 +36,15 @@ export default function HomeAdmin() {
         counter: [0, 0, 0, 0],
         tavoli: []
     });
+    const [filter, setFilter] = useState('');
+    const filteredData = useMemo(() => Object.entries(onlydefault).reduce((acc, [key, item]) => ({
+        ...acc,
+        ...(key.endsWith(filter) ? { [key]: item } : {})
+    }), {}), [filter, onlydefault]);
 
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = data => {
-
-       // setOnlyDefault((current) => {
-//
-       //     return Object.keys(current).filter(key => key.substr(21)===data.numero);
-       //     
-       // })
-//
-       // console.log(onlydefault);
-       
-    }
-
+    const onSubmit = data => setFilter(data.numero);
 
     useEffect(async () => {
 
@@ -59,42 +52,42 @@ export default function HomeAdmin() {
 
             firestore.collection("users").doc("sala").onSnapshot((doc) => {
 
-             if (doc.data().sale['SAGRA']!==null) setData(doc.data().sale['SAGRA']);
-                   
-            const newPrenotazioni = Object.entries(doc.data().sale['SAGRA']).reduce((acc, pixel) => {
+                if (doc.data().sale['SAGRA'] !== null) setData(doc.data().sale['SAGRA']);
 
-                const [key, value] = pixel;
-                const { prenotazioni } = value;
+                const newPrenotazioni = Object.entries(doc.data().sale['SAGRA']).reduce((acc, pixel) => {
 
-                if (!prenotazioni || prenotazioni.length === 0) return acc;
+                    const [key, value] = pixel;
+                    const { prenotazioni } = value;
 
-                const temp = value.prenotazioni.reduce((accPrenotazioni, prenotazione) => {
-                     return ({
-                        ...accPrenotazioni,
-                        [`${prenotazione.data}-${prenotazione.orario}-${prenotazione.user}`]: { ...prenotazione, pixel: key }
-                    });
+                    if (!prenotazioni || prenotazioni.length === 0) return acc;
+
+                    const temp = value.prenotazioni.reduce((accPrenotazioni, prenotazione) => {
+                        return ({
+                            ...accPrenotazioni,
+                            [`${prenotazione.data}-${prenotazione.orario}-${prenotazione.user}`]: { ...prenotazione, pixel: key }
+                        });
+                    }, {});
+                    return {
+                        ...acc,
+                        ...Object.entries(temp).reduce((externalAcc, [id, current]) => ({
+                            ...externalAcc,
+                            [id]: [...(acc[id] ?? []), current]
+                        }), {})
+                    }
                 }, {});
-                return {
-                    ...acc,
-                    ...Object.entries(temp).reduce((externalAcc, [id, current]) => ({
-                        ...externalAcc,
-                        [id]: [...(acc[id] ?? []), current]
-                    }), {})
-                }
-            }, {});
 
-            const defaultposti = Object.entries(newPrenotazioni).reduce((acc, current) => {
+                const defaultposti = Object.entries(newPrenotazioni).reduce((acc, current) => {
 
-                const [key, value] = current;
-                const temp = value.filter((currents) => currents.type === "default");
-                return { ...acc, [key]: temp }
-            }, {});
+                    const [key, value] = current;
+                    const temp = value.filter((currents) => currents.type === "default");
+                    return { ...acc, [key]: temp }
+                }, {});
 
-            setOnlyDefault(defaultposti);
+                setOnlyDefault(defaultposti);
 
-            setPrenotazioni(newPrenotazioni);
+                setPrenotazioni(newPrenotazioni);
 
-        });
+            });
 
         } catch (error) {
             console.log(error)
@@ -164,9 +157,7 @@ export default function HomeAdmin() {
     }
 
     if (page.qr) return (
-
         <Qr page={page} setPage={setPage} user={user} />
-
     )
     if (!page.state && Object.keys(onlydefault).length > 0) return (
         <div>
@@ -188,16 +179,16 @@ export default function HomeAdmin() {
             </Flex>
             <Container>
                 <Scroll>
-                <LoginForm onSubmit={handleSubmit(onSubmit)}>
-                <Input placeholder="Inserisci numero" type="text" {...register("numero")} />
-                <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
-                    <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </Find>
-                </Button>
-            </LoginForm>
+                    <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                        <Input placeholder="Inserisci numero" type="text" {...register("numero")} />
+                        <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
+                            <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </Find>
+                        </Button>
+                    </LoginForm>
                     <Space size={1}></Space>
-                    {Object.entries(onlydefault).map(([key, value], i) => (
+                    {Object.entries(filteredData).map(([key, value], i) => (
                         value.length > 0 ? <Card key={i}>
                             <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -229,7 +220,7 @@ export default function HomeAdmin() {
     else if (!page.state) return (
 
         <div>
-             <ToastContainer
+            <ToastContainer
                 position="top-right"
                 newestOnTop
                 closeOnClick

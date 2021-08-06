@@ -38,59 +38,60 @@ export default function Home() {
     });
     const { user: [user, setUser] } = useSala();
 
-    useEffect(async () => {
-
-        try {
-
-            const res = await getUserDocument("sala");
-            if (!res) throw new Error("No connection");
-            if (!res.sale['SAGRA']) throw new Error('Errore');
-            
-            setData(res.sale['SAGRA']);
-
-            const newPrenotazioni = Object.entries(res.sale['SAGRA']).reduce((acc, pixel) => {
-
-                const [key, value] = pixel;
-                const { prenotazioni } = value;
-
-                if (!prenotazioni || prenotazioni.length === 0) return acc;
-
-                const temp = value.prenotazioni.reduce((accPrenotazioni, prenotazione) => {
-                    if (prenotazione.user !== user) return accPrenotazioni;
-                    else return ({
-                        ...accPrenotazioni,
-                        [`${prenotazione.data}-${prenotazione.orario}`]: { ...prenotazione, pixel: key }
-                    });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await getUserDocument("sala");
+                if (!res) throw new Error("No connection");
+                if (!res.sale['SAGRA']) throw new Error('Errore');
+                
+                setData(res.sale['SAGRA']);
+    
+                const newPrenotazioni = Object.entries(res.sale['SAGRA']).reduce((acc, pixel) => {
+    
+                    const [key, value] = pixel;
+                    const { prenotazioni } = value;
+    
+                    if (!prenotazioni || prenotazioni.length === 0) return acc;
+    
+                    const temp = value.prenotazioni.reduce((accPrenotazioni, prenotazione) => {
+                        if (prenotazione.user !== user) return accPrenotazioni;
+                        else return ({
+                            ...accPrenotazioni,
+                            [`${prenotazione.data}-${prenotazione.orario}`]: { ...prenotazione, pixel: key }
+                        });
+                    }, {});
+                    return {
+                        ...acc,
+                        ...Object.entries(temp).reduce((externalAcc, [id, current]) => ({
+                            ...externalAcc,
+                            [id]: [...(acc[id] ?? []), current]
+                        }), {})
+                    }
                 }, {});
-                return {
-                    ...acc,
-                    ...Object.entries(temp).reduce((externalAcc, [id, current]) => ({
-                        ...externalAcc,
-                        [id]: [...(acc[id] ?? []), current]
-                    }), {})
-                }
-            }, {});
-
-            const defaultposti = Object.entries(newPrenotazioni).reduce((acc, current) => {
-
-                const [key, value] = current;
-                const temp = value.filter((currents) => currents.type === "default");
-                return { ...acc, [key]: temp }
-            }, {});
-
-            setOnlyDefault(defaultposti);
-
-            setPrenotazioni(newPrenotazioni);
-
-        } catch (error) {
-            console.log(error)
-            toast.error(error, {
-                position: "top-right",
-                autoClose: 2000,
-                closeOnClick: true,
-                draggable: true,
-            });
+    
+                const defaultposti = Object.entries(newPrenotazioni).reduce((acc, current) => {
+    
+                    const [key, value] = current;
+                    const temp = value.filter((currents) => currents.type === "default");
+                    return { ...acc, [key]: temp }
+                }, {});
+    
+                setOnlyDefault(defaultposti);
+    
+                setPrenotazioni(newPrenotazioni);
+    
+            } catch (error) {
+                console.log(error)
+                toast.error(error, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+            }
         }
+        fetchData();
     }, [deletes])
 
     const deleteprenotazioni = async (value) => {

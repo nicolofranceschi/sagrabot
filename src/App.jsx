@@ -3,7 +3,7 @@ import Editor from "./Editor";
 import Sale from "./Sale";
 import Loginphone from "./Loginphone";
 import { AnimateSharedLayout } from 'framer-motion';
-import { auth, firestore, generateUserDocument } from './firebase';
+import { auth, firestore } from './firebase';
 import { Route, Switch } from 'react-router';
 import useLocalStorage from './useLocalStorage';
 import { toast, ToastContainer } from "react-toastify";

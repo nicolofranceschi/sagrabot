@@ -9,10 +9,7 @@ import Pixel from './Pixel';
 import { toast } from 'react-toastify';
 import { useSala } from "../App";
 import { useHistory } from "react-router-dom";
-import ReactLoading from 'react-loading';
-import Lottie from 'react-lottie';
 import Loadingani from "./Animation.json"
-
 
 const defaultOptions = {
   loop: true,

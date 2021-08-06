@@ -232,7 +232,7 @@ export const Button = styled.div`
   align-content: center;
   justify-content: center;
   z-index:1001;
-  p{
+  span {
     font-size: 30px;
     padding-left: 10px;
   }
@@ -266,48 +266,48 @@ export const Tavoli = styled.img`
 
 const cellsNumber = 50;
 
-export default function PixelSettings({ data, onClick, selected, setSize,  gridSize }) {
+export default function PixelSettings({ data, onClick, selected, setSize, gridSize }) {
 
   const { height, width } = useWindowSize();
-  const [pop , setPop] = useState(true);
+  const [pop, setPop] = useState(true);
   return (
     <>
-    {pop ? <Popup>
-       <Warinig>
-         <Ops>
-           Come prenotare  🍽
-         </Ops>
-           <Scroll>
-             <FlexText>
-             <Text padding={"20px"}>✅ </Text>
-             <Text width={"95%"}>Clicca sul posto che desideri per prenotarlo</Text>
-             </FlexText>
-             <FlexText>
-             <Text padding={"20px"}>❌</Text>
-             <Text width={"95%"}>Clicca una seconda volta per cancellarlo</Text>
-             </FlexText>
-             <FlexText>
-            
-             <Svgcovid xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" className="h-6 w-6" fill="none" viewBox="0 0 22 22" stroke="red">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-             </Svgcovid>
-             
-             <Text width={"95%"}>Posti covid</Text>
-             </FlexText>
-             <FlexTavoli>
-             <Text width={"95%"} padding={"20px"}>Tavoli esterni </Text>
-             <Tavoli src={verde}></Tavoli>
-             </FlexTavoli>
-             <FlexTavoli>
-             <Text width={"95%"} padding={"20px"}>Tavoli al coperto </Text>
-             <Tavoli src={blue}></Tavoli>
-             </FlexTavoli>
-             <FlexButton>
-             <Button onClick={()=>setPop(false)} color={"white"} bg={"#adaeff"} width={"100%"}>Ho<p>capito</p> </Button>
-             </FlexButton>
-           </Scroll>
-       </Warinig>
-     </Popup>:<></>}
+      {pop ? <Popup>
+        <Warinig>
+          <Ops>
+            Come prenotare  🍽
+          </Ops>
+          <Scroll>
+            <FlexText>
+              <Text padding={"20px"}>✅ </Text>
+              <Text width={"95%"}>Clicca sul posto che desideri per prenotarlo</Text>
+            </FlexText>
+            <FlexText>
+              <Text padding={"20px"}>❌</Text>
+              <Text width={"95%"}>Clicca una seconda volta per cancellarlo</Text>
+            </FlexText>
+            <FlexText>
+
+              <Svgcovid xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" className="h-6 w-6" fill="none" viewBox="0 0 22 22" stroke="red">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </Svgcovid>
+
+              <Text width={"95%"}>Posti covid</Text>
+            </FlexText>
+            <FlexTavoli>
+              <Text width={"95%"} padding={"20px"}>Tavoli esterni </Text>
+              <Tavoli src={verde}></Tavoli>
+            </FlexTavoli>
+            <FlexTavoli>
+              <Text width={"95%"} padding={"20px"}>Tavoli al coperto </Text>
+              <Tavoli src={blue}></Tavoli>
+            </FlexTavoli>
+            <FlexButton>
+              <Button onClick={() => setPop(false)} color={"white"} bg={"#adaeff"} width={"100%"}>Ho<span>capito</span> </Button>
+            </FlexButton>
+          </Scroll>
+        </Warinig>
+      </Popup> : null}
       <Link to="/data">
         <Back>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -317,9 +317,9 @@ export default function PixelSettings({ data, onClick, selected, setSize,  gridS
       </Link>
       <Data>{data.data} {data.orario}</Data>
       <Info>
-      <Svg  onClick={()=>setPop(true)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </Svg>
+        <Svg onClick={() => setPop(true)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </Svg>
       </Info>
       <Zoom>
         <Svg onClick={() => {
