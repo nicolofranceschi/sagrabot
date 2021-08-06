@@ -64,11 +64,10 @@ const Data = styled.div`
 
 const ButtonTavoli = styled.button`
     position: absolute;
-    bottom:5vh;
-    left:5vw;
-    height: 10vh;
-    width: 90vw;
-    border-radius: 20px;
+    bottom:0;
+    height: 15vh;
+    width: 100vw;
+    border-radius: 5px;
     background-color: var(--line);
     color: #adaeff;
     font-weight: bold;
@@ -79,11 +78,10 @@ const ButtonTavoli = styled.button`
 `;
 const Alert = styled.button`
     position: absolute;
-    bottom:5vh;
-    left:5vw;
-    height: 10vh;
-    width: 90vw;
-    border-radius: 20px;
+    bottom:0;
+    height: 15vh;
+    width: 100vw;
+    border-radius: 5px;
     background-color: #adaeff;
     color:white;
     font-weight: bold;

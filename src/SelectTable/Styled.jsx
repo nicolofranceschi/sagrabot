@@ -8,7 +8,9 @@ export const Animation = styled(Lottie)`
 `;
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 85vh;
+  position: absolute;
+  top: 0;
   width: 100vw;
   overflow: scroll;
   //display: flex;
