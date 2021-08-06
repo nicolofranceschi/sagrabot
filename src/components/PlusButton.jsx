@@ -16,6 +16,7 @@ export const ContainerOpen = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index:100;
   `;
 
 export const ContainerClose = styled.div`
@@ -30,6 +31,7 @@ export const ContainerClose = styled.div`
     display:flex;
     align-items: center;
     justify-content: center;
+    z-index:100;
 `;
 
 export const Svg = styled.svg`
@@ -38,6 +40,7 @@ export const Svg = styled.svg`
     stroke:white;
     margin-top: 10px;
     margin-bottom: 10px;
+    z-index:101;
     :hover {
         transform: scale(0.9);
     }
@@ -51,6 +54,7 @@ export const SvgOpen = styled.svg`
     margin-top: 10px;
     margin-bottom: 10px;
     stroke:${props => props.color};
+    z-index:101;
     :hover {
         transform: scale(0.9);
     }

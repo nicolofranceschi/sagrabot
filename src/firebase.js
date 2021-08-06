@@ -20,7 +20,7 @@ export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {
     'size': 'invisible',
     'callback': (response) => {
-      
+
       toast.success("Messaggio inviato 💬", {
         position: "top-right",
         autoClose: 5000,
@@ -66,7 +66,7 @@ export const sendVerificationCode = async (code, data) => {
     await window.confirmationResult.confirm(code);
     generateUserDocument(data.numero, data)
   } catch (error) {
-    console.error(erro.message)
+    console.error(error.message)
   }
 }
 
