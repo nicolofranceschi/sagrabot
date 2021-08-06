@@ -20,6 +20,7 @@ export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {
     'size': 'invisible',
     'callback': (response) => {
+      
       toast.success("Messaggio inviato 💬", {
         position: "top-right",
         autoClose: 5000,
@@ -65,7 +66,7 @@ export const sendVerificationCode = async (code, data) => {
     await window.confirmationResult.confirm(code);
     generateUserDocument(data.numero, data)
   } catch (error) {
-    toast.error(error.message)
+    console.error(erro.message)
   }
 }
 
@@ -77,7 +78,7 @@ export const updateUserDocument = async (user, additionalData) => {
     return await userRef.update(additionalData);
   } catch (error) {
     console.error("Error updating user document", error, user, additionalData);
-    toast.error(error);
+   
   }
 };
 
@@ -91,7 +92,7 @@ export const getUserDocument = async uid => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error);
+    
   }
 };
 
@@ -106,12 +107,7 @@ export const getRealtimeDocument = async () => {
 
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
+    
   }
 };
 
@@ -123,7 +119,6 @@ export const controllUser = async uid => {
     else return null;
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error);
     return null;
   }
 };
@@ -137,12 +132,6 @@ export const getFramment = async uid => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
   }
 };
 
@@ -155,12 +144,6 @@ export const getMenuDocument = async () => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
   }
 };
 
@@ -175,12 +158,6 @@ export const deletePrenotazioni = async pixel => {
     return await batch.commit();
   } catch (error) {
     console.error("Error fetching user", error);
-    toast.error(error, {
-      position: "top-right",
-      autoClose: 2000,
-      closeOnClick: true,
-      draggable: true,
-    });
   }
 };
 export const auth = firebase.auth()

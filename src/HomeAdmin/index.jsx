@@ -11,6 +11,7 @@ import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
 import Qr from "./../Qr"
+import PlusButton from "../components/PlusButton"
 import { useForm } from "react-hook-form";
 
 const SALEUID = 'sala';
@@ -159,7 +160,7 @@ export default function HomeAdmin() {
     if (page.qr) return (
         <Qr page={page} setPage={setPage} user={user} />
     )
-    if (!page.state && Object.keys(onlydefault).length > 0) return (
+    if (!page.state && Object.keys(filteredData).length > 0) return (
         <div>
             <ToastContainer
                 position="top-right"
@@ -188,6 +189,7 @@ export default function HomeAdmin() {
                         </Button>
                     </LoginForm>
                     <Space size={1}></Space>
+                    <PlusButton></PlusButton>
                     {Object.entries(filteredData).map(([key, value], i) => (
                         value.length > 0 ? <Card key={i}>
                             <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -246,6 +248,7 @@ export default function HomeAdmin() {
                 </Button>
             </LoginForm>
             <Title size={3}>Nessuna prenotazione per questo numero 😕</Title>
+            <PlusButton></PlusButton>
         </div>
 
     );

@@ -76,6 +76,7 @@ const ButtonTavoli = styled.button`
       transform: scale(1.2);
     }
 `;
+
 const Alert = styled.button`
     position: absolute;
     bottom:0;

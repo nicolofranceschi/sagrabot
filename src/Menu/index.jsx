@@ -148,7 +148,7 @@ export const Menu = () => {
       // chiamata a firestore per avere le Prenotazioni
       // if non ci sono prenotazioni per gli stessi tavoli e alla stessa ora e giorno, vai avanti
       await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
-      toast.success("Prenotazione effettuata");
+      toast.info("Verifica qui la prenotazione");
       history.replace('/');
     } catch (error) {
       toast.error(error.message);

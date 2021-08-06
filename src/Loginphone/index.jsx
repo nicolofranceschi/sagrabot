@@ -120,9 +120,7 @@ export default function Loginphone() {
                             <Scroll>
                             <DivCheckbox>
                                 <Checkbox onClick={() => setClausole({ privacy: !privacy, covid, pass })} type="checkbox" {...register("privacy", { required: true })} ></Checkbox>
-                                <Textconstol font={"0.7rem"} bold={"bold"} >Ai sensi e per gli effetti degli artt. 13 e 23 del D. L.gs. n. 196/2003, con l’accettazione del presente
-                                modulo esprimo il mio consenso al trattamento dei miei dati personali, secondo le modalità e nei
-                                limiti di cui all’informativa <a href="https://sagrealidosiane.files.wordpress.com/2021/07/informativa-privacy-rev-2021.pdf" target="_blank">(INFORMATIVA PRIVACY)</a> </Textconstol>
+                                <Textconstol font={"0.7rem"} bold={"bold"} >Ai sensi e per gli effetti degli art. 6 e 13 del Reg. UE 2016/67, letta e compresa l’informativa privacy, esprimo il consenso al trattamento dei miei dati personali, secondo le modalità e nei limiti dell’informativa stessa<a href="https://sagrealidosiane.files.wordpress.com/2021/07/informativa-privacy-rev-2021.pdf" target="_blank">(INFORMATIVA PRIVACY)</a> </Textconstol>
                             </DivCheckbox>
                             <DivCheckbox>
                                 <Checkbox onClick={() => setClausole({ privacy, covid: !covid, pass })} type="checkbox" {...register("covid", { required: true })} ></Checkbox>
