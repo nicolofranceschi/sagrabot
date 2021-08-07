@@ -59,6 +59,20 @@ export const generateUserDocument = async (user, additionalData) => {
   return getUserDocument(user.uid);
 };
 
+export const generatedatasala = async (additionalData) => {
+  const userRef = firestore.doc(`admin/prenotazioni`);
+  const snapshot = await userRef.get();
+  if (!snapshot.exists) {
+    try {
+      await userRef.set(additionalData);
+    } catch (error) {
+      console.error("Error creating user document", error);
+      toast.error("Error creating user document")
+    }
+  }
+  return "aggunto";
+};
+
 export const logout = () => firebase.auth().signOut();
 
 export const sendVerificationCode = async (code, data) => {
@@ -79,6 +93,28 @@ export const updateUserDocument = async (user, additionalData) => {
   } catch (error) {
     console.error("Error updating user document", error, user, additionalData);
    
+  }
+};
+
+export const updatedatasala = async (additionalData) => {
+  try {
+    const userRef = firestore.doc(`admin/prenotazioni`);
+    return await userRef.update(additionalData);
+  } catch (error) {
+    console.error("Error updating user document", error, additionalData);
+   
+  }
+};
+
+export const getdatasala = async ()=> {
+  try {
+    const userDocument = await firestore.doc(`admin/prenotazioni`).get();
+    return {
+      ...userDocument.data()
+    };
+  } catch (error) {
+    console.error("Error fetching user", error);
+    
   }
 };
 

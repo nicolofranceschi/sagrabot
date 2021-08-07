@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import {
-    motion
-} from "framer-motion";
 
-export const Container = styled(motion.div)`
+
+export const Container = styled.div`
     height: 85vh;
     width: 100vw;
     border-radius: 20px;
@@ -22,35 +20,17 @@ export const Blocco = styled.div`
   `;
 
 export const LoginForm = styled.form`
-  display: flex;
-  flex-direction: row;
-  width: 90vw;
-  height: 10vh;
-  margin-left:5vw;
+   display: flex;
+   flex-direction: row;
+   width: 90vw;
+   height: 10vh;
+   margin-left:5vw;
 `;
-
-export const Input = styled.input`
-
-width:70%;
-border-radius: 20px 0px 0px 20px;
-padding-left: 20px;
-:focus { outline: none; }
-`;
-
-export const Button = styled.button`
-
-width:30%;
-border-radius: 0px 20px 20px 0px;
-color: white;
-background-color: #adaeff;
-
-`;
-
 
 export const Line = styled.div`
-  margin-top: 10px;
-  width: 800px;
-  display: flex;
+    margin-top: 10px;
+    width: 800px;
+    display: flex;
 `;
 
 export const Div = styled.div`
@@ -125,6 +105,7 @@ export const Card = styled.div`
     margin-left:5%;
     margin-right:5%;
     width: 90%;
+    margin-top: 20px;
     padding-top: 20px;
     border-radius: 20px;
     position: relative;
@@ -207,9 +188,9 @@ export const Testo = styled.div`
     width: 100%;
     padding: ${props => props.padding} ;
     line-height: ${props => props.line};
-    color: white;
+    color: ${props => props.color};
     font-weight: bold;
-    font-size: 3vw; 
+    font-size: ${props => props.size}; 
     @media only screen and (min-width: 600px) {
       grid-template-columns: 1fr 1fr 1fr  ;
       font-size: 1vw; 
@@ -366,6 +347,38 @@ export const Svg = styled.svg`
     }
   `;
 
+export const State = styled.div`
+    right: -15px;
+    z-index: 20;
+    color: white;
+    width: 120px;
+    height: 50px;
+    padding: 10px;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(30px);
+    border-radius:50px;
+    :hover{
+    transform: scale(1.2);
+    }
+    div{
+        background-color: greenyellow;
+        height: 20px;
+        width: 20px;
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+    p{
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+    }
+`;
+
 export const Svg1 = styled.svg`
         height: 100px;
         width: 100px;
@@ -408,9 +421,10 @@ export const Find = styled.svg`
 
 
 export const Left = styled.div`
-    width: 50%;
-    height: 100%;
+    width: 30%;
+    height: 30vh;
     position: relative;
+    overflow: scroll;
     border-radius: 5px 20px 20px 5px;
     background-color: var(--line);
     color:white;
@@ -418,15 +432,17 @@ export const Left = styled.div`
     font-weight: bold;
     text-transform: uppercase;
     :focus { outline: none; }
-    @media only screen and (min-width: 600px) {
-      grid-template-columns: 1fr 1fr 1fr  ;
-      font-size: 1.7vw; 
-    }
+    -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      ::-webkit-scrollbar {
+       display: none;
+  }
   `;
 
 export const Right = styled.div`
-    width: 50%;
-    height: 100%;
+    width: 70%;
+    height: 30vh;
+    overflow: scroll;
     position: relative;
     border-radius:20px 5px 5px 20px;
     text-align: center;
@@ -436,10 +452,12 @@ export const Right = styled.div`
     font-size: 20vw; 
     font-weight: bold;
     text-transform: uppercase;
-    @media only screen and (min-width: 600px) {
-      grid-template-columns: 1fr 1fr 1fr  ;
-      font-size: 4vw; 
-    }
+    -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      ::-webkit-scrollbar {
+       display: none;
+  }
+   
   `;
 
 
@@ -477,13 +495,3 @@ export const ButtonTavoli = styled.button`
 `;
 
 
-export const Grid = styled(motion.div)`
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-auto-rows: 20vh;
-    gap: 20px;
-    padding: 20px;
-    @media only screen and (min-width: 600px) {
-      grid-template-columns: 1fr 1fr 1fr  ;
-    }
-  `;

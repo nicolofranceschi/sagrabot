@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { firestore, updateUserDocument } from "../firebase";
+import { firestore,  getdatasala, getUserDocument, updatedatasala, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Card, Container, Tavoli, TavoliText, Svg, Find, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText,  Find, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import allergie from "./allergie.png"
 import Menu0 from "./MENU0.png";
 import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
-import Qr from "./../Qr"
 import PlusButton from "../components/PlusButton"
 import { useForm } from "react-hook-form";
 
@@ -129,12 +127,12 @@ export default function HomeAdmin() {
     }
 
 
-    const sumMenu = (value) => {
+    const sumMenu = ({value,key}) => {
+
+        
 
         let state = 0;
         let menu = value[state].menu;
-
-
 
         for (let i = 0; i < value.length; i++) {
             if (value[state].menu.toString() !== value[i].menu.toString()) {
@@ -146,22 +144,53 @@ export default function HomeAdmin() {
         let tavoli = [value[0].tavolo];
 
         for (let i = 0; i < value.length; i++) {
- 
-            console.log(value[i].tavolo)
 
             if (value[i].tavolo !== temp && !tavoli.find(elemento => elemento === value[i].tavolo && value[i].tavolo !== "TBD" )) {
 
+             
+                if (value[i].tavolo !== "TBD")
+                {
                 tavoli.push(value[i].tavolo);
-                temp = [value[i].tavolo]
+                temp = [value[i].tavolo];
+            }}
+        }
+
+        setPage({ state: true,  data: value, key, counter: menu, tavoli: tavoli });
+    }
+
+    const entra = async () => {
+
+        const {counter, tavoli, data , key} = page;
+        const user = data[0].user;
+
+        let temp = data[0].allergie;
+        let allergie = [data[0].allergie];
+
+        for (let i = 0; i < data.length; i++) {
+
+            if (data[i].allergie !== temp && !allergie.find(elemento => elemento === data[i].allergie )) {
+                allergie.push(data[i].allergie);
+                temp = [data[i].allergie];
             }
         }
 
-        setPage({ state: true, qr: false, data: value, counter: menu, tavoli: tavoli });
+        try {
+            const res = await getUserDocument(user.substr(3));
+            if (!res) throw new Error("ERRORE 😞, ricarica");
+            const dataprenotazione = {[key]:{menu:counter,user,Ntavoli:tavoli,nome:res?.nome,cognome:res?.cognome,allergie,state:"entrata"}};
+            
+            const response = await getdatasala();
+            if (!response) throw new Error("ERRORE 😞, ricarica");
+            
+            await updatedatasala({...dataprenotazione,...response});
+            
+            toast.success("Prenotazione aggiunta al gestionale 🎉")
+          } catch (error) {
+            toast.error(error.message)
+          }
+    
     }
 
-    if (page.qr) return (
-        <Qr page={page} setPage={setPage} user={user} />
-    )
     if (!page.state && Object.keys(filteredData).length > 0) return (
         <div>
             <ToastContainer
@@ -194,14 +223,11 @@ export default function HomeAdmin() {
                     <PlusButton></PlusButton>
                     {Object.entries(filteredData).map(([key, value], i) => (
                         value.length > 0 ? <Card key={i}>
-                            <Svg onClick={() => deleteprenotazioni(prenotazioni[key])} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </Svg>
-                            <Right onClick={() => sumMenu(value)}>
+                            <Right onClick={() => sumMenu({value,key})}>
                                 <TestoBig line={"10vh"} size={"20vw"} padding={"10px"}>{key.substr(0, 2)}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>{key.substr(2)} </Testo>
                             </Right>
-                            <Left onClick={() => sumMenu(value)}>
+                            <Left onClick={() => sumMenu({value,key})}>
                                 <TestoBig line={"12vh"} size={"20vw"} padding={"20px"}>{value.length}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>POSTI</Testo>
                             </Left>
@@ -286,7 +312,7 @@ export default function HomeAdmin() {
                 <img src={allergie}></img>
                 <P2 color={"#ee404c"} size={"20px"}>ALLERGIE</P2>
             </Allergie> : <div></div>}
-            <ButtonTavoli onClick={() => setPage(c => { return { ...c, qr: true } })} >Crea il mio QR code</ButtonTavoli>
+            <ButtonTavoli onClick={()=>entra()}>ENTRA</ButtonTavoli>
         </Blocco>
     );
 
