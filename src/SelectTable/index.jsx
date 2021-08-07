@@ -77,24 +77,25 @@ function MappaPrenotazioni ({ data }) {
 
   const select = ({i,data}) => {
     const tavolonumero = getnumber(i);
-    setSelected(current => ({ ...current, [i]: { type: 'default' , tavolo : tavolonumero } }));
+    setSelected(current => ({ ...current, [i]: { type: 'default' , tavolo : tavolonumero  } }));
   };
 
   const getnumber = (i) => {
     let a=i;
     const giavisti=[i];
     while (data[a]?.type!==2){
-      if(data[a+50]!==undefined && !giavisti.some(elemento => elemento===a+50)) {a=a+50;giavisti.push(a);}
-      else if(data[a+49]!==undefined && !giavisti.some(elemento => elemento===a+49)) {a=a+49;giavisti.push(a);}
-      else if(data[a+51]!==undefined && !giavisti.some(elemento => elemento===a+51)) {a=a+51;giavisti.push(a);}
-      else if(data[a+1]!==undefined && !giavisti.some(elemento => elemento===a+1)) {a=a+1;giavisti.push(a);}
-      else if(data[a-1]!==undefined && !giavisti.some(elemento => elemento===a-1)) {a=a-1;giavisti.push(a);}
-      else if(data[a-50]!==undefined && !giavisti.some(elemento => elemento===a-50)) {a=a-50;giavisti.push(a);}
-      else if(data[a-51]!==undefined && !giavisti.some(elemento => elemento===a-51)) {a=a-51;giavisti.push(a);}
-      else if(data[a-49]!==undefined && !giavisti.some(elemento => elemento===a-49)) {a=a-49;giavisti.push(a);}
+      if(data[a+50]!==undefined && data[a+50]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+50)) {a=a+50;giavisti.push(a);}
+      else if(data[a+49]!==undefined && data[a+49]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+49)) {a=a+49;giavisti.push(a);}
+      else if(data[a+51]!==undefined && data[a+51]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+51)) {a=a+51;giavisti.push(a);}
+      else if(data[a+1]!==undefined && data[a+1]?.color!=="hsl(218, 24%, 15%)" &&!giavisti.some(elemento => elemento===a+1)) {a=a+1;giavisti.push(a);}
+      else if(data[a-1]!==undefined && data[a-1]?.color!=="hsl(218, 24%, 15%)" &&!giavisti.some(elemento => elemento===a-1)) {a=a-1;giavisti.push(a);}
+      else if(data[a-50]!==undefined && data[a-50]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-50)) {a=a-50;giavisti.push(a);}
+      else if(data[a-51]!==undefined && data[a-51]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-51)) {a=a-51;giavisti.push(a);}
+      else if(data[a-49]!==undefined && data[a-49]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-49)) {a=a-49;giavisti.push(a);}
       else break
     }
-    return data[a].text
+    if(data[a]?.text===undefined) return "TBD"
+    else return data[a]?.text
   };
 
   const confirm = () => {

@@ -128,10 +128,12 @@ export const Menu = () => {
   }
 
   const confirm = async () => {
+    
     const covidPixels = getCovidPixels(temp[1], temp[0]);
     
     const newData = Object.entries(temp[0]).reduce((acc, [key, value]) => {
       const selectedSpot = covidPixels[key];
+      
       return {
         ...acc,
         [key]: {

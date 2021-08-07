@@ -146,8 +146,10 @@ export default function HomeAdmin() {
         let tavoli = [value[0].tavolo];
 
         for (let i = 0; i < value.length; i++) {
+ 
+            console.log(value[i].tavolo)
 
-            if (value[i].tavolo !== temp && !tavoli.find(elemento => elemento === value[i].tavolo)) {
+            if (value[i].tavolo !== temp && !tavoli.find(elemento => elemento === value[i].tavolo && value[i].tavolo !== "TBD" )) {
 
                 tavoli.push(value[i].tavolo);
                 temp = [value[i].tavolo]

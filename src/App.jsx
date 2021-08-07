@@ -22,7 +22,6 @@ const SalaContext = createContext(null);
 export const useSala = () => useContext(SalaContext);
 
 function ciSonoConflitti (firestoreData, localData, user, data, orario) {
-  console.log('CI SONO CONFLITTI?', firestoreData, localData, user);
   const prenotazioneInConflitto = prenotazione => prenotazione.data === data && prenotazione.orario === orario && prenotazione.user !== user;
   return Object.keys(localData).some(local => firestoreData[local].prenotazioni.some(prenotazioneInConflitto));
 }

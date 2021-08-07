@@ -141,8 +141,11 @@ export default function Home() {
 
             if (value[i].tavolo !== temp && !tavoli.find(elemento => elemento===value[i].tavolo)) {
                
+                if (value[i].tavolo !== "TBD")
+                {
                 tavoli.push(value[i].tavolo);
-                temp = [value[i].tavolo]
+                temp = [value[i].tavolo];
+            }
             }
         }
 

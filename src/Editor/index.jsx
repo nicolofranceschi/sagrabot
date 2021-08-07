@@ -101,7 +101,10 @@ export default function Editor() {
     select(doubleClickedIndex, { ...pixelClicked, border: e.key });
   }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
-  const select = (i, pixel) => setSelectedPixels(current => ({ ...current, [i]: pixel }));
+  const select = (i, pixel) => {
+    console.log(selectedPixels[i]);
+    //setSelectedPixels(current => ({ ...current, [i]: pixel }));
+  }
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
@@ -125,7 +128,7 @@ export default function Editor() {
   ]);
 
   const saveMap = async () => {
-    const user = await generateUserDocument( 'sala', { sale: { 'SAGRA': selectedPixels }});
+    const user = await generateUserDocument( 'backup2', { sale: { 'SAGRA': selectedPixels }});
    
   }
 
