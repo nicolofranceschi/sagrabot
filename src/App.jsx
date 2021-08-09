@@ -16,6 +16,7 @@ import Admin from "./Admin";
 import HomeAdmin from "./HomeAdmin";
 import QrReadercp from "./QrReader";
 import Insidedata from "./Insidedata";
+import Insertname from './Insertname';
 import { useHistory } from 'react-router-dom';
 
 const SalaContext = createContext(null);
@@ -135,7 +136,7 @@ const AdminDom = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
     <Route path="/insidedata">
-        <Insidedata />
+        <Insertname />
       </Route>
     <Route path="/qrreader">
         <QrReadercp />

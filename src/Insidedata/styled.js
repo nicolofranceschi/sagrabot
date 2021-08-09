@@ -229,11 +229,26 @@ export const Scroll = styled.div`
   }
 `;
 
+export const Bar = styled.div`
+display: flex;
+ flex-direction:row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  margin-left: 1vw;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const Title = styled.div`
     
-        width: 100%;
-        padding: 20px ;
-        line-height: 15vh;
+        padding: 5px ;
+        left: 10px;
         color: white;
         font-weight: bold;
         font-size: ${props => props.size}vh; 
@@ -297,16 +312,11 @@ export const Titlelitte = styled.div`
 
 export const Svgout = styled.svg`
 
-      padding-right: 20px;
-      height: 10vh;
-      width: 60px;
+      margin-right: 3vw;
+      width: 30px;
       border-radius: 20px;
       overflow: hidden;
       stroke: white;
-      &:hover {
-      height: 10vh;
-      width: 55px;
-      }
 `;
 
 export const Dati = styled.div`
@@ -326,9 +336,11 @@ export const Flex = styled.div`
     
         display: flex;
         flex-direction:${props => props.orientation};
+        width: 100vw;
         align-items: center;
-        justify-content: center;
-        height: 20vh;
+        justify-content: space-between;
+        margin-top: 2vh;
+        margin-left: 1vw;
 `;
 
 export const Svg = styled.svg`
@@ -365,12 +377,37 @@ export const State = styled.div`
     :hover{
     transform: scale(1.2);
     }
-    div{
-        background-color: greenyellow;
+    p{
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+    }
+`;
+
+export const Divinside = styled.div`
+    
+        background-color: ${props => props.color};
         height: 20px;
         width: 20px;
         border-radius: 20px;
         margin-right: 10px;
+`;
+
+
+export const Statebutton = styled.div`
+    color: white;
+    width: 120px;
+    height: 50px;
+    display: flex;
+    margin: 2px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.color};
+    backdrop-filter: blur(30px);
+    border-radius:50px;
+    :hover{
+    transform: scale(0.9);
     }
     p{
         color: white;

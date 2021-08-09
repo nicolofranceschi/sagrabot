@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { firestore,  getdatasala, getUserDocument, updatedatasala, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
-import { Card, Container, Tavoli, TavoliText,  Find, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText,  Find, ButtonCancella, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import allergie from "./allergie.png"
 import Menu0 from "./MENU0.png";
@@ -313,6 +313,7 @@ export default function HomeAdmin() {
                 <P2 color={"#ee404c"} size={"20px"}>ALLERGIE</P2>
             </Allergie> : <div></div>}
             <ButtonTavoli onClick={()=>entra()}>ENTRA</ButtonTavoli>
+            <ButtonCancella onClick={() => deleteprenotazioni(prenotazioni[page.key])} >Cancella</ButtonCancella>
         </Blocco>
     );
 

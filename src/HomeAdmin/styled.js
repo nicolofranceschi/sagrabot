@@ -464,12 +464,28 @@ export const ButtonTavoli = styled.button`
     position: absolute;
     bottom:1vh;
     left:5vw;
-    height: 30vh;
+    height: 20vh;
     width: 90vw;
     color: white;
     font-weight: bold;
     border-radius: 20px ;
     background-color:#adaeff;
+    z-index:10;
+    :hover{
+      transform: scale(0.9);
+    }
+`;
+
+export const ButtonCancella = styled.button`
+    position: absolute;
+    bottom:25vh;
+    left:5vw;
+    height: 5vh;
+    width: 90vw;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px ;
+    background-color:red;
     z-index:10;
     :hover{
       transform: scale(0.9);
