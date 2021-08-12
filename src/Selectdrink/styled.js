@@ -158,12 +158,22 @@ export const AllergieText = styled.button`
    background-color: #adaeff;
    color: white;
    display: flex;
+   flex-direction: column;
    align-items: center;
    justify-content: center;
    width: 30%;
    height: 100%;
    font-size:16px;
    font-weight: bold;
+   .p{
+    font-size:3px;
+   }
+`;
+export const LittleText = styled.button`
+  
+    font-size:10px;
+    padding-top: 4px;
+   
 `;
 
 
@@ -174,7 +184,7 @@ export const AllergieContent = styled.textarea`
    width: 70%;
    color: white;
    height: 30vh;
-   font-size:10px;
+   font-size:15px;
    top: 5px;
    padding:5px;
    :focus { outline: none; }

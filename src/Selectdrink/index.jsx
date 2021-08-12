@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { P, Container , Line, Card , Svg,Pezzo,Motion,PP,Tot,Quantita,Prezzo, Buttonline,Table,Product,Field,Header,Datiprenotazione,Numerotavolo , Infoline ,Cardbig, Pop , ButtonTavoli, DeleteTavoli, AllergieText, AllergieContent,Allergie, Linebig } from "./styled";
+import { P, Container , Line, Card , Svg,Pezzo,Motion,PP,Tot,Quantita,Prezzo,LittleText, Buttonline,Table,Product,Field,Header,Datiprenotazione,Numerotavolo , Infoline ,Cardbig, Pop , ButtonTavoli, DeleteTavoli, AllergieText, AllergieContent,Allergie, Linebig } from "./styled";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { getdatasala, getstampa, updatedatasala, updatestampa } from "../firebase";
@@ -7,9 +7,10 @@ import { getdatasala, getstampa, updatedatasala, updatestampa } from "../firebas
 export default function Selectdrink (props){
 
     const { register, handleSubmit } = useForm();
-    const onSubmit = data => {
+    const [note,setNote] = useState(null);
 
-        setDrink((current)=> {return {...current,note:data.text}})
+    const onSubmit = data => {
+        setNote(data.text);
         toast.success("Note aggiunte 😃")
     };
     
@@ -34,9 +35,7 @@ export default function Selectdrink (props){
         menusenzaporcininoglutine:[ordine.value.menu[3],12],
     });
 
-    useEffect(() => {
-        console.log({...drink})
-    },[drink])
+    
 
     const createconto = () => {
 
@@ -52,7 +51,7 @@ export default function Selectdrink (props){
     const movetostampa = async() => {
 
         const {key,value} = ordine;
-        const {nome,cognome,allergie,Ntavoli,user} = value;
+        const {nome,cognome,allergie,Ntavoli,user,persone,admin} = value;
         const {conto,tot} = page;
 
         const listing = conto.reduce((acc, data) => {
@@ -64,7 +63,7 @@ export default function Selectdrink (props){
 
         try {
 
-            const dataprenotazione = {[key]:{nome,cognome,allergie,user,Ntavoli,listing,tot}}
+            const dataprenotazione = {[key]:{nome,cognome,allergie,user,Ntavoli,listing,tot,persone,note,admin}}
 
             const response = await getstampa();
             if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");
@@ -99,24 +98,24 @@ export default function Selectdrink (props){
        <Container>
            <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Line>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquanaturalemezzo"} str1={"Acqua naturale"} str2={"1/2"} str3={"litro"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquanaturaleuno"} str1={"Acqua naturale"} str2={"1"} str3={"litro"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquagasmezzo"} str1={"Acqua frizzante"} str2={"1/2"} str3={"litro"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquagasuno"} str1={"Acqua frizzante"} str2={"1"} str3={"litro"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquanaturalemezzo"} str1={"Acqua naturale"} str2={"1/2"} str3={"litro-€ 1,00"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquanaturaleuno"} str1={"Acqua naturale"} str2={"1"} str3={"litro-€ 1,50"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquagasmezzo"} str1={"Acqua frizzante"} str2={"1/2"} str3={"litro-€ 1,00"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquagasuno"} str1={"Acqua frizzante"} str2={"1"} str3={"litro-€ 1,50"}></Cardcomponent>
            </Line>
            </Motion>
            <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Line>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocapiccola"} str1={"Coca cola"} str2={"picola"} str3={""}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocamedia"} str1={"Coca cola"} str2={"media"} str3={""}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birrapiccola"} str1={"Birra"} str2={"piccola"} str3={""}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birramedia"} str1={"Birra"} str2={"media"} str3={""}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocapiccola"} str1={"Coca cola"} str2={"picola"} str3={"€ 2,50"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocamedia"} str1={"Coca cola"} str2={"media"} str3={"€ 3,50"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birrapiccola"} str1={"Birra"} str2={"piccola"} str3={"€ 2,50"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birramedia"} str1={"Birra"} str2={"media"} str3={"€ 3,50"}></Cardcomponent>
            </Line>
            </Motion>
            <Motion drag="x" position="relative" dragConstraints={{ left: -200, right: 0 }}>
            <Line>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinorosso"} str1={"Vino"} str2={"rosso"} str3={"0,75cl"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinobianco"} str1={"Vino"} str2={"bianco"} str3={"0.75cl"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinorosso"} str1={"Vino"} str2={"rosso"} str3={"0,75cl-€ 8,00"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinobianco"} str1={"Vino"} str2={"bianco"} str3={"0.75cl-€ 8,00"}></Cardcomponent>
                
            </Line>
            </Motion>
@@ -132,11 +131,13 @@ export default function Selectdrink (props){
         <Container>
                 <form  onSubmit={handleSubmit(onSubmit)}>
              <Allergie>
-                <AllergieText type="submit">CONFERMA ALLERGIE</AllergieText>
+                <AllergieText type="submit">CONFERMA ALLERGIE
+                <LittleText>Se non confermi le note saranno NULL</LittleText>
+                </AllergieText>
                 <AllergieContent  defaultValue={[ordine.value.allergie[0]]} {...register("text")} ></AllergieContent>
             </Allergie>
                 </form>
-        <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
+          <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Linebig>
                <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menuporcini"} str1={"Menu"} str2={"porcini"} str3={""}></Cardcomponentbig>
                <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzaporcini"} str1={"Menu"} str2={"bimbo"} str3={""}></Cardcomponentbig>

@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { firestore, updatedatasala } from '../firebase';
-import Selectdrink from "../Selectdrink"
+import Selectdrink from "../Selectdrink";
+import {Link} from "react-router-dom";
 import { Card, Container, State, Statebutton, Divinside, Bar, Tavoli, TavoliText, Find, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 
 export default function Insides({ id, setId }) {
@@ -61,7 +62,7 @@ export default function Insides({ id, setId }) {
         }, {})
 
         try {
-            
+
             await updatedatasala(updateddata);
             toast.success("Prenotazione spostata in cassa 🎉");
 
@@ -96,10 +97,12 @@ export default function Insides({ id, setId }) {
                         <Divinside color={"orange"}></Divinside>
                         <p>cassa  </p>
                     </Statebutton>
+                    <Link to="/stampa" >
                     <Statebutton color={"var(--black-light)"}>
                         <Divinside color={"red"}></Divinside>
                         <p>stampa</p>
                     </Statebutton>
+                    </Link>
                 </Bar>
             </Flex>
             <Container>
