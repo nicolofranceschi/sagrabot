@@ -87,6 +87,22 @@ export const Input = styled.input`
   height: 100%;
 `;
 
+export const Admin = styled.div`
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  top: 5vh;
+  left: 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg{
+    padding:10px;
+    stroke: white;
+  }
+`;
+
 export const Accedi = styled.button`
   width: 25vw;
   max-width: 120px;

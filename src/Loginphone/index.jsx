@@ -1,5 +1,5 @@
 
-import { Container, LoginForm, Accedi, Label, InputProps,Scroll, Icona, Span, Accordion, Checkbox, Textconstol, DivCheckbox, Divspace, Back, Svg } from "./styled";
+import { Container, LoginForm, Accedi, Label, InputProps,Scroll,Admin, Icona, Span, Accordion, Checkbox, Textconstol, DivCheckbox, Divspace, Back, Svg } from "./styled";
 import { Input, Button, ButtonBig } from "../components/Lib";
 import { useForm } from "react-hook-form";
 import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode } from "../firebase";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import icon from "./icon.png";
 import AccediForm from "./AccediForm"
 import { useIdleTimer } from 'react-idle-timer'
+import { Link } from "react-router-dom"
 
 
 
@@ -81,6 +82,13 @@ export default function Loginphone() {
                             </Label>
                             <Divspace space={"10vh"}></Divspace>
                             <ButtonBig onClick={next} type="submit" margin="5vh 0 0 0" padding="15px 0">PRENOTA</ButtonBig>
+                            <Link to="/admin">
+                            <Admin>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            </svg>
+                            </Admin>
+                            </Link>
                             <Accedi onClick={() => setAccedi(true)} type="submit" margin="5vh 0 0 0" padding="15px 0">Accedi</Accedi>
                         </>
                     </Accordion>
