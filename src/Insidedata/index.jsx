@@ -61,6 +61,7 @@ export default function Insides({ id, setId }) {
         }, {})
 
         try {
+            
             await updatedatasala(updateddata);
             toast.success("Prenotazione spostata in cassa 🎉");
 

@@ -1,73 +1,200 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { P, Container , Line, Card , Svg,Pezzo, Buttonline , Infoline , Pop , ButtonTavoli, DeleteTavoli } from "./styled";
-
+import { P, Container , Line, Card , Svg,Pezzo,Motion,PP,Tot,Quantita,Prezzo, Buttonline,Table,Product,Field,Header,Datiprenotazione,Numerotavolo , Infoline ,Cardbig, Pop , ButtonTavoli, DeleteTavoli, AllergieText, AllergieContent,Allergie, Linebig } from "./styled";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { getdatasala, getstampa, updatedatasala, updatestampa } from "../firebase";
 
 export default function Selectdrink (props){
 
+    const { register, handleSubmit } = useForm();
+    const onSubmit = data => {
+
+        setDrink((current)=> {return {...current,note:data.text}})
+        toast.success("Note aggiunte 😃")
+    };
     
-    const [{ordine,setOrdine},setData] = useState(props);
+    const {ordine,setOrdine} = props;
+
+    const [page,setPage] = useState({conto:[],state:0})
 
     const [drink,setDrink] = useState({
-        acquanaturalemezzo:0,
-        acquanaturaleuno:0,
-        acquagasmezzo:0,
-        acquagasuno:0,
-        cocapiccola:0,
-        cocagrande:0,
-        birrapiccola:0,
-        birragrande:0,
-        vinoquarto:0,
-        vinomezzo:0,
-        sangiovesefermo:0,
-        biancocollifermo:0,
-        biancocollifrizzante:0,
-        rossocollifermo:0,
-        rossorubicone:0
-
+        acquanaturalemezzo:[0,1],
+        acquanaturaleuno:[0,1.5],
+        acquagasmezzo:[0,1],
+        acquagasuno:[0,1.5],
+        cocapiccola:[0,2.5],
+        cocamedia:[0,3.5],
+        birrapiccola:[0,2.5],
+        birramedia:[0,3.5],
+        vinorosso:[0,8],
+        vinobianco:[0,8],
+        menuporcini:[ordine.value.menu[0],22],
+        menusenzaporcini:[ordine.value.menu[1],12],
+        menuporcininoglutine:[ordine.value.menu[2],22],
+        menusenzaporcininoglutine:[ordine.value.menu[3],12],
     });
 
-    useEffect(() => {console.log(drink)},[drink])
-    
-    console.log(ordine)
+    useEffect(() => {
+        console.log({...drink})
+    },[drink])
 
-    return (
+    const createconto = () => {
+
+        const conto = Object.entries(drink).filter(data => data[1][0]!==0)
+
+        const tot = conto.reduce((acc, data) => {
+            return acc+(data[1][1]*data[1][0])
+        },0)
+
+        setPage({conto,tot,state:2});
+    }
+
+    const movetostampa = async() => {
+
+        const {key,value} = ordine;
+        const {nome,cognome,allergie,Ntavoli,user} = value;
+        const {conto,tot} = page;
+
+        const listing = conto.reduce((acc, data) => {
+            return {
+                ...acc,
+                [data[0]]: {qty:data[1][0],price:data[1][1]}
+            }
+        },{})
+
+        try {
+
+            const dataprenotazione = {[key]:{nome,cognome,allergie,user,Ntavoli,listing,tot}}
+
+            const response = await getstampa();
+            if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");
+            
+            await updatestampa({...dataprenotazione,...response});
+            
+            toast.success("Prenotazione aggiunta alla coda di stampa 🖨")
+
+            const data = await getdatasala();
+            if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");
+
+            const updateddata = Object.entries(data).reduce((acc, [chiave, valore]) => {
+
+                if (chiave === key) return { ...acc, [key]: { ...valore, state: "storage" } }
+                else return { ...acc, [chiave]: valore }
+    
+            }, {})
+
+            await updatedatasala(updateddata);
+            toast.info("Prenotazione spostata in storage 𝌏");
+
+            setOrdine(false);
+
+          } catch (error) {
+            toast.error(error.message)
+          }
+
+       
+    }
+    
+    if (page.state===0)return (
        <Container>
-           <motion.div drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
+           <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Line>
                <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquanaturalemezzo"} str1={"Acqua naturale"} str2={"1/2"} str3={"litro"}></Cardcomponent>
                <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquanaturaleuno"} str1={"Acqua naturale"} str2={"1"} str3={"litro"}></Cardcomponent>
                <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquagasmezzo"} str1={"Acqua frizzante"} str2={"1/2"} str3={"litro"}></Cardcomponent>
                <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"acquagasuno"} str1={"Acqua frizzante"} str2={"1"} str3={"litro"}></Cardcomponent>
            </Line>
-           </motion.div>
-           <motion.div drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
+           </Motion>
+           <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Line>
                <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocapiccola"} str1={"Coca cola"} str2={"picola"} str3={""}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocagrande"} str1={"Coca cola"} str2={"grande"} str3={""}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"cocamedia"} str1={"Coca cola"} str2={"media"} str3={""}></Cardcomponent>
                <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birrapiccola"} str1={"Birra"} str2={"piccola"} str3={""}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birragrande"} str1={"Birra"} str2={"grande"} str3={""}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"birramedia"} str1={"Birra"} str2={"media"} str3={""}></Cardcomponent>
            </Line>
-           </motion.div>
-           <motion.div drag="x" position="relative" dragConstraints={{ left: -1000, right: 0 }}>
+           </Motion>
+           <Motion drag="x" position="relative" dragConstraints={{ left: -200, right: 0 }}>
            <Line>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinoquarto"} str1={"Vino"} str2={"1/4"} str3={"litro"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinomezzo"} str1={"Vino"} str2={"1/2"} str3={"litro"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"sangiovesefermo"} str1={"San Giovese"} str2={"superiore DOC"} str3={"fermo"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"biancocollifermo"} str1={"Bianco colli"} str2={"imola"} str3={"fermo"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"biancocollifrizzante"} str1={"Bianco colli"} str2={"imola"} str3={"frizzante"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"rossocollifermo"} str1={"Rosso colli"} str2={"imola"} str3={"fermo"}></Cardcomponent>
-               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"rossorubicone"} str1={"Rosso rubicone"} str2={"IGP"} str3={"San Biagio"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinorosso"} str1={"Vino"} str2={"rosso"} str3={"0,75cl"}></Cardcomponent>
+               <Cardcomponent drink={drink} setDrink={setDrink} whodrink={"vinobianco"} str1={"Vino"} str2={"bianco"} str3={"0.75cl"}></Cardcomponent>
+               
            </Line>
-           </motion.div>
-         <ButtonTavoli>CONTINUA</ButtonTavoli>  
+           </Motion>
+         <ButtonTavoli onClick={()=>setPage({conto:[],state:1})}>CONTINUA</ButtonTavoli>  
            <DeleteTavoli>
            <Svg onClick={()=>setOrdine(false)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
             </Svg>
            </DeleteTavoli>
        </Container>
-    )
+    );else if (page.state===1) return (
+
+        <Container>
+                <form  onSubmit={handleSubmit(onSubmit)}>
+             <Allergie>
+                <AllergieText type="submit">CONFERMA ALLERGIE</AllergieText>
+                <AllergieContent  defaultValue={[ordine.value.allergie[0]]} {...register("text")} ></AllergieContent>
+            </Allergie>
+                </form>
+        <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
+           <Linebig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menuporcini"} str1={"Menu"} str2={"porcini"} str3={""}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzaporcini"} str1={"Menu"} str2={"bimbo"} str3={""}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menuporcininoglutine"} str1={"Menu"} str2={"porcini"} str3={"NO GLUTINE"}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzaporcininoglutine"} str1={"Menu"} str2={"bimbo"} str3={"NO GLUTINE"}></Cardcomponentbig>
+           </Linebig>
+           </Motion>
+            <ButtonTavoli onClick={()=>createconto()}>CONTO</ButtonTavoli>  
+           <DeleteTavoli>
+           <Svg onClick={()=>setPage({conto:[],state:0})} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+            </Svg>
+           </DeleteTavoli>
+        </Container>
+
+    );else return(
+
+        <Container> 
+           <Header>
+              <Datiprenotazione>
+                  <PP size={"25px"}>{ordine.value.nome}</PP>
+                  <PP size={"25px"}>{ordine.value.cognome}</PP>
+                  <PP size={"8px"}>{ordine.value.user}</PP>
+             </Datiprenotazione> 
+              <Numerotavolo>
+              {ordine.value.Ntavoli.map((value) => (<p key={value}>{value}</p>))}
+              </Numerotavolo>
+               </Header> 
+               <Table>
+                  {page.conto.map(([key,value])=>(
+                   <Product key={key}>
+                       <Field>{key}</Field>
+                       <Quantita>
+                       <PP size={"10px"}>Qty</PP>
+                       <PP size={"25px"}>{value[0]}</PP>
+                        </Quantita>
+                       <Prezzo>
+                       <PP size={"10px"}>Price</PP>
+                       <PP size={"25px"}>{value[1]}</PP>
+                        </Prezzo>
+                   </Product>
+                  ))}
+               </Table>
+               <Product >
+                       <Field>Totale</Field>
+                       <Tot>
+                       <PP size={"25px"}>{page.tot} €</PP>
+                        </Tot>
+                   </Product>
+            <ButtonTavoli onClick={()=>movetostampa()}>COMPLETA</ButtonTavoli>  
+           <DeleteTavoli>
+           <Svg onClick={()=>setPage({conto:[],state:1})} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+            </Svg>
+           </DeleteTavoli>
+        </Container>
+
+    );
 
 }
 
@@ -78,7 +205,7 @@ const Cardcomponent = ({drink,setDrink,whodrink,str1,str2,str3}) => {
 
         <Card>
                  <Pop>
-                        <p>{drink[whodrink]}</p>
+                        <p>{drink[whodrink][0]}</p>
                 </Pop>
                 <Infoline>
                     <P size={"10px"}>{str1}</P>
@@ -86,18 +213,48 @@ const Cardcomponent = ({drink,setDrink,whodrink,str1,str2,str3}) => {
                     <P size={"10px"}>{str3}</P>
                 </Infoline>
                <Buttonline>
-                  <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setDrink((current)=> {return {...current,[whodrink]:current[whodrink]+1}})}>
+                  <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setDrink((current)=> {return {...current,[whodrink]:[current[whodrink][0]+1,current[whodrink][1]]}})}>
                     <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </Svg>
                   </Pezzo>
-                  <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setDrink((current)=> {return {...current,[whodrink]:current[whodrink]-1}})}>
+                  <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setDrink((current)=> {return {...current,[whodrink]:[current[whodrink][0]-1,current[whodrink][1]]}})}>
                     <Svg color={"#ffade3"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                     </Svg>
                   </Pezzo>
                 </Buttonline>
                </Card>
+
+    );
+}
+
+const Cardcomponentbig = ({drink,setDrink,whodrink,str1,str2,str3}) => {
+
+    return (
+
+        <Cardbig>
+                 <Pop>
+                        <p>{drink[whodrink][0]}</p>
+                </Pop>
+                <Infoline>
+                    <P size={"10px"}>{str1}</P>
+                    <P size={"20px"}>{str2}</P>
+                    <P size={"10px"}>{str3}</P>
+                </Infoline>
+               <Buttonline>
+                  <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setDrink((current)=> {return {...current,[whodrink]:[current[whodrink][0]+1,current[whodrink][1]]}})}>
+                    <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </Svg>
+                  </Pezzo>
+                  <Pezzo border={"0px 0px 20px 0px"} color={"var(--line)"} onClick={() => setDrink((current)=> {return {...current,[whodrink]:[current[whodrink][0]-1,current[whodrink][1]]}})}>
+                    <Svg color={"#ffade3"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                    </Svg>
+                  </Pezzo>
+                </Buttonline>
+               </Cardbig>
 
     );
 }

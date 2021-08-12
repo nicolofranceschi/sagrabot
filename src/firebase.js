@@ -73,6 +73,20 @@ export const generatedatasala = async (additionalData) => {
   return "aggunto";
 };
 
+export const generatestampa = async (additionalData) => {
+  const userRef = firestore.doc(`admin/stampa`);
+  const snapshot = await userRef.get();
+  if (!snapshot.exists) {
+    try {
+      await userRef.set(additionalData);
+    } catch (error) {
+      console.error("Error creating user document", error);
+      toast.error("Error creating user document")
+    }
+  }
+  return "aggunto";
+};
+
 export const logout = () => firebase.auth().signOut();
 
 export const sendVerificationCode = async (code, data) => {
@@ -99,16 +113,40 @@ export const updateUserDocument = async (user, additionalData) => {
 export const updatedatasala = async (additionalData) => {
   try {
     const userRef = firestore.doc(`admin/prenotazioni`);
-    return await userRef.update(additionalData);
+    const data = await userRef.update(additionalData);
+    return data;
   } catch (error) {
     console.error("Error updating user document", error, additionalData);
-   
+    return null;
+  }
+};
+
+export const updatestampa = async (additionalData) => {
+  try {
+    const userRef = firestore.doc(`admin/stampa`);
+    const data = await userRef.update(additionalData);
+    return data;
+  } catch (error) {
+    console.error("Error updating user document", error, additionalData);
+    return null;
   }
 };
 
 export const getdatasala = async ()=> {
   try {
     const userDocument = await firestore.doc(`admin/prenotazioni`).get();
+    return {
+      ...userDocument.data()
+    };
+  } catch (error) {
+    console.error("Error fetching user", error);
+    
+  }
+};
+
+export const getstampa = async ()=> {
+  try {
+    const userDocument = await firestore.doc(`admin/stampa`).get();
     return {
       ...userDocument.data()
     };

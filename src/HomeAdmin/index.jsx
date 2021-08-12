@@ -11,6 +11,7 @@ import Menu2 from "./MENU2.png";
 import Menu3 from "./MENU3.png";
 import PlusButton from "../components/PlusButton"
 import { useForm } from "react-hook-form";
+import { useSala } from "../App";
 
 const SALEUID = 'sala';
 
@@ -24,7 +25,7 @@ const menu = [
 export default function HomeAdmin() {
 
     const [data, setData] = useState(null);
-    const [user, setUser] = useState(null);
+    const { admin : [admin, setAdmin] } = useSala();
     const [prenotazioni, setPrenotazioni] = useState({});
     const [onlydefault, setOnlyDefault] = useState({});
     const [deletes, setDeletes] = useState(true);
@@ -176,15 +177,17 @@ export default function HomeAdmin() {
 
         try {
             const res = await getUserDocument(user.substr(3));
-            if (!res) throw new Error("ERRORE 😞, ricarica");
+            if (!res) throw new Error("ERRORE nel prendere i dati utente 😞, ricarica");
             const dataprenotazione = {[key]:{menu:counter,user,Ntavoli:tavoli,nome:res?.nome,cognome:res?.cognome,allergie,state:"entrata"}};
             
             const response = await getdatasala();
-            if (!response) throw new Error("ERRORE 😞, ricarica");
+            if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");
             
             await updatedatasala({...dataprenotazione,...response});
+            setPage(false);
             
             toast.success("Prenotazione aggiunta al gestionale 🎉")
+
           } catch (error) {
             toast.error(error.message)
           }
@@ -205,7 +208,7 @@ export default function HomeAdmin() {
             />
             <Flex orientation={"row"}>
                 <Title size={6}>Admin 🧑‍💻</Title>
-                <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <Svgout className="w-6 h-6" fill="none" onClick={() => { logout();setAdmin() }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </Svgout>
             </Flex>
@@ -263,7 +266,7 @@ export default function HomeAdmin() {
 
             <Flex orientation={"row"}>
                 <Title size={6}>Admin 🧑‍💻</Title>
-                <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setUser(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setAdmin(); }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </Svgout>
             </Flex>

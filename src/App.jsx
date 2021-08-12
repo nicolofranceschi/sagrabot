@@ -58,6 +58,7 @@ function App() {
   const context = {
     sala: useLocalStorage('sala', ''),
     user: [user, setUser],
+    admin : [admin, setAdmin],
     orario: [{ data, orario }, setMomento],
     prenotazioni: [prenotazioni, setPrenotazioni],
   };
@@ -79,8 +80,10 @@ function App() {
           <LoggedRouter />
         </SalaContext.Provider>
       ) : admin ? (
-
-        <AdminDom />
+        
+        <SalaContext.Provider value={context}>
+          <AdminDom />
+        </SalaContext.Provider>
 
       ) : (
         <SalaContext.Provider value={context}>
