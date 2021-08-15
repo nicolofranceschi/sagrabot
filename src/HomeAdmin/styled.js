@@ -31,15 +31,22 @@ export const LoginForm = styled.form`
 
 export const Input = styled.input`
 
-width:70%;
+width:50%;
 border-radius: 20px 0px 0px 20px;
 padding-left: 20px;
 :focus { outline: none; }
 `;
 
-export const Button = styled.button`
+export const Select = styled.select`
 
 width:30%;
+padding: 10px;
+:focus { outline: none; }
+`;
+
+export const Button = styled.button`
+
+width:20%;
 border-radius: 0px 20px 20px 0px;
 color: white;
 background-color: #adaeff;
@@ -215,6 +222,22 @@ export const Testo = styled.div`
       font-size: 1vw; 
     }
   `;
+
+export const Testofluo = styled.div`
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  width: 100%;
+  padding: ${props => props.padding} ;
+  line-height: ${props => props.line};
+  color: #ccff00;
+  font-weight: bold;
+  font-size: 3vw; 
+  @media only screen and (min-width: 600px) {
+    grid-template-columns: 1fr 1fr 1fr  ;
+    font-size: 1vw; 
+  }
+`;
 export const TestoBig = styled.div`
         text-align: center;
         vertical-align: middle;
@@ -432,7 +455,7 @@ export const Right = styled.div`
     text-align: center;
     vertical-align: middle;
     color: white;
-    background-color: #ffade3;
+    background-color: ${props => props.color};
     font-size: 20vw; 
     font-weight: bold;
     text-transform: uppercase;

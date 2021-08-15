@@ -673,7 +673,37 @@ export const Left = styled.div`
       ::-webkit-scrollbar {
        display: none;
   }
+  svg{ 
+      width:50px;
+      height:50px;
+      }
   `;
+
+export const Leftstampado = styled.div`
+    width: 30%;
+    height: 15vh;
+    position: relative;
+    overflow: scroll;
+    border-radius: 5px 20px 20px 5px;
+    background-color: var(--line);
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    :focus { outline: none; }
+    -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      ::-webkit-scrollbar {
+      display: none;
+    }
+    svg{ 
+      width:50px;
+      height:50px;
+      }
+`;
 
 export const Right = styled.div`
     width: 70%;
@@ -699,13 +729,17 @@ export const Right = styled.div`
 export const Rightstampato = styled.div`
 
     width: 70%;
-    height: 30vh;
+    height: 15vh;
     overflow: scroll;
     position: relative;
     border-radius:20px 5px 5px 20px;
     text-align: center;
     vertical-align: middle;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: var(--line);
     font-size: 20vw; 
     font-weight: bold;

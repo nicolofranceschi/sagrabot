@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { firestore,  getdatasala, getUserDocument, updatedatasala, updateUserDocument } from "../firebase";
 import { motion } from "framer-motion";
-import { Card, Container, Tavoli, TavoliText,  Find, ButtonCancella, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
+import { Card, Container, Tavoli, TavoliText,Select,  Find, ButtonCancella,Testofluo, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll } from './styled';
 import { logout } from "../firebase";
 import allergie from "./allergie.png"
 import Menu0 from "./MENU0.png";
@@ -32,19 +32,24 @@ export default function HomeAdmin() {
     const [page, setPage] = useState({
         state: false,
         qr: false,
-        data: null,
+        value: null,
         counter: [0, 0, 0, 0],
         tavoli: []
     });
     const [filter, setFilter] = useState('');
-    const filteredData = useMemo(() => Object.entries(onlydefault).reduce((acc, [key, item]) => ({
+    const filteredData = useMemo(() => Object.entries(onlydefault).reduce((acc, [key, item]) => {    
+    if (filter.type==="end") return {
         ...acc,
-        ...(key.endsWith(filter) ? { [key]: item } : {})
-    }), {}), [filter, onlydefault]);
+        ...(key.endsWith(filter.filter) ? { [key]: item } : {})
+    };else return {
+        ...acc,
+        ...(key.startsWith(filter.filter) ? { [key]: item } : {})
+    }
+    }, {}), [filter, onlydefault]);
 
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = data => setFilter(data.numero);
+    const onSubmit = data => setFilter({filter:data.numero,type:data.type});
 
     useEffect(async () => {
 
@@ -130,7 +135,7 @@ export default function HomeAdmin() {
 
     const sumMenu = ({value,key}) => {
 
-        
+        console.log(value);
 
         let state = 0;
         let menu = value[state].menu;
@@ -156,38 +161,99 @@ export default function HomeAdmin() {
             }}
         }
 
-        setPage({ state: true,  data: value, key, counter: menu, tavoli: tavoli });
+        setPage({ state: true, value: value, key, counter: menu, tavoli: tavoli });
     }
 
-    const entra = async () => {
+    const uscita = async (values) => {
 
-        const {counter, tavoli, data , key} = page;
-        console.log(page);
-        const user = data[0].user;
+        
+        function removePrenotazione(pixel, prenotazione) {
+            const index = pixel.prenotazioni.findIndex(p => p.data === prenotazione.data && p.orario === prenotazione.orario && p.user === prenotazione.user);
+            return {
+                ...pixel,
+                prenotazioni: [...pixel.prenotazioni.slice(0, index), ...pixel.prenotazioni.slice(index + 1),{...prenotazione,entrata:false}]
+            }
+        }
+        
+        const newData = Object.entries(data).reduce((acc, [key, pixel]) => {
+            
+            const prenotazione = values.find(v => v.pixel === key);
 
-        let temp = data[0].allergie;
-        let allergie = [data[0].allergie];
+            return {
+                ...acc,
+                [key]: !prenotazione ? pixel : removePrenotazione(pixel, prenotazione)
+            }
+        }, {});
+        
+        try {
 
-        for (let i = 0; i < data.length; i++) {
+          setPage(false);
+          
+          const responsebig = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
 
-            if (data[i].allergie !== temp && !allergie.find(elemento => elemento === data[i].allergie )) {
-                allergie.push(data[i].allergie);
-                temp = [data[i].allergie];
+          toast.info("Tag uscita settato correttamente")
+
+          } catch (error) {
+            toast.error(error.message)
+          }
+    
+    }
+
+    const entra = async (values) => {
+
+        
+        function removePrenotazione(pixel, prenotazione) {
+            const index = pixel.prenotazioni.findIndex(p => p.data === prenotazione.data && p.orario === prenotazione.orario && p.user === prenotazione.user);
+            return {
+                ...pixel,
+                prenotazioni: [...pixel.prenotazioni.slice(0, index), ...pixel.prenotazioni.slice(index + 1),{...prenotazione,entrata:true}]
+            }
+        }
+        
+        const newData = Object.entries(data).reduce((acc, [key, pixel]) => {
+            
+            const prenotazione = values.find(v => v.pixel === key);
+           
+            return {
+                ...acc,
+                [key]: !prenotazione ? pixel : removePrenotazione(pixel, prenotazione)
+            }
+        }, {});
+        
+        const {counter, tavoli, value , key} = page;
+
+        const user = value[0].user;
+
+        let temp = value[0].allergie;
+        let allergie = [value[0].allergie];
+
+        for (let i = 0; i < value.length; i++) {
+
+            if (value[i].allergie !== temp && !allergie.find(elemento => elemento === value[i].allergie )) {
+                allergie.push(value[i].allergie);
+                temp = [value[i].allergie];
             }
         }
 
         try {
-            const res = await getUserDocument(user.substr(3));
-            if (!res) throw new Error("ERRORE nel prendere i dati utente 😞, ricarica");
-            const dataprenotazione = {[key]:{menu:counter,user,Ntavoli:tavoli,nome:res?.nome,cognome:res?.cognome,allergie,state:"entrata",persone:data.length}};
-            
-            const response = await getdatasala();
-            if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");
-            
-            await updatedatasala({...dataprenotazione,...response});
-            setPage(false);
-            
-            toast.success("Prenotazione aggiunta al gestionale 🎉")
+
+          const res = await getUserDocument(user.substr(3));
+          if (!res) throw new Error("ERRORE nel prendere i dati utente 😞, ricarica");
+          const dataprenotazione = {[key]:{menu:counter,user,Ntavoli:tavoli,nome:res?.nome,cognome:res?.cognome,allergie,state:"entrata",persone:value.length}};
+          
+          const response = await getdatasala();
+          if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");
+
+          console.log("dataprenotazione",dataprenotazione,"response",response)
+          
+          await updatedatasala({...dataprenotazione,...response});
+
+          setPage(false);
+          
+          const responsebig = await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
+
+          toast.success("Prenotazione aggiunta al gestionale 🎉")
+          toast.info("Tag uscita settato correttamente")
 
           } catch (error) {
             toast.error(error.message)
@@ -217,6 +283,10 @@ export default function HomeAdmin() {
                 <Scroll>
                     <LoginForm onSubmit={handleSubmit(onSubmit)}>
                         <Input placeholder="Inserisci numero" type="text" {...register("numero")} />
+                        <Select {...register("type")}>
+                            <option value="end">NUM</option>
+                            <option value="start">DATA</option>
+                        </Select>
                         <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                             <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -227,10 +297,17 @@ export default function HomeAdmin() {
                     <PlusButton></PlusButton>
                     {Object.entries(filteredData).map(([key, value], i) => (
                         value.length > 0 ? <Card key={i}>
-                            <Right onClick={() => sumMenu({value,key})}>
+                            {value[0].entrata!==true ? 
+                            <Right color={"#ffade3"} onClick={() => sumMenu({value,key})}>
                                 <TestoBig line={"10vh"} size={"20vw"} padding={"10px"}>{key.substr(0, 2)}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>{key.substr(2)} </Testo>
                             </Right>
+                            :
+                            <Right color={"var(--line)"} onClick={() => sumMenu({value,key})}>
+                                <Testofluo line={"5vh"} padding={"10px"}>ENTRATO</Testofluo>
+                                <TestoBig line={"12vh"} size={"20vw"} padding={"20px"}>{key.substr(0, 2)}</TestoBig>
+                            </Right>
+                            }
                             <Left onClick={() => sumMenu({value,key})}>
                                 <TestoBig line={"12vh"} size={"20vw"} padding={"20px"}>{value.length}</TestoBig>
                                 <Testo line={"5vh"} padding={"10px"}>POSTI</Testo>
@@ -273,6 +350,10 @@ export default function HomeAdmin() {
             </Flex>
             <LoginForm onSubmit={handleSubmit(onSubmit)}>
                 <Input placeholder="Inserisci numero" type="text" {...register("numero")} />
+                <Select {...register("type")}>
+                            <option value="end">NUM</option>
+                            <option value="start">DATA</option>
+                </Select>
                 <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                     <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -311,12 +392,17 @@ export default function HomeAdmin() {
             <Close onClick={() => setPage({ state: false })} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" height="50px" fill="none" viewBox="0 0 24 24" stroke="red">
                 <path strokeLinecap="red" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </Close>
-            {page.data.find(elemento => elemento.allergie !== "null") ? <Allergie>
+            {page.value.find(elemento => elemento.allergie !== "null") ? <Allergie>
                 <P1 color={"white"} size={"10px"}>Questa è una prenotazione con </P1>
                 <img src={allergie}></img>
                 <P2 color={"#ee404c"} size={"20px"}>ALLERGIE</P2>
             </Allergie> : <div></div>}
-            <ButtonTavoli onClick={()=>entra()}>ENTRA</ButtonTavoli>
+            {
+              page.value[0].entrata !==true ?
+             <ButtonTavoli onClick={()=>entra(prenotazioni[page.key])}>ENTRA</ButtonTavoli>
+                :
+             <ButtonTavoli onClick={()=>uscita(prenotazioni[page.key])}>USCITA</ButtonTavoli>
+                }
             <ButtonCancella onClick={() => deleteprenotazioni(prenotazioni[page.key])} >Cancella</ButtonCancella>
         </Blocco>
     );
