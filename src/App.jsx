@@ -19,6 +19,7 @@ import Insidedata from "./Insidedata";
 import Insertname from './Insertname';
 import Stampa from "./Stampa";
 import { useHistory } from 'react-router-dom';
+import Map from './Map';
 
 const SalaContext = createContext(null);
 
@@ -139,6 +140,9 @@ const NonLoggedRouter = (props) => (
 const AdminDom = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
+    <Route path="/map">
+        <Map />
+      </Route>
     <Route path="/stampa">
         <Stampa />
       </Route>
