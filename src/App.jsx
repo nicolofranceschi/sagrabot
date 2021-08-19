@@ -15,6 +15,7 @@ import Qr from "./Qr";
 import Admin from "./Admin";
 import HomeAdmin from "./HomeAdmin";
 import QrReadercp from "./QrReader";
+import Superadmin from "./Superadmin";
 import Insidedata from "./Insidedata";
 import Insertname from './Insertname';
 import Stampa from "./Stampa";
@@ -140,6 +141,9 @@ const NonLoggedRouter = (props) => (
 const AdminDom = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
+    <Route path="/conto">
+        <Superadmin />
+      </Route>
     <Route path="/map">
         <Map />
       </Route>

@@ -31,10 +31,9 @@ z-index:10;
 }
 `;
 
-const LoginForm = styled.div`
+const LoginForm = styled.form`
     height: 20vh;
     width: 80vw;
-    border-radius: 20px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -44,20 +43,32 @@ const LoginForm = styled.div`
     word-wrap: break-word;
 `;
 
+const Flex = styled.div`
+    height: 10vh;
+    width: 80vw;
+    margin-top: 40px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    cursor: grab;
+    word-wrap: break-word;
+`;
+
 const Button = styled.button`
   width: 50vw;
   max-width: 200px;
-  height:6vh;
+  height:10vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 2vh; 
+  justify-content: center; 
   text-align: center;
   z-index:1000;
   vertical-align: middle;
   background-color: #ffade3 ;
   color: var(--white);
-  border-radius: var(--border-radius);
+  border-radius: 0px 20px 20px 0px;
   font-weight: bold;
   .hover{
      transform: scale(1.2);
@@ -73,33 +84,64 @@ const Svg = styled.svg`
     transform: scale(0.9);
   }
 `;
+const Data = styled.select`
+
+  background-color:#adaeff;
+  border-radius: 20px 0px 0px 20px;
+  height: 100%;
+  padding: 10px;
+  -webkit-appearance: none;
+  :focus{outline: none;}
+  p{
+    padding-left: 10px;
+    font-weight: bold;
+    color: white;
+  }
+`;
 
 
 export default function Insertname() {
 
-    const { register, handleSubmit } = useForm();
-    const [id, setId] = useLocalStorage("id", null);
+  const { register, handleSubmit } = useForm();
+  const [id, setId] = useLocalStorage("id", null);
+  const [dd, setDd] = useLocalStorage("data", null);
 
-    const onSubmit = data => {
-        console.log(data);
-        setId(data.id);
-    };
+  const onSubmit = data => {
+    
+    setDd(data.data);
+    setId(data.id);
+  };
 
-    if (id===null) return (
+  if (id === null) return (
 
-        <Container>
-            <Link to="/">
+    <Container>
+      <Link to="/">
         <Back>
           <Svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </Svg>
         </Back>
       </Link>
-            <LoginForm onSubmit={handleSubmit(onSubmit)}>
-                <Input type="text" placeholder="Inserisci il tuo ID" {...register("id")} />
-                <Button type="submit" onClick={handleSubmit(onSubmit)}> ENTRA COME CASSA </Button>
-            </LoginForm>
-        </Container>
+      <LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <Input type="text" placeholder="Inserisci il tuo ID" {...register("id")} />
+        <Flex>
+        <Data {...register("data")} >
+          <option value="21 Agosto-alle 18:30">21 Agosto alle 18:30</option>
+          <option value="21 Agosto-alle 20:30">21 Agosto alle 20:30</option>
+          <option value="22 Agosto-alle 12:00">22 Agosto alle 12:00</option>
+          <option value="22 Agosto-alle 18:30">22 Agosto alle 18:30</option>
+          <option value="22 Agosto-alle 20:30">22 Agosto alle 20:30</option>
+          <option value="28 Agosto-alle 18:30">28 Agosto alle 18:30</option>
+          <option value="28 Agosto-alle 20:30">28 Agosto alle 20:30</option>
+          <option value="29 Agosto-alle 12:00">29 Agosto alle 12:00</option>
+          <option value="29 Agosto-alle 18:30">29 Agosto alle 18:30</option>
+          <option value="29 Agosto-alle 20:30">29 Agosto alle 20:30</option>
+          <option value="">All</option>
+        </Data>
+        <Button type="submit" > ENTRA COME CASSA </Button>
+        </Flex>
+      </LoginForm>
+    </Container>
 
-    );else return <Insidedata id={id} setId={setId} />
+  ); else return <Insidedata id={id} setId={setId} />
 }

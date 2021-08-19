@@ -37,10 +37,13 @@ export default function HomeAdmin() {
         tavoli: []
     });
     const [filter, setFilter] = useState('');
-    const filteredData = useMemo(() => Object.entries(onlydefault).reduce((acc, [key, item]) => {    
+    const filteredData = useMemo(() => Object.entries(onlydefault).reduce((acc, [key, item]) => {  
     if (filter.type==="end") return {
         ...acc,
         ...(key.endsWith(filter.filter) ? { [key]: item } : {})
+    };else if (filter.type==="tav")return{
+        ...acc,
+        ...(item.some(item=>item.tavolo===filter.filter) ? { [key]: item } : {})
     };else return {
         ...acc,
         ...(key.startsWith(filter.filter) ? { [key]: item } : {})
@@ -286,6 +289,7 @@ export default function HomeAdmin() {
                         <Select {...register("type")}>
                             <option value="end">NUM</option>
                             <option value="start">DATA</option>
+                            <option value="tav">TAV</option>
                         </Select>
                         <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                             <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -353,6 +357,7 @@ export default function HomeAdmin() {
                 <Select {...register("type")}>
                             <option value="end">NUM</option>
                             <option value="start">DATA</option>
+                            <option value="tav">TAV</option>
                 </Select>
                 <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                     <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -360,7 +365,7 @@ export default function HomeAdmin() {
                     </Find>
                 </Button>
             </LoginForm>
-            <Title size={3}>Nessuna prenotazione per questo numero 😕</Title>
+            <Title size={3}>Nessuna prenotazione per questo filtro 😕</Title>
             <PlusButton></PlusButton>
         </div>
 

@@ -521,7 +521,9 @@ export const Svgout = styled.svg`
       width: 30px;
       border-radius: 20px;
       overflow: hidden;
-      stroke: white;
+      :hover{
+        transform: scale(0.9);
+      }
 `;
 
 export const Dati = styled.div`
@@ -541,11 +543,11 @@ export const Flex = styled.div`
     
         display: flex;
         flex-direction:${props => props.orientation};
-        width: 100vw;
+        width: 96vw;
         align-items: center;
         justify-content: space-between;
         margin-top: 2vh;
-        margin-left: 1vw;
+        margin-left: 2vw;
 `;
 
 export const Svg = styled.svg`

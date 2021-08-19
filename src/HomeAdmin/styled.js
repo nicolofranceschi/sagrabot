@@ -41,6 +41,7 @@ export const Select = styled.select`
 
 width:30%;
 padding: 10px;
+-webkit-appearance: none;
 :focus { outline: none; }
 `;
 

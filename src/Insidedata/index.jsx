@@ -11,6 +11,8 @@ export default function Insides({ id, setId }) {
     const [data, setData] = useState({});
     const [page, setPage] = useState("entrata");
     const [ordine, setOrdine] = useState({open:false});
+    const dd = window.localStorage.getItem("data");
+   
 
     useEffect(() => {
 
@@ -22,7 +24,7 @@ export default function Insides({ id, setId }) {
                     if (page === "entrata") {
 
                         const entrata = Object.entries(doc.data()).reduce((acc, [chiave, valore]) => {
-                            if (valore.state === "entrata") {
+                            if (valore.state === "entrata" && chiave.startsWith(dd.slice(1, -1))) {
                                 return { ...acc, [chiave]: { ...valore } }
                             } else return { ...acc}   
                         }, {})
@@ -33,7 +35,7 @@ export default function Insides({ id, setId }) {
                         const cassa = Object.entries(doc.data()).reduce((acc, [chiave, valore]) => {
                            
 
-                            if (valore.state === "cassa" && valore.admin === id) { 
+                            if (valore.state === "cassa" && valore.admin === id && chiave.startsWith(dd.slice(1, -1))) { 
                                 return { ...acc, [chiave]: { ...valore } } }
                             else return { ...acc }
                         }, {})

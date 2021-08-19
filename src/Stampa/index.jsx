@@ -5,13 +5,15 @@ import { firestore, updatestampa } from '../firebase';
 import { Link } from "react-router-dom";
 import Pdf from "react-to-pdf";
 import pineapp from "./pineapp.png"
-import { Card, Container, ContainerPdf, Table, Product,Tablecucina,Leftstampato,Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
+import { Card, Container, ContainerPdf, Table, Product, Tablecucina,  Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
 
 export default function Stampa() {
 
     const [data, setData] = useState({});
+    const [see, setSee] = useState(false);
     const [page, setPage] = useState(false);
     const [pdfoglio, setPdf] = useState("cliente");
+    const dd = window.localStorage.getItem("data");
 
     const pdf = useRef(null);
 
@@ -19,8 +21,17 @@ export default function Stampa() {
 
         try {
             firestore.collection("admin").doc("stampa").onSnapshot((doc) => {
- 
-                if (doc.data() !== null) setData(doc.data());
+
+                if (doc.data() !== null) {
+                    
+                    const entrata = Object.entries(doc.data()).reduce((acc, [chiave, valore]) => {
+                        if (chiave.startsWith(dd.slice(1, -1))) {
+                            return { ...acc, [chiave]: { ...valore } }
+                        } else return { ...acc}   
+                    }, {})
+
+                    setData(entrata)
+                }
 
             });
 
@@ -74,7 +85,7 @@ export default function Stampa() {
                 </Foglio>
             </ContainerPdf>
             <Pdf targetRef={pdf} filename={pdfoglio === "cliente" ? page.key + "-cliente.pdf" : page.key + "-cucina.pdf"}>
-                {({ toPdf }) => <ButtonPdf onClick={() => updatestate({...page,toPdf})}>Genera PDF</ButtonPdf>}
+                {({ toPdf }) => <ButtonPdf onClick={() => updatestate({ ...page, toPdf })}>Genera PDF</ButtonPdf>}
             </Pdf>
             <DeleteTavoli>
                 <Svg onClick={() => setPage(false)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -87,8 +98,17 @@ export default function Stampa() {
         <div >
             <Flex orientation={"column"}>
                 <Flex orientation={"row"}>
-                    <Title size={3}> Print 🖨</Title>
-
+                    <Title size={3}>Print 🖨</Title>
+                    {see ?
+                        <Svgout onClick={() => setSee(false)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="lightgreen">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </Svgout>
+                        :
+                        <Svgout onClick={() => setSee(true)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                        </Svgout>
+                    }
                 </Flex>
                 <Bar>
                     <Link to="/insidedata">
@@ -112,22 +132,9 @@ export default function Stampa() {
             <Container>
                 <Scroll>
                     {data ? Object.entries(data).map(([key, value]) => (
-                        <Card key={key} >
-                            {value.state === "stampato" ?
-                                <>
-                                    <Rightstampato>
-                                        <Testo line={"1vh"} size={"1vh"} color={"white"} padding={"10px"}>STAMPATO</Testo>
-                                        <Testo line={"1vh"} size={"3vh"} color={"white"} padding={"10px"}>{value.nome}</Testo>
-                                        <Testo line={"1vh"} size={"3vh"} color={"white"} padding={"10px"}>{value.cognome}</Testo>
-                                    </Rightstampato>
-                                    <Leftstampado onClick={() => setPage({ state: true, value, key })} >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="green">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                                        </svg>
-                                    </Leftstampado>
-                                </>
-                                :
-                                <>
+                       <div key={key}>
+                            {value.state !== "stampato" ?
+                                 <Card  >
                                     <Right>
                                         <Testo line={"5vh"} size={"1vh"} color={"white"} padding={"10px"}>{key}</Testo>
                                         <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.nome}</Testo>
@@ -138,10 +145,23 @@ export default function Stampa() {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                         </svg>
                                     </Left>
-                                </>
+                                    </Card>
+                                : see === true ?
+                                <Card  >
+                                        <Rightstampato>
+                                            <Testo line={"1vh"} size={"1vh"} color={"white"} padding={"10px"}>STAMPATO</Testo>
+                                            <Testo line={"1vh"} size={"3vh"} color={"white"} padding={"10px"}>{value.nome}</Testo>
+                                            <Testo line={"1vh"} size={"3vh"} color={"white"} padding={"10px"}>{value.cognome}</Testo>
+                                        </Rightstampato>
+                                        <Leftstampado onClick={() => setPage({ state: true, value, key })} >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="green">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                            </svg>
+                                        </Leftstampado>
+                                        </Card>
+                                : null
                             }
-
-                        </Card>
+                            </div>
                     )) : null}
                 </Scroll>
             </Container>
@@ -313,7 +333,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Qty</PP>
                     </Quantita>
                     <Prezzo>
-                    <PP size={"10px"}>Check</PP>
+                        <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
                 {Object.entries(cucina.antipasti).map(([key, value]) => (
@@ -323,9 +343,9 @@ const Fogliocucina = ({ page }) => {
                             <p size={"25px"}>{value}</p>
                         </Quantita>
                         <Prezzo>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
-                        <rect width="10" height="10"></rect>
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
+                                <rect width="10" height="10"></rect>
+                            </svg>
                         </Prezzo>
                     </Productcucina>
                 ))}
@@ -335,7 +355,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Qty</PP>
                     </Quantita>
                     <Prezzo>
-                    <PP size={"10px"}>Check</PP>
+                        <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
                 {Object.entries(cucina.primi).map(([key, value]) => (
@@ -345,9 +365,9 @@ const Fogliocucina = ({ page }) => {
                             <p size={"25px"}>{value}</p>
                         </Quantita>
                         <Prezzo>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
-                        <rect width="10" height="10"></rect>
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
+                                <rect width="10" height="10"></rect>
+                            </svg>
                         </Prezzo>
                     </Productcucina>
                 ))}
@@ -357,7 +377,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Qty</PP>
                     </Quantita>
                     <Prezzo>
-                    <PP size={"10px"}>Check</PP>
+                        <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
                 {Object.entries(cucina.secondi).map(([key, value]) => (
@@ -367,9 +387,9 @@ const Fogliocucina = ({ page }) => {
                             <p size={"25px"}>{value}</p>
                         </Quantita>
                         <Prezzo>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
-                        <rect width="10" height="10"></rect>
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
+                                <rect width="10" height="10"></rect>
+                            </svg>
                         </Prezzo>
                     </Productcucina>
                 ))}
@@ -379,7 +399,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Qty</PP>
                     </Quantita>
                     <Prezzo>
-                    <PP size={"10px"}>Check</PP>
+                        <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
                 {Object.entries(cucina.bere).map(([key, value]) => (
@@ -389,9 +409,9 @@ const Fogliocucina = ({ page }) => {
                             <p size={"25px"}>{value}</p>
                         </Quantita>
                         <Prezzo>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
-                        <rect width="10" height="10"></rect>
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
+                                <rect width="10" height="10"></rect>
+                            </svg>
                         </Prezzo>
                     </Productcucina>
                 ))}
