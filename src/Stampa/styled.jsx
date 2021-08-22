@@ -67,6 +67,7 @@ export const Button = styled.div`
         font-weight: bold;
         align-items: center;
         justify-content:center;
+        
         background-color:${props => props.color};
         border-radius:${props => props.border};
         color: white;
@@ -156,6 +157,28 @@ export const Card = styled.div`
     display: flex;
     flex-direction: row;
   `;
+
+
+
+export const Input = styled.input`
+
+width:80%;
+border-radius: 20px 0px 0px 20px;
+padding-left: 20px;
+
+:focus { outline: none; }
+`;
+
+
+
+export const Cerca = styled.button`
+
+width:20%;
+border-radius: 0px 20px 20px 0px;
+color: white;
+background-color: #adaeff;
+
+`;
 
 export const Eliminazione = styled.div`
     height: 90%;

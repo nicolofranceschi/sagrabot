@@ -242,7 +242,7 @@ export default function HomeAdmin() {
 
           const res = await getUserDocument(user.substr(3));
           if (!res) throw new Error("ERRORE nel prendere i dati utente 😞, ricarica");
-          const dataprenotazione = {[key]:{menu:counter,user,Ntavoli:tavoli,nome:res?.nome,cognome:res?.cognome,allergie,state:"entrata",persone:value.length}};
+          const dataprenotazione = {[key]:{menu:counter,user,Ntavoli:tavoli,nome:res?.nome,cognome:res?.cognome,allergie,state:"entrata",persone:value.length,data: new Date()}};
           
           const response = await getdatasala();
           if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");

@@ -115,20 +115,12 @@ export default function Superadmin() {
             firestore.collection("admin").doc("stampa").onSnapshot((doc) => {
 
                 const conto = Object.entries(doc.data()).reduce((acc, [chiave, valore]) => {
-
-                    if (isNaN(acc[valore.admin])) return {
+                    
+                     return {
                         ...acc,
                         [chiave.substr(0, 20)]: {
                             ...acc[chiave.substr(0, 20)],
-                            [valore.admin]: valore.tot,
-                            tot: valore.tot + (acc[chiave.substr(0, 20)] ? acc[chiave.substr(0, 20)].tot : 0)
-                        }
-
-                    }; else return {
-                        ...acc,
-                        [chiave.substr(0, 20)]: {
-                            ...acc[chiave.substr(0, 20)],
-                            [valore.admin]: acc[valore.admin] + valore.tot,
+                            [valore.admin]: (acc[chiave.substr(0, 20)]? acc[chiave.substr(0, 20)][valore.admin] ? acc[chiave.substr(0, 20)][valore.admin] : 0 : 0)+ valore.tot,
                             tot: valore.tot + (acc[chiave.substr(0, 20)] ? acc[chiave.substr(0, 20)].tot : 0)
                         }
                     }

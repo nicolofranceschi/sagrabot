@@ -28,13 +28,12 @@ export default function Insides({ id, setId }) {
                                 return { ...acc, [chiave]: { ...valore } }
                             } else return { ...acc}   
                         }, {})
-                       
+
                         setData(entrata);
 
                     } else {
                         const cassa = Object.entries(doc.data()).reduce((acc, [chiave, valore]) => {
                            
-
                             if (valore.state === "cassa" && valore.admin === id && chiave.startsWith(dd.slice(1, -1))) { 
                                 return { ...acc, [chiave]: { ...valore } } }
                             else return { ...acc }
@@ -109,14 +108,14 @@ export default function Insides({ id, setId }) {
             </Flex>
             <Container>
                 <Scroll>
-                    {data ? Object.entries(data).map(([key, value]) => (
+                    {data ? Object.entries(data).sort((a, b) => b[1].data.seconds - a[1].data.seconds).reverse().map(([key, value]) => (
                         <Card onClick={() => value.state==="entrata" ? updatestate({ value, key }): setOrdine({open:true,value,key})  } key={key} >
                             <State>
                                 <Divinside color={value.state==="entrata" ? "greenyellow" : "orange" }></Divinside>
                                 <p>{value.state}</p>
                             </State>
                             <Right>
-                                <Testo line={"5vh"} size={"1vh"} color={"white"} padding={"10px"}>{key}</Testo>
+                                <Testo line={"5vh"} size={"1vh"} color={"white"} padding={"10px"}>{new Date(value.data.seconds*1000).toLocaleTimeString() }</Testo>
                                 <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.nome}</Testo>
                                 <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.cognome}</Testo>
                             </Right>

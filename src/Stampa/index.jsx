@@ -1,11 +1,12 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { firestore, updatestampa } from '../firebase';
 import { Link } from "react-router-dom";
 import Pdf from "react-to-pdf";
 import pineapp from "./pineapp.png"
-import { Card, Container, ContainerPdf, Table, Product, Tablecucina,  Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
+import { Card, Container, ContainerPdf, Table, Product,LoginForm,Cerca,Find,Input, Tablecucina,  Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
+import { useForm } from 'react-hook-form';
 
 export default function Stampa() {
 
@@ -16,6 +17,21 @@ export default function Stampa() {
     const dd = window.localStorage.getItem("data");
 
     const pdf = useRef(null);
+    const pdf1 = useRef(null);
+
+    const [filter, setFilter] = useState({filter:""});
+
+    const { register, handleSubmit } = useForm();
+
+    const onSubmit = data => setFilter({filter:data.nome});
+
+    const filteredData = useMemo(() => Object.entries(data).reduce((acc, [key, item]) => {  
+        
+    return {
+        ...acc,
+        ...(item.nome?.toLowerCase().includes(filter.filter) || item.cognome?.toLowerCase().includes(filter.filter) || item.Ntavoli.some(tavolo => tavolo===filter.filter ) ? { [key]: item } : {})
+    }
+    }, {}), [filter, data]);
 
     useEffect(() => {
 
@@ -48,7 +64,7 @@ export default function Stampa() {
 
         const updateddata = Object.entries(data).reduce((acc, [chiave, valore]) => {
 
-            if (chiave === key) return { ...acc, [key]: { ...valore, state: "stampato" } }
+            if (chiave === key) return  { ...acc, [key]: { ...valore, state: valore.state + 1  } } 
             else return { ...acc, [chiave]: valore }
 
         }, {})
@@ -67,6 +83,8 @@ export default function Stampa() {
 
     }
 
+    
+
     if (page.state) return (
         <>
             <ContainerPdf>
@@ -83,8 +101,17 @@ export default function Stampa() {
                             <Fogliocucina page={page}></Fogliocucina>
                     }
                 </Foglio>
+                <Foglio ref={pdf1}>
+                    {
+                        pdfoglio === "cliente" ?
+
+                            <Fogliocliente page={page}></Fogliocliente>
+                            :
+                            <Fogliocucina page={page}></Fogliocucina>
+                    }
+                </Foglio>
             </ContainerPdf>
-            <Pdf targetRef={pdf} filename={pdfoglio === "cliente" ? page.key + "-cliente.pdf" : page.key + "-cucina.pdf"}>
+            <Pdf targetRef={pdf,pdf1} filename={pdfoglio === "cliente" ? page.key + "-cliente.pdf" : page.key + "-cucina.pdf"}>
                 {({ toPdf }) => <ButtonPdf onClick={() => updatestate({ ...page, toPdf })}>Genera PDF</ButtonPdf>}
             </Pdf>
             <DeleteTavoli>
@@ -131,12 +158,20 @@ export default function Stampa() {
             </Flex>
             <Container>
                 <Scroll>
-                    {data ? Object.entries(data).map(([key, value]) => (
+                <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                        <Input placeholder="Inserisci nome o tavolo" type="text" {...register("nome")} />
+                        <Cerca type="submit" margin="5vh 0 0 0" padding="15px 0">
+                            <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </Find>
+                        </Cerca>
+                    </LoginForm>
+                    {data ? Object.entries(filteredData).sort((a, b) =>  b[1].data.seconds - a[1].data.seconds ).reverse().map(([key, value]) => (
                        <div key={key}>
-                            {value.state !== "stampato" ?
+                            {value.state < 2 ?
                                  <Card  >
                                     <Right>
-                                        <Testo line={"5vh"} size={"1vh"} color={"white"} padding={"10px"}>{key}</Testo>
+                                        <Testo line={"5vh"} size={"1.5vh"} color={"white"} padding={"10px"}>{new Date(value.data.seconds*1000).toLocaleTimeString()}</Testo>
                                         <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.nome}</Testo>
                                         <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.cognome}</Testo>
                                     </Right>
@@ -303,6 +338,8 @@ const Fogliocucina = ({ page }) => {
 
         }
     }, { caffe: 0 })
+
+   
 
     return (
         <>

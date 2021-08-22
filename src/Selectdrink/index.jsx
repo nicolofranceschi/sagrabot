@@ -63,7 +63,7 @@ export default function Selectdrink (props){
 
         try {
 
-            const dataprenotazione = {[key]:{nome,cognome,allergie,user,Ntavoli,listing,tot,persone,note,admin}}
+            const dataprenotazione = {[key]:{nome,cognome,allergie,user,Ntavoli,listing,tot,persone,note,admin,data:new Date(),state:0}}
 
             const response = await getstampa();
             if (!response) throw new Error("ERRORE nel prendere nel prendere le prenotazioni 😞, ricarica");

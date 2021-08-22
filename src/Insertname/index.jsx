@@ -4,6 +4,7 @@ import { Input } from "../components/Lib";
 import useLocalStorage from "../useLocalStorage";
 import Insidedata from "../Insidedata";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
     height: 100vh;
@@ -107,9 +108,12 @@ export default function Insertname() {
   const [dd, setDd] = useLocalStorage("data", null);
 
   const onSubmit = data => {
-    
-    setDd(data.data);
-    setId(data.id);
+    if (data.id!==""){
+      setDd(data.data);
+      setId(data.id);
+    }else {
+      toast.error("Devi inserire un nome ⚠️")
+    }
   };
 
   if (id === null) return (
@@ -126,6 +130,7 @@ export default function Insertname() {
         <Input type="text" placeholder="Inserisci il tuo ID" {...register("id")} />
         <Flex>
         <Data {...register("data")} >
+          <option value="">ALL</option>
           <option value="21 Agosto-alle 18:30">21 Agosto alle 18:30</option>
           <option value="21 Agosto-alle 20:30">21 Agosto alle 20:30</option>
           <option value="22 Agosto-alle 12:00">22 Agosto alle 12:00</option>
@@ -136,7 +141,6 @@ export default function Insertname() {
           <option value="29 Agosto-alle 12:00">29 Agosto alle 12:00</option>
           <option value="29 Agosto-alle 18:30">29 Agosto alle 18:30</option>
           <option value="29 Agosto-alle 20:30">29 Agosto alle 20:30</option>
-          <option value="">All</option>
         </Data>
         <Button type="submit" > ENTRA COME CASSA </Button>
         </Flex>

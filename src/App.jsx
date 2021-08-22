@@ -16,6 +16,7 @@ import Admin from "./Admin";
 import HomeAdmin from "./HomeAdmin";
 import QrReadercp from "./QrReader";
 import Superadmin from "./Superadmin";
+import Edit from "./Edit";
 import Insidedata from "./Insidedata";
 import Insertname from './Insertname';
 import Stampa from "./Stampa";
@@ -85,7 +86,7 @@ function App() {
       ) : admin ? (
 
         <SalaContext.Provider value={context}>
-          <AdminDom />
+          <AdminDom setUser={setUser}/>
         </SalaContext.Provider>
 
       ) : (
@@ -141,6 +142,9 @@ const NonLoggedRouter = (props) => (
 const AdminDom = (props) => (
   <AnimateSharedLayout type="crossfade">
     <Switch>
+    <Route path="/edit">
+        <Edit setUser={props.setUser} />
+      </Route>
     <Route path="/conto">
         <Superadmin />
       </Route>
