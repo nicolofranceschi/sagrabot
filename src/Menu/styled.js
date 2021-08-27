@@ -309,6 +309,17 @@ export const ButtonTavoli = styled.button`
   z-index:10;
 `;
 
+export const ButtonCaricamento = styled.button`
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-weight: bold;
+  border-radius: 20px;
+  font-size: 15px;
+  background-color: #ffade3;
+  z-index:10;
+`;
+
 export const Data = styled.div`
   position: absolute;
   text-align: center;

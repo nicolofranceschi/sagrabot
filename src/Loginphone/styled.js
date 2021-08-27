@@ -103,6 +103,22 @@ export const Admin = styled.div`
   }
 `;
 
+export const Version = styled.div`
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  bottom: 5vh;
+  right: 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: var(--line);
+  font-family:bold;
+  
+`;
+
 export const Accedi = styled.button`
   width: 25vw;
   max-width: 120px;

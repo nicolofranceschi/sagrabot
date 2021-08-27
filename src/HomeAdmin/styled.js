@@ -27,7 +27,39 @@ export const LoginForm = styled.form`
   width: 90vw;
   height: 10vh;
   margin-left:5vw;
+  margin-top: 2vh;
 `;
+
+export const LineButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 90vw;
+  height: 10vh;
+  margin-left:5vw;
+  margin-top: 2vh;
+`;
+
+export const See = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  height: 10vh;
+  border-radius: 20px;
+  border: 2px solid white;
+`;
+
+export const Deletemode = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  height: 10vh;
+  border-radius: 0px 20px 20px 0px;
+  
+`;
+
+
 
 export const Input = styled.input`
 
@@ -45,6 +77,15 @@ padding: 10px;
 :focus { outline: none; }
 `;
 
+export const Selectbig = styled.select`
+
+width:80%;
+border-radius: 20px 0px 0px 20px;
+padding: 10px;
+-webkit-appearance: none;
+:focus { outline: none; }
+`;
+
 export const Button = styled.button`
 
 width:20%;
@@ -53,6 +94,8 @@ color: white;
 background-color: #adaeff;
 
 `;
+
+
 
 
 export const Line = styled.div`
@@ -69,18 +112,12 @@ export const Div = styled.div`
 `;
 
 export const Tavoli = styled.div`
-      overflow: scroll;
+      overflow: hidden;
       margin-left: 5%;
       margin-right: 5%;
       border-radius: 20px;
       height: 10vh;
-      display: flex;
-      flex-direction: column;
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-      ::-webkit-scrollbar {
-       display: none;
-  }
+      
 `;
 
 
@@ -224,6 +261,29 @@ export const Testo = styled.div`
     }
   `;
 
+export const Text = styled.div`
+display: flex;
+flex-direction:column;
+overflow:scroll;
+align-items: center;
+justify-content: center;
+width: 50%;
+height: 100%;
+color: white;
+font-weight: bold;
+font-size: ${props => props.size}; 
+-ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      ::-webkit-scrollbar {
+       display: none;
+  }
+  p{
+    
+    height: 50%;
+    
+  }
+`;
+
 export const Testofluo = styled.div`
   text-align: center;
   vertical-align: middle;
@@ -287,7 +347,7 @@ export const Allergie = styled.div`
   
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 1vh;
   border-radius: 20px;
   height: 50px;
   padding-left: 20px;
@@ -478,7 +538,6 @@ export const TavoliText = styled.div`
     align-items: center;
     color: white;
     background-color: #ffade3;
-    font-size: 20vw; 
     font-weight: bold;
     text-transform: uppercase;
     

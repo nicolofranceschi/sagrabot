@@ -7,13 +7,14 @@ import Pdf from "react-to-pdf";
 import pineapp from "./pineapp.png"
 import { Card, Container, ContainerPdf, Table, Product,LoginForm,Cerca,Find,Input, Tablecucina,  Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
 import { useForm } from 'react-hook-form';
+import print from 'print-js'
 
 export default function Stampa() {
 
     const [data, setData] = useState({});
     const [see, setSee] = useState(false);
     const [page, setPage] = useState(false);
-    const [pdfoglio, setPdf] = useState("cliente");
+    const [pdfoglio, setPdf] = useState("cucina");
     const dd = window.localStorage.getItem("data");
 
     const pdf = useRef(null);
@@ -60,7 +61,7 @@ export default function Stampa() {
     }, [page])
 
 
-    const updatestate = async ({ key, toPdf }) => {
+    const updatestate = async ({ key, toPdf  }) => {
 
         const updateddata = Object.entries(data).reduce((acc, [chiave, valore]) => {
 
@@ -72,8 +73,9 @@ export default function Stampa() {
         try {
 
             await updatestampa(updateddata);
-            toPdf();
+            await toPdf();
             toast.success("Prenotazione in stampa 🖨");
+            setPage(false);
 
         } catch (error) {
 
@@ -82,26 +84,15 @@ export default function Stampa() {
         }
 
     }
-
     
-
-    if (page.state) return (
+    if (page.state===1) return (
         <>
             <ContainerPdf>
                 <Linebutton>
-                    <Button border={"20px 0px 0px 20px"} color={"#5957e4"} onClick={() => setPdf("cliente")}>CLIENTE 🧑🏻‍🦱</Button>
-                    <Button border={"0px 20px 20px 0px"} color={"#3c9c3c"} onClick={() => setPdf("cucina")}>CUCINA 🧑🏻‍🍳</Button>
+                    <Button size={"80%"} border={"20px 0px 0px 20px"} color={"#3c9c3c"} onClick={() => setPdf("cucina")}>CUCINA 🧑🏻‍🍳</Button>
+                    <Button size={"20%"}  border={"0px 20px 20px 0px"} color={"#5957e4"} onClick={() => setPdf("cliente")}>🧑🏻‍🦱</Button>
                 </Linebutton>
-                <Foglio ref={pdf}>
-                    {
-                        pdfoglio === "cliente" ?
-
-                            <Fogliocliente page={page}></Fogliocliente>
-                            :
-                            <Fogliocucina page={page}></Fogliocucina>
-                    }
-                </Foglio>
-                <Foglio ref={pdf1}>
+                <Foglio ref={pdf} id="printJS-form">
                     {
                         pdfoglio === "cliente" ?
 
@@ -111,7 +102,7 @@ export default function Stampa() {
                     }
                 </Foglio>
             </ContainerPdf>
-            <Pdf targetRef={pdf,pdf1} filename={pdfoglio === "cliente" ? page.key + "-cliente.pdf" : page.key + "-cucina.pdf"}>
+            <Pdf targetRef={pdf} filename={pdfoglio === "cliente" ? page.key + "-cliente.pdf" : page.key + "-cucina.pdf"}>
                 {({ toPdf }) => <ButtonPdf onClick={() => updatestate({ ...page, toPdf })}>Genera PDF</ButtonPdf>}
             </Pdf>
             <DeleteTavoli>
@@ -120,8 +111,7 @@ export default function Stampa() {
                 </Svg>
             </DeleteTavoli>
         </>
-
-    ); else return (
+    );else  return (
         <div >
             <Flex orientation={"column"}>
                 <Flex orientation={"row"}>
@@ -168,14 +158,14 @@ export default function Stampa() {
                     </LoginForm>
                     {data ? Object.entries(filteredData).sort((a, b) =>  b[1].data.seconds - a[1].data.seconds ).reverse().map(([key, value]) => (
                        <div key={key}>
-                            {value.state < 2 ?
+                            {value.state < 1 ?
                                  <Card  >
-                                    <Right>
+                                    <Right >
                                         <Testo line={"5vh"} size={"1.5vh"} color={"white"} padding={"10px"}>{new Date(value.data.seconds*1000).toLocaleTimeString()}</Testo>
                                         <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.nome}</Testo>
                                         <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.cognome}</Testo>
                                     </Right>
-                                    <Left onClick={() => setPage({ state: true, value, key })}>
+                                    <Left onClick={() => setPage({ state: 1, value, key })}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                         </svg>
@@ -183,12 +173,12 @@ export default function Stampa() {
                                     </Card>
                                 : see === true ?
                                 <Card  >
-                                        <Rightstampato>
+                                        <Rightstampato >
                                             <Testo line={"1vh"} size={"1vh"} color={"white"} padding={"10px"}>STAMPATO</Testo>
                                             <Testo line={"1vh"} size={"3vh"} color={"white"} padding={"10px"}>{value.nome}</Testo>
                                             <Testo line={"1vh"} size={"3vh"} color={"white"} padding={"10px"}>{value.cognome}</Testo>
                                         </Rightstampato>
-                                        <Leftstampado onClick={() => setPage({ state: true, value, key })} >
+                                        <Leftstampado onClick={() => setPage({ state: 1, value, key })} >
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="green">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                             </svg>

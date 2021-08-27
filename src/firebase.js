@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+
+
 import { toast } from "react-toastify";
 
 const firebaseConfig = {
@@ -15,6 +17,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 
 export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {
@@ -56,7 +59,7 @@ export const generateUserDocument = async (user, additionalData) => {
       toast.error("Error creating user document")
     }
   }
-  return getUserDocument(user.uid);
+  return getUserDocument(user);
 };
 
 export const generatedatasala = async (additionalData) => {

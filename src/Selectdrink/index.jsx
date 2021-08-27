@@ -8,6 +8,7 @@ export default function Selectdrink (props){
 
     const { register, handleSubmit } = useForm();
     const [note,setNote] = useState(null);
+    const [loading,setloading] = useState(false);
 
     const onSubmit = data => {
         setNote(data.text);
@@ -49,7 +50,7 @@ export default function Selectdrink (props){
     }
 
     const movetostampa = async() => {
-
+        setloading(true);
         const {key,value} = ordine;
         const {nome,cognome,allergie,Ntavoli,user,persone,admin} = value;
         const {conto,tot} = page;
@@ -62,6 +63,16 @@ export default function Selectdrink (props){
         },{})
 
         try {
+
+          fetch("https://rest.nexmo.com/sms/json", {
+            
+            body:  `from=Sagrabot.it&text=Buon appetito da Sagre Alidosiane.it , le confermiamo che il suo ordine è stato inviato in cucina e la presente viene inviata a titolo di ricevuta del suo pagamento di euro ${tot}. Se desidera la ricevuta cartacea è disponibile presso Info Point .&to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            method: "POST",
+            mode: "no-cors"
+          })
 
             const dataprenotazione = {[key]:{nome,cognome,allergie,user,Ntavoli,listing,tot,persone,note,admin,data:new Date(),state:0}}
 
@@ -84,7 +95,7 @@ export default function Selectdrink (props){
 
             await updatedatasala(updateddata);
             toast.info("Prenotazione spostata in storage 𝌏");
-
+            setloading(false);
             setOrdine(false);
 
           } catch (error) {
@@ -187,7 +198,11 @@ export default function Selectdrink (props){
                        <PP size={"25px"}>{page.tot} €</PP>
                         </Tot>
                    </Product>
-            <ButtonTavoli onClick={()=>movetostampa()}>COMPLETA</ButtonTavoli>  
+            {loading ? 
+            <ButtonTavoli >Caricamento ...</ButtonTavoli>
+            :
+            <ButtonTavoli onClick={()=>movetostampa()}>COMPLETA</ButtonTavoli>
+          }  
            <DeleteTavoli>
            <Svg onClick={()=>setPage({conto:[],state:1})} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />

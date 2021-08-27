@@ -3,7 +3,7 @@ import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
 import { Container, Grid, LoadingDiv , Title } from "./Styled";
-import { getUserDocument } from "../firebase";
+import { firestore } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import Pixel from './Pixel';
 import { toast } from 'react-toastify';
@@ -32,21 +32,13 @@ const getxy = i => {
 
 const SALEUID = 'sala';
 
-export default function Prenotazioni () {
-  const history = useHistory();
-  const [data, setData] = useState({});
 
+export default function Prenotazioni () {
+  const [data, setData] = useState({});
   useEffect(() => {
-    async function doStuff () {
-      try {
-        const res = await getUserDocument(SALEUID);
-        if (!res) throw new Error("ERRORE 😞, ricarica");
-        setData(res?.sale['SAGRA']);
-      } catch (error) {
-        history.replace('/');
-      }
-    }
-    doStuff();
+    firestore.collection("users").doc("sala").onSnapshot((snapshot) => {  
+        setData(snapshot.data()?.sale['SAGRA']);
+    });
   }, []);
   if (Object.keys(data).length === 0) return <Loading />;
   return <MappaPrenotazioni data={data} />
@@ -56,11 +48,9 @@ function MappaPrenotazioni ({ data }) {
   const history = useHistory();
   const { height, width } = useWindowSize();
   const { prenotazioni: [, setPrenotazioni], user: [user], orario: [orario] } = useSala();
-  
+  const [selected, setSelected] = useState({});
   const [[gridSize, pixelSize], setSize] = useState([initialGridSize, initialGridSize / cellsNumber]);
   
-  const [selected, setSelected] = useState({});
-
   const DrawingGrid = useRef(null);
 
   usePinch(({ vdva }) => {
@@ -87,8 +77,8 @@ function MappaPrenotazioni ({ data }) {
       if(data[a+50]!==undefined && data[a+50]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+50)) {a=a+50;giavisti.push(a);}
       else if(data[a+49]!==undefined && data[a+49]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+49)) {a=a+49;giavisti.push(a);}
       else if(data[a+51]!==undefined && data[a+51]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+51)) {a=a+51;giavisti.push(a);}
-      else if(data[a+1]!==undefined && data[a+1]?.color!=="hsl(218, 24%, 15%)" &&!giavisti.some(elemento => elemento===a+1)) {a=a+1;giavisti.push(a);}
-      else if(data[a-1]!==undefined && data[a-1]?.color!=="hsl(218, 24%, 15%)" &&!giavisti.some(elemento => elemento===a-1)) {a=a-1;giavisti.push(a);}
+      else if(data[a+1]!==undefined && data[a+1]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a+1)) {a=a+1;giavisti.push(a);}
+      else if(data[a-1]!==undefined && data[a-1]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-1)) {a=a-1;giavisti.push(a);}
       else if(data[a-50]!==undefined && data[a-50]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-50)) {a=a-50;giavisti.push(a);}
       else if(data[a-51]!==undefined && data[a-51]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-51)) {a=a-51;giavisti.push(a);}
       else if(data[a-49]!==undefined && data[a-49]?.color!=="hsl(218, 24%, 15%)" && !giavisti.some(elemento => elemento===a-49)) {a=a-49;giavisti.push(a);}

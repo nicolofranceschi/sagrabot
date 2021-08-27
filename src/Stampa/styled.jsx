@@ -61,7 +61,7 @@ export const Linebutton = styled.div`
 `;
 
 export const Button = styled.div`
-        width: 50%;
+        width: ${props => props.size};
         height: 100%;
         display: flex;
         font-weight: bold;

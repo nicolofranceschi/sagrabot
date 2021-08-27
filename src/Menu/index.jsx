@@ -1,9 +1,9 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form,Alert,Alert2,ButtonTavoli2 ,ButtonFlex, ButtonFlexend, Info, Button, Input ,Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
+import { Container, Qty, Pezzo, Back, Svg, Pop, P, SvgBack, Form, Alert,ButtonCaricamento, Alert2, ButtonTavoli2, ButtonFlex, ButtonFlexend, Info, Button, Input, Allergie, ButtonTavoli, Close, Line, Descrizione, Card, Menuimg } from "./styled"
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { updateUserDocument } from "../firebase";
+import { updateUserDocument,firestore } from "../firebase";
 import { useSala } from "../App";
 import { toast, ToastContainer } from "react-toastify";
 import Menu0 from "./MENU0.png";
@@ -100,12 +100,18 @@ const getCovidPixels = (occupied, available) => Object.entries(occupied).reduce(
 }), {});
 
 export const Menu = () => {
-  const { prenotazioni: [temp], user: [user], orario: [orario] } = useSala();
-  const history= useHistory();
-  const { register, handleSubmit} = useForm();
-  const onSubmit = ({data}) => {
-    setAllergie({ state: false , value : data});
+  const { prenotazioni: [temp,setPrenotazioni], user: [user], orario: [orario] } = useSala();
+  const history = useHistory();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = ({ data }) => {
+    setAllergie({ state: false, value: data });
   };
+
+  useEffect(() => {
+    firestore.collection("users").doc("sala").onSnapshot((snapshot) => { 
+        setPrenotazioni([snapshot.data()?.sale['SAGRA'],temp[1]]);
+    });
+  }, []);
 
   const menu = [
     { key: 0, menu: "Menu adulti", img: Menu0, qty: 0 },
@@ -117,55 +123,65 @@ export const Menu = () => {
   const [counter, setCounter] = useState([0, 0, 0, 0]);
 
   const [numero, setNumero] = useState(0);
+  const [load, setLoad] = useState(true);
 
   const [zoom, setZoom] = useState({ state: false, value: null });
 
   const [allergiedata, setAllergie] = useState({ state: false, value: "null" });
 
-  if (temp === null || orario.data ===undefined || orario.orario ===undefined || user===undefined || orario===undefined ) {
+  if (temp === null || orario.data === undefined || orario.orario === undefined || user === undefined || orario === undefined) {
     toast.error("Hai perso lo stack di prenotazione , RIPROVA");
     history.replace('/');
   }
 
   const confirm = async () => {
-    
+
     const covidPixels = getCovidPixels(temp[1], temp[0]);
-    
+
     const newData = Object.entries(temp[0]).reduce((acc, [key, value]) => {
       const selectedSpot = covidPixels[key];
-      
+
       return {
         ...acc,
         [key]: {
           ...value, prenotazioni: [
             ...value?.prenotazioni ?? [],
-            ...(selectedSpot ? [{ ...selectedSpot, data: orario.data, orario: orario.orario, user, menu: counter , allergie : allergiedata.value }] : [])
+            ...(selectedSpot ? [{ ...selectedSpot, data: orario.data, orario: orario.orario, user, menu: counter, allergie: allergiedata.value }] : [])
           ]
         }
       };
     }, {});
-    
+
     try {
+      setLoad(false);
       if (!newData) throw new Error("Alcuni dei cambi sono problematici , RIPROVA");
-      // chiamata a firestore per avere le Prenotazioni
-      // if non ci sono prenotazioni per gli stessi tavoli e alla stessa ora e giorno, vai avanti
       await updateUserDocument({ uid: SALEUID }, { sale: { SAGRA: newData } });
       toast.info("Verifica qui la prenotazione");
       history.replace('/');
+      console.log(user);
+      fetch("https://rest.nexmo.com/sms/json", {
+        body: `from=Sagrabot.it&text=PRENOTAZIONE COMPLETATA, verifica la tua prenotazione su sagrabot.it&to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        method: "POST",
+        mode: "no-cors"
+      })
+      setLoad(true);
     } catch (error) {
       toast.error(error.message);
       history.replace('/');
     }
   }
 
-  useEffect(()=>{ 
-    const sum = counter.reduce((acc,value)=>acc+value);
-   
-    if(Object.keys(temp[1]).length !== sum) setNumero(1);
-    if(Object.keys(temp[1]).length === sum) setNumero(0);
-    if(Object.keys(temp[1]).length > sum*2) setNumero(2);
+  useEffect(() => {
+    const sum = counter.reduce((acc, value) => acc + value);
 
-  },counter)
+    if (Object.keys(temp[1]).length !== sum) setNumero(1);
+    if (Object.keys(temp[1]).length === sum) setNumero(0);
+    if (Object.keys(temp[1]).length > sum * 2) setNumero(2);
+
+  }, counter)
 
   if (zoom.state) return (
     <Container>
@@ -185,15 +201,15 @@ export const Menu = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Input type="text" {...register("data")} />
           <ButtonFlex>
-          <Button border={"20px 0px 0px 20px"} color={"#ffade3"} type="submit"></Button>
-          <Info  border={"0px 20px 20px 0px"} color={"#adaeff"} type="button">
-          <a href="https://sagrealidosiane.files.wordpress.com/2021/08/sagra-del-porcino-allergeni-2021-2-1.pdf" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p>Informazione sugli alimenti ai consumatori</p>
-          </a>
-          </Info>
+            <Button border={"20px 0px 0px 20px"} color={"#ffade3"} type="submit"></Button>
+            <Info border={"0px 20px 20px 0px"} color={"#adaeff"} type="button">
+              <a href="https://sagrealidosiane.files.wordpress.com/2021/08/sagra-del-porcino-allergeni-2021-2-1.pdf" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p>Informazione sugli alimenti ai consumatori</p>
+              </a>
+            </Info>
           </ButtonFlex>
         </Form>
       </Container>
@@ -263,15 +279,20 @@ export const Menu = () => {
             </Card>))}
         </Line>
       </motion.div>
-     <ButtonFlexend>
+      {load ? <ButtonFlexend>
         {numero === 0 ? <ButtonTavoli onClick={confirm}>Completa la prenotazione</ButtonTavoli>
-        : numero === 1 ? 
-        <>
-        <Alert2 onClick={()=>toast.info("Numero dei menù divero rispetto al numero di posti selezionati")} color={"#ffcc00"} > ⚠ </Alert2>
-        <ButtonTavoli2 onClick={confirm}>Completa la prenotazione</ButtonTavoli2>
-        </>
-        : <Alert color={"#ee404c"}>Menu insufficenti</Alert>}
-     </ButtonFlexend>
+          : numero === 1 ?
+            <>
+              <Alert2 onClick={() => toast.info("Numero dei menù divero rispetto al numero di posti selezionati")} color={"#ffcc00"} > ⚠ </Alert2>
+              <ButtonTavoli2 onClick={confirm}>Completa la prenotazione</ButtonTavoli2>
+            </>
+            : <Alert color={"#ee404c"}>Menu insufficenti</Alert>}
+      </ButtonFlexend>
+        :
+        <ButtonFlexend>
+          <ButtonCaricamento>Caricamento...</ButtonCaricamento>
+        </ButtonFlexend>
+      }
     </Container>
   );
 };

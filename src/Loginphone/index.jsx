@@ -1,5 +1,5 @@
 
-import { Container, LoginForm, Accedi, Label, InputProps,Scroll,Admin, Icona, Span, Accordion, Checkbox, Textconstol, DivCheckbox, Divspace, Back, Svg } from "./styled";
+import { Container, LoginForm, Accedi,Version, Label, InputProps,Scroll,Admin, Icona, Span, Accordion, Checkbox, Textconstol, DivCheckbox, Divspace, Back, Svg } from "./styled";
 import { Input, Button, ButtonBig } from "../components/Lib";
 import { useForm } from "react-hook-form";
 import { initRecaptcha, signInWithPhoneNumber, sendVerificationCode } from "../firebase";
@@ -89,6 +89,7 @@ export default function Loginphone() {
                             </svg>
                             </Admin>
                             </Link>
+                            <Version>v 1.1</Version>
                             <Accedi onClick={() => setAccedi(true)} type="submit" margin="5vh 0 0 0" padding="15px 0">Accedi</Accedi>
                         </>
                     </Accordion>
