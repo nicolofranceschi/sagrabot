@@ -2,20 +2,20 @@ import { memo, useCallback, forwardRef } from "react";
 import { OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
-const PixelNonSelezionatoTipo0 = forwardRef((props, ref) => <Pixelstyle ref={ref} {...props} />);
-const PixelSelezionatoTipo0 = forwardRef(({ color, ...props }, ref) => <div style={{ overflow: 'hidden' }}><Pixelstyle {...props} ref={ref} pixelColor={color} /></div>);
+const PixelNonSelezionatoTipo0 = forwardRef((props, ref) => <div style={{ overflow: 'hidden' , height: "100% "}}><Pixelstyle ref={ref} {...props} /></div>);
+const PixelSelezionatoTipo0 = forwardRef(({ color, ...props }, ref) => <Pixelstyle {...props} ref={ref} pixelColor={color} />);
 const PixelSelezionatoTipo1 = forwardRef(({ selectPixel, border, color, ...props }, ref) => (
-  <div style={{ overflow: 'hidden' }}>
+  <div style={{ overflow: 'hidden' , height: "100% "}}>
     <PixelTavolo {...props} onClick={selectPixel} ref={ref}>
       <OnlyTavolo pixelColor={color} border={border} />
       <Sedia color={color} />
     </PixelTavolo>
   </div>
 ));
-const PixelSelezionatoTipo2 = forwardRef(({ color, text, ...props }, ref) => <div style={{ overflow: 'hidden' }}><TestoPixel {...props} ref={ref} pixelColor={color}>{text}</TestoPixel></div>);
+const PixelSelezionatoTipo2 = forwardRef(({ color, text, ...props }, ref) => <div style={{ overflow: 'hidden',height: "100% " }}><TestoPixel {...props} ref={ref} pixelColor={color}>{text}</TestoPixel></div>);
 
 const PixelPrenotatoTipo1 = forwardRef(({ onClick, border, ...props }, ref) => (
-  <div style={{ overflow: 'hidden' }}>
+  <div style={{ overflow: 'hidden',height: "100% " }}>
     <PixelTavolo {...props} onClick={onClick} ref={ref}>
       <OnlyTavolo pixelColor={"white"} border={border} />
       <Sedia color={"white"} />
@@ -23,7 +23,7 @@ const PixelPrenotatoTipo1 = forwardRef(({ onClick, border, ...props }, ref) => (
   </div>
 ));
 const PixelPrenotato = forwardRef(({ border, ...props }, ref) => (
-  <div style={{ overflow: 'hidden' }}>
+  <div style={{ overflow: 'hidden',height: "100% " }}>
     <PixelTavolo {...props} ref={ref}>
       <OnlyTavolo pixelColor={"var(--line)"} border={border} />
       <Sedia color={"var(--line)"} />
@@ -31,7 +31,7 @@ const PixelPrenotato = forwardRef(({ border, ...props }, ref) => (
   </div>
 ));
 const PixelPrenotatoCovidTipo1 = forwardRef(({ ...props }, ref) => (
-  <div style={{ overflow: 'hidden' }}>
+  <div style={{ overflow: 'hidden' ,height: "100% "}}>
     <PixelTavolo {...props} ref={ref} >
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

@@ -21,6 +21,12 @@ export const Container = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  perspective: 1000px;
+`;
+
+export const PixelContainer = styled.div`
+  height: 100%;
+  width: 100%;
 `;
 
 export const Grid = styled.div.attrs(props => ({
@@ -34,17 +40,17 @@ export const Grid = styled.div.attrs(props => ({
 }))`
   background-color: var(--black-light);
   display: grid;
+  transform-style: preserve-3d;
+  
 `;
 
 export const Pixelstyle = styled.div`
-  border: 1px solid var(--line);
-  box-sizing: border-box;
   height: 100%;
   cursor: pointer;
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
- 
+  box-shadow: 0 0 ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
 `;
 
 export const Title = styled.div`
@@ -158,7 +164,7 @@ export const Quadrato = styled.div`
   width: 50px;
   margin-right: 5%;
   border-radius: 5px 5px 5px 5px;
-  border: 1px solid var(--line);
+ 
   background-color: var(--black-light);
   :hover{
     transform: scale(1.08);
@@ -170,7 +176,7 @@ export const Testo = styled.div`
   width: 50px;
   margin-right: 5%;
   border-radius: 5px 5px 5px 5px;
-  border: 1px solid var(--line);
+  
   text-align: center;
   padding: 10px;
   font-family: Arial, Helvetica, sans-serif;
@@ -181,7 +187,7 @@ export const Testo = styled.div`
 `;
 
 export const TestoPixel = styled.div`
-  border: 1px solid var(--line);
+  
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -189,12 +195,13 @@ export const TestoPixel = styled.div`
   cursor: pointer;
   text-align: center;
   vertical-align: middle;
-  line-height: 100%; 
+  padding: 1px;
+  line-height: 90%; 
+  font-size: 80%;
   font-family: Arial, Helvetica, sans-serif;
   transform: rotate( ${({ rotation }) => rotation ?? '0'}deg);
   border-radius: ${({ border }) => border ?? '0px'};
   color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
-  
 `;
 
 
@@ -226,7 +233,6 @@ export const OnlyTavolo = styled.div`
   height: 100%;
   border-radius: ${({ border }) => border ?? '0px'};
   flex-grow: 1;
-  border: 1px solid var(--line);
   box-sizing: border-box;
   background-color: ${({ pixelColor }) => pixelColor ?? 'var(--black-light)'};
 `;

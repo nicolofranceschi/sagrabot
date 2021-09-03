@@ -2,7 +2,7 @@ import { useRef, useState,  useEffect, memo } from "react";
 import { usePinch } from 'react-use-gesture';
 import useIntersectionObserver from "../useIntersectionObserver";
 import { useWindowSize } from "../useWindowSize.js";
-import { Container, Grid, LoadingDiv , Title } from "./Styled";
+import { Container, Grid,PixelContainer, LoadingDiv , Title } from "./Styled";
 import { getUserDocument } from "../firebase";
 import PixelSettings from "./PixelSettings";
 import Pixel from './Pixel';
@@ -107,9 +107,11 @@ function MappaPrenotazioni ({ data }) {
 const Pixels = memo(({ data, selected, setSelected, orario, onSelect }) => (
   <>
   {cells.map((_, i) => (
-    <ObservedPixel key={i}>
+  <PixelContainer  key={i}>
+    <ObservedPixel>
       {ref => <Pixel i={i} data={data[i]} selected={selected[i]} setSelected={setSelected} orario={orario} onSelect={onSelect} ref={ref} />}
     </ObservedPixel>
+  </PixelContainer>
   ))}
   </>
 ));
