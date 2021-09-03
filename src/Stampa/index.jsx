@@ -249,9 +249,8 @@ const Fogliocliente = ({ page }) => (
 )
 
 const Fogliocucina = ({ page }) => {
-
     const cucina = Object.entries(page.value.listing).reduce((acc, [key, value]) => {
-
+        
         if (key === "menusenzaporcini") {
             return {
                 ...acc,
@@ -329,8 +328,6 @@ const Fogliocucina = ({ page }) => {
         }
     }, { caffe: 0 })
 
-   
-
     return (
         <>
             <Header>
@@ -363,7 +360,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
-                {Object.entries(cucina.antipasti).map(([key, value]) => (
+                {cucina.antipasti && Object.entries(cucina.antipasti).map(([key, value]) => (
                     <Productcucina key={key}>
                         <Field>{key}</Field>
                         <Quantita>
@@ -385,7 +382,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
-                {Object.entries(cucina.primi).map(([key, value]) => (
+                {cucina.primi && Object.entries(cucina.primi).map(([key, value]) => (
                     <Productcucina key={key}>
                         <Field>{key}</Field>
                         <Quantita>
@@ -407,7 +404,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
-                {Object.entries(cucina.secondi).map(([key, value]) => (
+                {cucina.secondi && Object.entries(cucina.secondi).map(([key, value]) => (
                     <Productcucina key={key}>
                         <Field>{key}</Field>
                         <Quantita>
@@ -429,7 +426,7 @@ const Fogliocucina = ({ page }) => {
                         <PP size={"10px"}>Check</PP>
                     </Prezzo>
                 </Product>
-                {Object.entries(cucina.bere).map(([key, value]) => (
+                {cucina.bere && Object.entries(cucina.bere).map(([key, value]) => (
                     <Productcucina key={key}>
                         <Field>{key}</Field>
                         <Quantita>
