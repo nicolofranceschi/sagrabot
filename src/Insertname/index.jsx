@@ -130,17 +130,17 @@ export default function Insertname() {
         <Input type="text" placeholder="Inserisci il tuo ID" {...register("id")} />
         <Flex>
         <Data {...register("data")} >
-          <option value="">ALL</option>
-          <option value="21 Agosto-alle 18:30">21 Agosto alle 18:30</option>
-          <option value="21 Agosto-alle 20:30">21 Agosto alle 20:30</option>
-          <option value="22 Agosto-alle 12:00">22 Agosto alle 12:00</option>
-          <option value="22 Agosto-alle 18:30">22 Agosto alle 18:30</option>
-          <option value="22 Agosto-alle 20:30">22 Agosto alle 20:30</option>
-          <option value="28 Agosto-alle 18:30">28 Agosto alle 18:30</option>
-          <option value="28 Agosto-alle 20:30">28 Agosto alle 20:30</option>
-          <option value="29 Agosto-alle 12:00">29 Agosto alle 12:00</option>
-          <option value="29 Agosto-alle 18:30">29 Agosto alle 18:30</option>
-          <option value="29 Agosto-alle 20:30">29 Agosto alle 20:30</option>
+        <option value="">ALL</option>
+                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
+                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
+                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
+                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
+                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
+                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
+                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
+                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
+                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
+                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
         </Data>
         <Button type="submit" > ENTRA COME CASSA </Button>
         </Flex>

@@ -313,16 +313,16 @@ export default function HomeAdmin() {
                     <LoginForm onSubmit={handleSubmit(onSubmitdata)}>
                         <Selectbig {...register("data")}>
                             <option value="">ALL</option>
-                            <option value="21 Agosto-alle 18:30">21 Agosto alle 18:30</option>
-                            <option value="21 Agosto-alle 20:30">21 Agosto alle 20:30</option>
-                            <option value="22 Agosto-alle 12:00">22 Agosto alle 12:00</option>
-                            <option value="22 Agosto-alle 18:30">22 Agosto alle 18:30</option>
-                            <option value="22 Agosto-alle 20:30">22 Agosto alle 20:30</option>
-                            <option value="28 Agosto-alle 18:30">28 Agosto alle 18:30</option>
-                            <option value="28 Agosto-alle 20:30">28 Agosto alle 20:30</option>
-                            <option value="29 Agosto-alle 12:00">29 Agosto alle 12:00</option>
-                            <option value="29 Agosto-alle 18:30">29 Agosto alle 18:30</option>
-                            <option value="29 Agosto-alle 20:30">29 Agosto alle 20:30</option>
+                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
+                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
+                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
+                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
+                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
+                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
+                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
+                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
+                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
+                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
                         </Selectbig>
                         <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                             <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -398,17 +398,17 @@ export default function HomeAdmin() {
             </Flex>
             <LoginForm onSubmit={handleSubmit(onSubmitdata)}>
                 <Selectbig {...register("data")}>
-                    <option value="">ALL</option>
-                    <option value="21 Agosto-alle 18:30">21 Agosto alle 18:30</option>
-                    <option value="21 Agosto-alle 20:30">21 Agosto alle 20:30</option>
-                    <option value="22 Agosto-alle 12:00">22 Agosto alle 12:00</option>
-                    <option value="22 Agosto-alle 18:30">22 Agosto alle 18:30</option>
-                    <option value="22 Agosto-alle 20:30">22 Agosto alle 20:30</option>
-                    <option value="28 Agosto-alle 18:30">28 Agosto alle 18:30</option>
-                    <option value="28 Agosto-alle 20:30">28 Agosto alle 20:30</option>
-                    <option value="29 Agosto-alle 12:00">29 Agosto alle 12:00</option>
-                    <option value="29 Agosto-alle 18:30">29 Agosto alle 18:30</option>
-                    <option value="29 Agosto-alle 20:30">29 Agosto alle 20:30</option>
+                <option value="">ALL</option>
+                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
+                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
+                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
+                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
+                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
+                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
+                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
+                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
+                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
+                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
                 </Selectbig>
                 <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                     <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

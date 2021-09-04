@@ -251,72 +251,72 @@ const Fogliocliente = ({ page }) => (
 const Fogliocucina = ({ page }) => {
     const cucina = Object.entries(page.value.listing).reduce((acc, [key, value]) => {
         
-        if (key === "menusenzaporcini") {
+        if (key === "menusenzatartufo") {
             return {
                 ...acc,
                 primi: {
                     ...acc.primi,
-                    tagliatellealragu: value.qty
+                    TAGLIOLINI_AL_REGU: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    filettodimaialeconpatate: value.qty
-                }
+                    ROAST_BEEF_PATATE_FRITTE: value.qty
+                }, sorbetto: acc.sorbetto + value.qty
             }
         }
-        else if (key === "menusenzaporcininoglutine") {
+        else if (key === "menusenzatartufonoglutine") {
             return {
                 ...acc,
                 primi: {
                     ...acc.primi,
-                    tagliatellealraguSENZAGLUTINE: value.qty
+                    TAGLIOLINI_AL_REGU_SENZAGLUTINE: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    filettodimaialeconpatateSENZAGLUTINE: value.qty
-                }
+                    ROAST_BEEF_PATATE_FRITTE_SENZAGLUTINE: value.qty
+                }, sorbetto: acc.sorbetto + value.qty
             }
         }
-        else if (key === "menuporcininoglutine") {
+        else if (key === "menutartufonoglutine") {
             return {
                 ...acc,
                 antipasti: {
                     ...acc.antipasti,
-                    crostinimistiSENZAGLUTINE: value.qty,
-                    cestinodipatateSENZAGLUTINE: value.qty,
-                    insalatadiporciniSENZAGLUTINE: value.qty
+                    CROSTINI_MISTI_SENZAGLUTINE: value.qty,
+                    VELLUTATA_SENZAGLUTINE: value.qty
                 },
                 primi: {
                     ...acc.primi,
-                    tagliatelleallaboscaiolaSENZAGLUTINE: value.qty
+                    TAGLIATELLA_SENZAGLUTINE: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    filettdimaialeaiporciniSENZAGLUTINE: value.qty
+                    ROAST_BEEF_SENZAGLUTINE: value.qty,
+                    POLENTA_FRITTA_SENZAGLUTINE: value.qty
 
-                }, caffe: acc.caffe + value.qty
+                }, sorbetto: acc.sorbetto + value.qty
             }
         }
-        else if (key === "menuporcini") {
+        else if (key === "menutartufo") {
             return {
                 ...acc,
                 antipasti: {
                     ...acc.antipasti,
-                    crostinimisti: value.qty,
-                    cestinodipatate: value.qty,
-                    insalatadiporcini: value.qty
+                    CROSTINI_MISTI: value.qty,
+                    VELLUTATA: value.qty,
+                    UOVA: value.qty,
                 },
                 primi: {
                     ...acc.primi,
-                    tagliatelleallaboscaiola: value.qty,
-                    tortellidipatate: value.qty
+                    TAGLIOLINI: value.qty,
+                    TORTELLI: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    porcinifritti: value.qty,
-                    filettdimaialeaiporcini: value.qty
+                    ROAST_BEEF: value.qty,
+                    POLENTA_FRITTA: value.qty
 
-                }, caffe: acc.caffe + value.qty
+                }, sorbetto: acc.sorbetto + value.qty
             }
         } else return {
             ...acc,
@@ -326,7 +326,7 @@ const Fogliocucina = ({ page }) => {
             }
 
         }
-    }, { caffe: 0 })
+    }, { sorbetto: 0 })
 
     return (
         <>
@@ -340,7 +340,7 @@ const Fogliocucina = ({ page }) => {
                     <PP size={"8px"}>{new Date().toString()}</PP>
                 </Datiprenotazione>
                 <Numerotavolo>
-                    <PP size={"15px"}>Tavolo numero</PP>
+                    <PP size={"15px"}>Tav</PP>
                     {page.value.Ntavoli.map((value) => (
                         value !== "TBD" ?
                             <p key={value}>{value}</p>
@@ -439,6 +439,26 @@ const Fogliocucina = ({ page }) => {
                         </Prezzo>
                     </Productcucina>
                 ))}
+                <Product>
+                    <Field size={"bold"}>Dessert</Field>
+                    <Quantita size={"bold"}>
+                        <PP size={"10px"}>Qty</PP>
+                    </Quantita>
+                    <Prezzo>
+                        <PP size={"10px"}>Check</PP>
+                    </Prezzo>
+                </Product>
+                <Productcucina>
+                        <Field>Sorbetto</Field>
+                        <Quantita>
+                            <p size={"25px"}>{cucina.sorbetto}</p>
+                        </Quantita>
+                        <Prezzo>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
+                                <rect width="10" height="10"></rect>
+                            </svg>
+                        </Prezzo>
+                    </Productcucina>
             </Tablecucina>
         </>
 

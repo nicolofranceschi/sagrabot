@@ -13,21 +13,21 @@ export default function Choose() {
   const [pop, setPOP] = useState(true);
 
   const giorni = [
-    { "giorno": "21", },
-    { "giorno": "22", },
-    { "giorno": "28", },
-    { "giorno": "29", },
+    { "giorno": "18", },
+    { "giorno": "19", },
+    { "giorno": "25", },
+    { "giorno": "26", },
   ]
 
   const orari = [
     { "orario": "12:00", },
-    { "orario": "18:30", },
-    { "orario": "20:30", }
+    { "orario": "19:00", },
+    { "orario": "21:00", }
   ]
 
   const oraricena = [
-    { "orario": "18:30", },
-    { "orario": "20:30", }
+    { "orario": "19:00", },
+    { "orario": "21:00", }
   ]
 
   
@@ -80,15 +80,15 @@ export default function Choose() {
       <motion.div drag="x" dragConstraints={{ left: -740, right: 0 }}>
         <Line >
           {giorni.map((b) => (
-            data === b.giorno + " Agosto") ? (
-            <Card key={b.giorno} color={"#ffade3"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
+            data === b.giorno + " Settembre") ? (
+            <Card key={b.giorno} color={"#ffade3"} onClick={() => { setMomento({ orario, data: b.giorno + " Settembre" }) }}>
               <Giorni>{b.giorno}</Giorni>
-              <Mese>AGOSTO</Mese>
+              <Mese>SETTEMBRE</Mese>
             </Card>
           ) : (
-            <Card key={b.giorno} color={"white"} onClick={() => { setMomento({ orario, data: b.giorno + " Agosto" }) }}>
+            <Card key={b.giorno} color={"white"} onClick={() => { setMomento({ orario, data: b.giorno + " Settembre" }) }}>
               <Giorni>{b.giorno}</Giorni>
-              <Mese>AGOSTO</Mese>
+              <Mese>SETTEMBRE</Mese>
             </Card>
           )
           )}
@@ -98,7 +98,7 @@ export default function Choose() {
       <Descrizione vh="45vh" >Seleziona un orario</Descrizione>
       <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
         <Line>
-          {data === "21 Agosto" || data === "28 Agosto" ? (oraricena.map((c) => (
+          {data === "18 Settembre" || data === "25 Settembre" ? (oraricena.map((c) => (
             orario === "alle " + c.orario) ? (
             <CardBig key={c.orario} color={"#adaeff"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
               <Flex>

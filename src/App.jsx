@@ -51,7 +51,9 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = firestore.collection("users").doc("sala").onSnapshot((snapshot) => {
+      //if (prenotazioni) console.log(snapshot.data()?.sale['SAGRA'], prenotazioni[1], user, data, orario)
       if (prenotazioni && ciSonoConflitti(snapshot.data()?.sale['SAGRA'], prenotazioni[1], user, data, orario)) {
+        console.log(prenotazioni)
         toast.error(`Prenotazione in conflitto, si prega di riprovare`);
         history.push('/');
       }

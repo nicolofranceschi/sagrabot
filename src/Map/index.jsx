@@ -43,7 +43,7 @@ function MappaPrenotazioni ({ data }) {
   
   const [selected, setSelected] = useState({});
 
-  const [orario,setOrario] = useState({data:"21 Agosto",orario:"alle 18:30"});
+  const [orario,setOrario] = useState({data:"18 Settembre",orario:"alle 19:00"});
 
   const statics = Object.entries(data).reduce((acc,[key,value])=>{
     if (value.prenotazioni.some(data=>data.data===orario.data && data.orario===orario.orario && data.type==="default")===true){

@@ -1,4 +1,5 @@
 import { memo, useCallback, forwardRef } from "react";
+import { toast } from "react-toastify";
 import { OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
@@ -24,7 +25,7 @@ const PixelPrenotatoTipo1 = forwardRef(({ onClick, border, ...props }, ref) => (
 ));
 const PixelPrenotato = forwardRef(({ border, ...props }, ref) => (
   <div style={{ overflow: 'hidden' }}>
-    <PixelTavolo {...props} ref={ref}>
+    <PixelTavolo {...props} onClick={() => toast.info("Il posto è gia prenotato , clicca sui posti colorati per prenotarli, se non ne trovi la sala è piena")} ref={ref}>
       <OnlyTavolo pixelColor={"var(--line)"} border={border} />
       <Sedia color={"var(--line)"} />
     </PixelTavolo>

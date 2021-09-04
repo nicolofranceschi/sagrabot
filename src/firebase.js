@@ -23,7 +23,6 @@ export const initRecaptcha = (buttonId) => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(buttonId, {
     'size': 'invisible',
     'callback': (response) => {
-
       toast.success("Messaggio inviato 💬", {
         position: "top-right",
         autoClose: 5000,

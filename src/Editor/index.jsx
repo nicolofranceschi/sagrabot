@@ -7,7 +7,7 @@ import PixelSettings from "./PixelSettings";
 import useLocalStorage from "../useLocalStorage.js";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSala } from '../App';
-import { generateUserDocument } from "../firebase";
+import { generateUserDocument, updateUserDocument } from "../firebase";
 
 const Pixel = lazy(() => import('./Pixel'));
 const Tools = lazy(() => import('./Tools'));
@@ -65,6 +65,7 @@ export default function Editor() {
   }, []);
 
   const [doubleClickedIndex, setDoubleClickedIndex] = useState(null);
+  const [start, setStart] = useState(0);
   const DrawingGrid = useRef(null);
   const { height, width } = useWindowSize();
 
@@ -87,6 +88,7 @@ export default function Editor() {
     if (noDoubleClicked()) return;
     const { rotation, ...pixelClicked } = selectedPixels[doubleClickedIndex];
     select(doubleClickedIndex, { ...pixelClicked, rotation: rotatePixel(e.key, rotation) });
+    setStart(rotatePixel(e.key, rotation));
   }, [doubleClickedIndex, selectedPixels[doubleClickedIndex]]);
 
   const catchUIEvent = useCallback(e => {
@@ -103,12 +105,12 @@ export default function Editor() {
 
   const select = (i, pixel) => {
     console.log(selectedPixels[i]);
-    //setSelectedPixels(current => ({ ...current, [i]: pixel }));
+    setSelectedPixels(current => ({ ...current, [i]: pixel }));
   }
 
   const grid = useMemo(() => cells.map((_, i) => (
     <ObservedPixel key={i}>
-      {ref => <Pixel {...{ i, type, color, getxy, text , pixelSize }} selected={selectedPixels[i]} onSelect={select} onDoubleClick={setDoubleClickedIndex} ref={ref}/>}
+      {ref => <Pixel {...{ i, type, color, getxy, text , pixelSize }} selected={selectedPixels[i]} onSelect={select} start={start} onDoubleClick={setDoubleClickedIndex} ref={ref}/>}
     </ObservedPixel>
   )), [selectedPixels, type, color]);
 
@@ -128,8 +130,7 @@ export default function Editor() {
   ]);
 
   const saveMap = async () => {
-    const user = await generateUserDocument( 'backup2', { sale: { 'SAGRA': selectedPixels }});
-   
+    //await updateUserDocument({ uid: 'sala' }, { sale: {'SAGRA' : selectedPixels } });
   }
 
   return (

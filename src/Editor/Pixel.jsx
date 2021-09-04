@@ -3,13 +3,13 @@ import useDoubleClick from 'use-double-click';
 import { HoverablePixelTavolo, OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
-const Pixel = memo(forwardRef(({ color, type, pixelSize,i, selected, text, onSelect, getxy, onDoubleClick }, ref) => {
+const Pixel = memo(forwardRef(({ color, type, pixelSize,i, selected, start, text, onSelect, getxy, onDoubleClick }, ref) => {
 
   const selectPixel = useCallback((e) => {
     const { x, y } = getxy(i);
     onDoubleClick(null);
     if (selected?.type === 2  && (e.currentTarget?.textContent==text || e.currentTarget?.textContent==undefined))  return;
-    onSelect(i, { color, type, x, y, rotation: 0 , text : e.currentTarget?.textContent});
+    onSelect(i, { color, type, x, y, rotation: start , text : e.currentTarget?.textContent});
   }, [color, type, selected]);
 
   const pixelProps = { ref, rotation: selected?.rotation, border: selected?.border };

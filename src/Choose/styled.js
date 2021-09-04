@@ -157,7 +157,7 @@ export const Data = styled.div`
   top:20px;
   right:10px;
   height: 50px;
-  width: 150px;
+  width: 200px;
   border-radius: 20px;
   backdrop-filter: blur(30px);
   z-index:10;
