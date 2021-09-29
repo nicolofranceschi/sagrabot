@@ -5,7 +5,7 @@ import { firestore, updatestampa } from '../firebase';
 import { Link } from "react-router-dom";
 import Pdf from "react-to-pdf";
 import pineapp from "./pineapp.png"
-import { Card, Container, ContainerPdf, Table, Product,LoginForm,Cerca,Find,Input, Tablecucina,  Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
+import { Card, Container, ContainerPdf, Table,DatiAllergie, Product,LoginForm,Cerca,Find,Input, Tablecucina,  Productcucina, Linebutton, Button, PineApp, Field, Prezzo, Quantita, Tot, Statebutton, Header, PP, Datiprenotazione, Numerotavolo, ButtonPdf, DeleteTavoli, Svg, Foglio, Divinside, Bar, Testo, Left, Right, Rightstampato, P, Title, Flex, Svgout, Scroll, Leftstampado } from './styled';
 import { useForm } from 'react-hook-form';
 import print from 'print-js'
 
@@ -249,68 +249,58 @@ const Fogliocliente = ({ page }) => (
 )
 
 const Fogliocucina = ({ page }) => {
+
+    let contfiletto = 0;
+    let contchees = 0;
+
+
     const cucina = Object.entries(page.value.listing).reduce((acc, [key, value]) => {
-        
-        if (key === "menusenzatartufo") {
+        console.log(acc)
+        if (key === "menumarrone1") {
+            contfiletto=contfiletto+value.qty
+            contchees=contchees+value.qty
             return {
                 ...acc,
                 primi: {
                     ...acc.primi,
-                    TAGLIOLINI_AL_REGU: value.qty
+                    TAGLIATELLE: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    ROAST_BEEF_CON_PATATE: value.qty
-                }, sorbetto: acc.sorbetto + value.qty
+                    FILETTO_DI_MAIALE: contfiletto
+                }, 
+                dolci: {
+                    ...acc.dolci,
+                    CHEESECAKE: contchees
+                }, 
             }
         }
-        else if (key === "menusenzatartufonoglutine") {
+        else if (key === "menumarrone2") {
+            contfiletto=contfiletto+value.qty
+            contchees=contchees+value.qty
             return {
                 ...acc,
                 primi: {
                     ...acc.primi,
-                    TAGLIOLINI_AL_REGU_senza_GLUTINE: value.qty
+                    Capaltèz: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    ROAST_BEEF_CON_PATATE_senza_GLUTINE: value.qty
-                }, sorbetto: acc.sorbetto + value.qty
+                    FILETTO_DI_MAIALE: contfiletto
+                }, 
+                dolci: {
+                    ...acc.dolci,
+                    CHEESECAKE: contchees
+                }, 
             }
         }
-        else if (key === "menutartufonoglutine") {
+        else if (key === "menunomarrone") {
             return {
                 ...acc,
-                antipasti: {
-                    ...acc.antipasti,
-                    ANTIPASTO_AL_TARTUFO_senza_GLUTINE: value.qty
-                },
                 primi: {
                     ...acc.primi,
-                    TAGLIATELLA_AL_TARTUFO_senza_GLUTINE: value.qty
-                },
-                secondi: {
-                    ...acc.secondi,
-                    BIS_DI_SECONDI_AL_TARTUFO_senza_GLUTINE: value.qty
-
-                }, sorbetto: acc.sorbetto + value.qty
-            }
-        }
-        else if (key === "menutartufo") {
-            return {
-                ...acc,
-                antipasti: {
-                    ...acc.antipasti,
-                    ANTIPASTO_AL_TARTUFO: value.qty
-                },
-                primi: {
-                    ...acc.primi,
-                    BIS_DI_PRIMI_AL_TARTUFO: value.qty
-                },
-                secondi: {
-                    ...acc.secondi,
-                    BIS_DI_SECONDI_AL_TARTUFO: value.qty
-
-                }, sorbetto: acc.sorbetto + value.qty
+                    FICATTOLA: value.qty
+                }
             }
         } else return {
             ...acc,
@@ -320,7 +310,7 @@ const Fogliocucina = ({ page }) => {
             }
 
         }
-    }, { sorbetto: 0 })
+    },)
 
     return (
         <>
@@ -330,7 +320,6 @@ const Fogliocucina = ({ page }) => {
                     <PP size={"10px"}>{page.value.user}</PP>
                     <PP size={"10px"}>Posti: {page.value.persone}</PP>
                     <PP size={"10px"}>Admin: {page.value.admin}</PP>
-                    <PP size={"10px"}>Allergie: {page.value.note}</PP>
                     <PP size={"8px"}>{new Date().toString()}</PP>
                 </Datiprenotazione>
                 <Numerotavolo>
@@ -345,28 +334,7 @@ const Fogliocucina = ({ page }) => {
                 </Numerotavolo>
             </Header>
             <Tablecucina>
-                <Product>
-                    <Field size={"bold"}>Antipasti</Field>
-                    <Quantita size={"bold"}>
-                        <PP size={"10px"}>Qty</PP>
-                    </Quantita>
-                    <Prezzo>
-                        <PP size={"10px"}>Check</PP>
-                    </Prezzo>
-                </Product>
-                {cucina.antipasti && Object.entries(cucina.antipasti).map(([key, value]) => (
-                    <Productcucina key={key}>
-                        <Field>{key}</Field>
-                        <Quantita>
-                            <p size={"25px"}>{value}</p>
-                        </Quantita>
-                        <Prezzo>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
-                                <rect width="10" height="10"></rect>
-                            </svg>
-                        </Prezzo>
-                    </Productcucina>
-                ))}
+               
                 <Product>
                     <Field size={"bold"}>Primi</Field>
                     <Quantita size={"bold"}>
@@ -411,6 +379,28 @@ const Fogliocucina = ({ page }) => {
                         </Prezzo>
                     </Productcucina>
                 ))}
+                 <Product>
+                    <Field size={"bold"}>Dolci</Field>
+                    <Quantita size={"bold"}>
+                        <PP size={"10px"}>Qty</PP>
+                    </Quantita>
+                    <Prezzo>
+                        <PP size={"10px"}>Check</PP>
+                    </Prezzo>
+                </Product>
+                {cucina.dolci && Object.entries(cucina.dolci).map(([key, value]) => (
+                    <Productcucina key={key}>
+                        <Field>{key}</Field>
+                        <Quantita>
+                            <p size={"25px"}>{value}</p>
+                        </Quantita>
+                        <Prezzo>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
+                                <rect width="10" height="10"></rect>
+                            </svg>
+                        </Prezzo>
+                    </Productcucina>
+                ))}
                 <Product>
                     <Field size={"bold"}>Bere</Field>
                     <Quantita size={"bold"}>
@@ -433,27 +423,11 @@ const Fogliocucina = ({ page }) => {
                         </Prezzo>
                     </Productcucina>
                 ))}
-                <Product>
-                    <Field size={"bold"}>Dessert</Field>
-                    <Quantita size={"bold"}>
-                        <PP size={"10px"}>Qty</PP>
-                    </Quantita>
-                    <Prezzo>
-                        <PP size={"10px"}>Check</PP>
-                    </Prezzo>
-                </Product>
-                <Productcucina>
-                        <Field>Sorbetto</Field>
-                        <Quantita>
-                            <p size={"25px"}>{cucina.sorbetto}</p>
-                        </Quantita>
-                        <Prezzo>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 100 100" stroke="currentColor">
-                                <rect width="10" height="10"></rect>
-                            </svg>
-                        </Prezzo>
-                    </Productcucina>
+            <DatiAllergie>
+            <PP size={"30px"}>Allergie:{page.value.note}</PP>
+            </DatiAllergie>
             </Tablecucina>
+
         </>
 
     )

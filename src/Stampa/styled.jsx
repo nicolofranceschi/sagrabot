@@ -317,9 +317,18 @@ export const Datiprenotazione= styled.div`
   flex-direction: column;
 `;
 
+export const DatiAllergie= styled.div`
+  height:10%;
+  width:100%;
+  padding:20px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Table = styled.div`
   margin-top: 40px;
-  height:60%;
+  height:70%;
   width:100%;
   display: flex;
   flex-direction: column;

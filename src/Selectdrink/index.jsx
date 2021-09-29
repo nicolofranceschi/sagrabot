@@ -32,10 +32,9 @@ export default function Selectdrink (props){
         Vino_bianco_fermo_Foschi:[0,8],
         Vino_rosso_S_Biagio:[0,8],
         Vino_rosso_Sangiovese_Superiore:[0,9.5],
-        menutartufo:[ordine.value.menu[0],25],
-        menusenzatartufo:[ordine.value.menu[1],12],
-        menutartufonoglutine:[ordine.value.menu[2],25],
-        menusenzatartufonoglutine:[ordine.value.menu[3],12],
+        menumarrone1:[ordine.value.menu[0],25],
+        menumarrone2:[ordine.value.menu[1],25],
+        menunomarrone:[ordine.value.menu[2],12],
     });
 
     
@@ -154,10 +153,9 @@ export default function Selectdrink (props){
                 </form>
           <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Linebig>
-               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menutartufo"} str1={"Menu"} str2={"tartufo"} str3={""}></Cardcomponentbig>
-               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzatartufo"} str1={"Menu"} str2={"bimbo"} str3={""}></Cardcomponentbig>
-               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menutartufonoglutine"} str1={"Menu"} str2={"tartufo"} str3={"NO GLUTINE"}></Cardcomponentbig>
-               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzatartufonoglutine"} str1={"Menu"} str2={"bimbo"} str3={"NO GLUTINE"}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menumarrone1"} str1={"Menu"} str2={"MARRONE"} str3={"1"}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menumarrone2"} str1={"Menu"} str2={"MARRONE"} str3={"2"}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menunomarrone"} str1={"Menu"} str2={"NO"} str3={"MARRONE"}></Cardcomponentbig>
            </Linebig>
            </Motion>
             <ButtonTavoli onClick={()=>createconto()}>CONTO</ButtonTavoli>  

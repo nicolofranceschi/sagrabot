@@ -123,6 +123,17 @@ export const updatedatasala = async (additionalData) => {
   }
 };
 
+export const updatedatacoda = async (additionalData) => {
+  try {
+    const userRef = firestore.doc(`admin/coda`);
+    const data = await userRef.update(additionalData);
+    return data;
+  } catch (error) {
+    console.error("Error updating user document", error, additionalData);
+    return null;
+  }
+};
+
 export const updatestampa = async (additionalData) => {
   try {
     const userRef = firestore.doc(`admin/stampa`);
@@ -137,6 +148,18 @@ export const updatestampa = async (additionalData) => {
 export const getdatasala = async ()=> {
   try {
     const userDocument = await firestore.doc(`admin/prenotazioni`).get();
+    return {
+      ...userDocument.data()
+    };
+  } catch (error) {
+    console.error("Error fetching user", error);
+    
+  }
+};
+
+export const getdatacoda = async ()=> {
+  try {
+    const userDocument = await firestore.doc(`admin/coda`).get();
     return {
       ...userDocument.data()
     };
