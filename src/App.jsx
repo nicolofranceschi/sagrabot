@@ -22,6 +22,7 @@ import Insertname from './Insertname';
 import Stampa from "./Stampa";
 import { useHistory } from 'react-router-dom';
 import Map from './Map';
+import Add from './Add';
 
 const SalaContext = createContext(null);
 
@@ -149,6 +150,9 @@ const AdminDom = (props) => (
       </Route>
     <Route path="/conto">
         <Superadmin />
+      </Route>
+      <Route path="/add">
+        <Add />
       </Route>
     <Route path="/map">
         <Map />

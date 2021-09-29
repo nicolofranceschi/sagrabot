@@ -131,16 +131,10 @@ export default function Insertname() {
         <Flex>
         <Data {...register("data")} >
         <option value="">ALL</option>
-                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
-                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
-                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
-                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
-                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
-                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
-                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
+        <option value="10 Ottobre-alle 12:00">10 Ottobre-alle 12:00</option>
+        <option value="17 Ottobre-alle 12:00">17 Ottobre-alle 12:00</option>
+        <option value="24 Ottobre-alle 12:00">24 Ottobre-alle 12:00</option>
+        <option value="31 Ottobre-alle 12:00">31 Ottobre-alle 12:00</option>
         </Data>
         <Button type="submit" > ENTRA COME CASSA </Button>
         </Flex>

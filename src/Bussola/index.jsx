@@ -45,7 +45,7 @@ function MappaPrenotazioni ({ data ,page }) {
   
   const [selected, setSelected] = useState({});
 
-  const [orario,setOrario] = useState({data:page.key.substring(0,9),orario:page.key.substring(10,20)});
+  const [orario,setOrario] = useState({data:page.key.substring(0,10),orario:page.key.substring(12)});
 
   console.log(orario)
 

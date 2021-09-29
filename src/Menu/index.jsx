@@ -9,7 +9,6 @@ import { toast, ToastContainer } from "react-toastify";
 import Menu0 from "./MENU0.png";
 import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
-import Menu3 from "./MENU3.png";
 import allergie from "./allergie.png"
 import { useForm } from "react-hook-form";
 
@@ -114,10 +113,9 @@ export const Menu = () => {
   }, []);
 
   const menu = [
-    { key: 0, menu: "Menu adulti", img: Menu0, qty: 0 },
-    { key: 1, menu: "Menu bambini", img: Menu1, qty: 0 },
-    { key: 2, menu: "Menu adulti ciliaci", img: Menu3, qty: 0 },
-    { key: 3, menu: "Menu bambini ciliaci", img: Menu2, qty: 0 }
+    { key: 0, menu: "Menu marroni 1", img: Menu0, qty: 0 },
+    { key: 1, menu: "Menu marroni 2", img: Menu1, qty: 0 },
+    { key: 2, menu: "Menu senza marroni", img: Menu2, qty: 0 },
   ]
 
   const [counter, setCounter] = useState([0, 0, 0, 0]);
@@ -160,7 +158,7 @@ export const Menu = () => {
       history.replace('/');
       console.log(user);
       fetch("https://rest.nexmo.com/sms/json", {
-        body: `from=Sagrabot.it&text=PRENOTAZIONE COMPLETATA, verifica la tua prenotazione su sagrabot.it&to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
+        body: `from=Sagrabot.it&text=PRENOTAZIONE COMPLETATA, verifica la tua prenotazione su sagrabot.web.app &to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -246,7 +244,7 @@ export const Menu = () => {
                 <P>{counter[current.key]}</P>
               </Pop>
               <Menuimg onClick={() => setZoom({ state: true, value: current.img })} src={current.img}></Menuimg>
-              {current.key == 0 || current.key == 2 ? (
+              {current.key == 0 || current.key == 1 ? (
                 <Qty>
                   <Pezzo border={"0px 0px 0px 20px"} color={"#ffade3"} onClick={() => setCounter(c => [...c.slice(0, current.key), c[current.key] + 1, ...c.slice(current.key + 1)])}>
                     <Svg color={"var(--line)"} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">

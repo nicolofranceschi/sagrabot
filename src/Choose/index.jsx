@@ -13,22 +13,16 @@ export default function Choose() {
   const [pop, setPOP] = useState(true);
 
   const giorni = [
-    { "giorno": "18", },
-    { "giorno": "19", },
-    { "giorno": "25", },
-    { "giorno": "26", },
+    { "giorno": "10", },
+    { "giorno": "17", },
+    { "giorno": "24", },
+    { "giorno": "31", },
   ]
 
   const orari = [
-    { "orario": "12:00", },
-    { "orario": "19:00", },
-    { "orario": "21:00", }
+    { "orario": "12:00", }
   ]
 
-  const oraricena = [
-    { "orario": "19:00", },
-    { "orario": "21:00", }
-  ]
 
   
   return (
@@ -80,15 +74,15 @@ export default function Choose() {
       <motion.div drag="x" dragConstraints={{ left: -740, right: 0 }}>
         <Line >
           {giorni.map((b) => (
-            data === b.giorno + " Settembre") ? (
-            <Card key={b.giorno} color={"#ffade3"} onClick={() => { setMomento({ orario, data: b.giorno + " Settembre" }) }}>
+            data === b.giorno + " Ottobre") ? (
+            <Card key={b.giorno} color={"#ffade3"} onClick={() => { setMomento({ orario, data: b.giorno + " Ottobre" }) }}>
               <Giorni>{b.giorno}</Giorni>
-              <Mese>SETTEMBRE</Mese>
+              <Mese>OTTOBRE</Mese>
             </Card>
           ) : (
-            <Card key={b.giorno} color={"white"} onClick={() => { setMomento({ orario, data: b.giorno + " Settembre" }) }}>
+            <Card key={b.giorno} color={"white"} onClick={() => { setMomento({ orario, data: b.giorno + " Ottobre" }) }}>
               <Giorni>{b.giorno}</Giorni>
-              <Mese>SETTEMBRE</Mese>
+              <Mese>OTTOBRE</Mese>
             </Card>
           )
           )}
@@ -98,44 +92,24 @@ export default function Choose() {
       <Descrizione vh="45vh" >Seleziona un orario</Descrizione>
       <motion.div drag="x" dragConstraints={{ left: -450, right: 0 }}>
         <Line>
-          {data === "18 Settembre" || data === "25 Settembre" ? (oraricena.map((c) => (
-            orario === "alle " + c.orario) ? (
-            <CardBig key={c.orario} color={"#adaeff"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
-              <Flex>
-                <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
-                <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
-              </Flex>
-              <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
-            </CardBig>
-          ) : (
-            <CardBig key={c.orario} color={"white"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
-              <Flex>
-                <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
-                <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
-              </Flex>
-              <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
-            </CardBig>
-          ))
-          ) : (
-            orari.map((c) => (
-              orario === "alle " + c.orario) ? (
-              <Card key={c.orario} color={"#adaeff"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
+             { orario === "alle 12:00" ? (
+              <Card key={orario} color={"#adaeff"} onClick={() => { setMomento({ orario: "alle " + "12:00", data }) }}>
                 <Flex>
-                  <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
-                  <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
+                  <Orari size={"110px"} padding={"10px"}>12</Orari>
+                  <Orari size={"30px"}>am</Orari>
                 </Flex>
                 <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
               </Card>
             ) : (
-              <Card key={c.orario} color={"white"} onClick={() => { setMomento({ orario: "alle " + c.orario, data }) }}>
+              <Card key={orario} color={"white"} onClick={() => { setMomento({ orario: "alle " + "12:00", data }) }}>
                 <Flex>
-                  <Orari size={"110px"} padding={"10px"}>{c.orario.substr(0, 2)}</Orari>
-                  <Orari size={"30px"}>{c.orario.substr(2)}</Orari>
+                  <Orari size={"110px"} padding={"10px"}>12</Orari>
+                  <Orari size={"30px"}>am</Orari>
                 </Flex>
                 <Mese>AVVISO: La prenotazione non sarà piu valida con un ritardo di 30 minuti</Mese>
               </Card>
             )
-            ))}
+            }
         </Line>
       </motion.div>
       {data !== undefined && orario!== undefined ? <Link to="/choose">

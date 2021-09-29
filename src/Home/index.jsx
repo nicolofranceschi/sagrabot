@@ -10,17 +10,15 @@ import allergie from "./allergie.png"
 import Menu0 from "./MENU0.png";
 import Menu1 from "./MENU1.png";
 import Menu2 from "./MENU2.png";
-import Menu3 from "./MENU3.png";
 import Qr from "./../Qr"
 
 
 const SALEUID = 'sala';
 
 const menu = [
-    { key: 0, menu: "Menu adulti", img: Menu0 },
-    { key: 1, menu: "Menu bambini", img: Menu1 },
-    { key: 2, menu: "Menu adulti ciliaci", img: Menu3 },
-    { key: 3, menu: "Menu bambini ciliaci", img: Menu2 }
+    { key: 0, menu: "Menu adulti 1", img: Menu0 },
+    { key: 1, menu: "Menu adulti 2", img: Menu1 },
+    { key: 3, menu: "Menu bambini ", img: Menu2 }
 ]
 
 export default function Home() {

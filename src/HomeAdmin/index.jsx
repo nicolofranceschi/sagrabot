@@ -12,6 +12,7 @@ import PlusButton from "../components/PlusButton"
 import { useForm } from "react-hook-form";
 import { useSala } from "../App";
 import Bussola from "./../Bussola"
+import { CSVLink, CSVDownload } from "react-csv";
 
 
 const SALEUID = 'sala';
@@ -122,20 +123,20 @@ export default function HomeAdmin() {
 
     const deleteprenotazioni = async (value) => {
 
-        function removePrenotazione(pixel, prenotazione) {
-            const index = pixel.prenotazioni.findIndex(p => p.data === prenotazione.data && p.orario === prenotazione.orario && p.user === prenotazione.user);
+        function removePrenotazione(pixel) {
+            //const index = pixel.prenotazioni.findIndex(p => p.data === prenotazione.data && p.orario === prenotazione.orario && p.user === prenotazione.user);
             return {
                 ...pixel,
-                prenotazioni: [...pixel.prenotazioni.slice(0, index), ...pixel.prenotazioni.slice(index + 1)]
+                prenotazioni: []
             }
         }
 
         const newData = Object.entries(data).reduce((acc, [key, pixel]) => {
 
-            const prenotazione = value.find(v => v.pixel === key);
+            
             return {
                 ...acc,
-                [key]: !prenotazione ? pixel : removePrenotazione(pixel, prenotazione)
+                [key]:  removePrenotazione(pixel)
             }
         }, {});
         try {
@@ -276,6 +277,8 @@ export default function HomeAdmin() {
 
     }
 
+    const csv = [["numero"],...Object.keys(onlydefault).map(key => [key.substring(24)])];
+
     if (!page.state && Object.keys(filteredData).length > 0) return (
         <div>
             <ToastContainer
@@ -288,6 +291,7 @@ export default function HomeAdmin() {
                 draggable
                 hideProgressBar
             />
+            
             <Flex orientation={"row"}>
                 <Title size={6}>Admin 🧑‍💻</Title>
                 <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setAdmin() }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -296,6 +300,7 @@ export default function HomeAdmin() {
             </Flex>
             <Container>
                 <Scroll>
+                
                     <LineButton>
                         <See>
                             {see ?
@@ -313,16 +318,10 @@ export default function HomeAdmin() {
                     <LoginForm onSubmit={handleSubmit(onSubmitdata)}>
                         <Selectbig {...register("data")}>
                             <option value="">ALL</option>
-                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
-                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
-                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
-                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
-                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
-                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
-                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
+                            <option value="10 Ottobre-alle 12:00">10 Ottobre-alle 12:00</option>
+                            <option value="17 Ottobre-alle 12:00">17 Ottobre-alle 12:00</option>
+                            <option value="24 Ottobre-alle 12:00">24 Ottobre-alle 12:00</option>
+                            <option value="31 Ottobre-alle 12:00">31 Ottobre-alle 12:00</option>
                         </Selectbig>
                         <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                             <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -399,16 +398,10 @@ export default function HomeAdmin() {
             <LoginForm onSubmit={handleSubmit(onSubmitdata)}>
                 <Selectbig {...register("data")}>
                 <option value="">ALL</option>
-                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
-                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
-                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
-                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
-                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
-                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
-                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
+                <option value="10 Ottobre-alle 12:00">10 Ottobre-alle 12:00</option>
+                <option value="17 Ottobre-alle 12:00">17 Ottobre-alle 12:00</option>
+                <option value="24 Ottobre-alle 12:00">24 Ottobre-alle 12:00</option>
+                <option value="31 Ottobre-alle 12:00">31 Ottobre-alle 12:00</option>
                 </Selectbig>
                 <Button type="submit" margin="5vh 0 0 0" padding="15px 0">
                     <Find xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

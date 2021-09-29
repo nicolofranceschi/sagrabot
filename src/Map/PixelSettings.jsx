@@ -345,8 +345,8 @@ export default function PixelSettings({ datistatistici, setOrario, setSize, grid
   const { height, width } = useWindowSize();
   const { register, handleSubmit } = useForm();
   const onSubmit = data => {
-    console.log({ data: data.data.substr(0, 12), orario: data.data.substr(13) })
-    setOrario({ data: data.data.substr(0, 12), orario: data.data.substr(13) });
+    console.log({ data: data.data.substr(0, 10), orario: data.data.substr(11) })
+    setOrario({ data: data.data.substr(0, 10), orario: data.data.substr(11) });
   }
 
   return (
@@ -360,16 +360,10 @@ export default function PixelSettings({ datistatistici, setOrario, setSize, grid
       </Link>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Data {...register("data")} >
-                            <option value="18 Settembre-alle 19:00">18 Settembre-alle 19:00</option>
-                            <option value="18 Settembre-alle 21:00">18 Settembre-alle 21:00</option>
-                            <option value="19 Settembre-alle 12:00">19 Settembre-alle 12:00</option>
-                            <option value="19 Settembre-alle 19:00">19 Settembre-alle 19:00</option>
-                            <option value="25 Settembre-alle 19:00">19 Settembre-alle 21:00</option>
-                            <option value="25 Settembre-alle 19:00">25 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 21:00">25 Settembre-alle 21:00</option>
-                            <option value="26 Settembre-alle 12:00">26 Settembre-alle 12:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 19:00</option>
-                            <option value="26 Settembre-alle 19:00">26 Settembre-alle 21:00</option>
+        <option value="10 Ottobre-alle 12:00">10 Ottobre-alle 12:00</option>
+        <option value="17 Ottobre-alle 12:00">17 Ottobre-alle 12:00</option>
+        <option value="24 Ottobre-alle 12:00">24 Ottobre-alle 12:00</option>
+        <option value="31 Ottobre-alle 12:00">31 Ottobre-alle 12:00</option>
         </Data>
         <Buttonform type="submit">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

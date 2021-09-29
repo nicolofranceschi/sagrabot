@@ -260,7 +260,7 @@ const Fogliocucina = ({ page }) => {
                 },
                 secondi: {
                     ...acc.secondi,
-                    ROAST_BEEF_PATATE_FRITTE: value.qty
+                    ROAST_BEEF_CON_PATATE: value.qty
                 }, sorbetto: acc.sorbetto + value.qty
             }
         }
@@ -269,11 +269,11 @@ const Fogliocucina = ({ page }) => {
                 ...acc,
                 primi: {
                     ...acc.primi,
-                    TAGLIOLINI_AL_REGU_SENZAGLUTINE: value.qty
+                    TAGLIOLINI_AL_REGU_senza_GLUTINE: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    ROAST_BEEF_PATATE_FRITTE_SENZAGLUTINE: value.qty
+                    ROAST_BEEF_CON_PATATE_senza_GLUTINE: value.qty
                 }, sorbetto: acc.sorbetto + value.qty
             }
         }
@@ -282,17 +282,15 @@ const Fogliocucina = ({ page }) => {
                 ...acc,
                 antipasti: {
                     ...acc.antipasti,
-                    CROSTINI_MISTI_SENZAGLUTINE: value.qty,
-                    VELLUTATA_SENZAGLUTINE: value.qty
+                    ANTIPASTO_AL_TARTUFO_senza_GLUTINE: value.qty
                 },
                 primi: {
                     ...acc.primi,
-                    TAGLIATELLA_SENZAGLUTINE: value.qty
+                    TAGLIATELLA_AL_TARTUFO_senza_GLUTINE: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    ROAST_BEEF_SENZAGLUTINE: value.qty,
-                    POLENTA_FRITTA_SENZAGLUTINE: value.qty
+                    BIS_DI_SECONDI_AL_TARTUFO_senza_GLUTINE: value.qty
 
                 }, sorbetto: acc.sorbetto + value.qty
             }
@@ -302,19 +300,15 @@ const Fogliocucina = ({ page }) => {
                 ...acc,
                 antipasti: {
                     ...acc.antipasti,
-                    CROSTINI_MISTI: value.qty,
-                    VELLUTATA: value.qty,
-                    UOVA: value.qty,
+                    ANTIPASTO_AL_TARTUFO: value.qty
                 },
                 primi: {
                     ...acc.primi,
-                    TAGLIOLINI: value.qty,
-                    TORTELLI: value.qty
+                    BIS_DI_PRIMI_AL_TARTUFO: value.qty
                 },
                 secondi: {
                     ...acc.secondi,
-                    ROAST_BEEF: value.qty,
-                    POLENTA_FRITTA: value.qty
+                    BIS_DI_SECONDI_AL_TARTUFO: value.qty
 
                 }, sorbetto: acc.sorbetto + value.qty
             }

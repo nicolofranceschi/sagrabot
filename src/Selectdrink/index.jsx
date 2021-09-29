@@ -32,9 +32,9 @@ export default function Selectdrink (props){
         Vino_bianco_fermo_Foschi:[0,8],
         Vino_rosso_S_Biagio:[0,8],
         Vino_rosso_Sangiovese_Superiore:[0,9.5],
-        menutartufo:[ordine.value.menu[0],22],
+        menutartufo:[ordine.value.menu[0],25],
         menusenzatartufo:[ordine.value.menu[1],12],
-        menutartufonoglutine:[ordine.value.menu[2],22],
+        menutartufonoglutine:[ordine.value.menu[2],25],
         menusenzatartufonoglutine:[ordine.value.menu[3],12],
     });
 
@@ -68,7 +68,7 @@ export default function Selectdrink (props){
 
           fetch("https://rest.nexmo.com/sms/json", {
             
-            body:  `from=Sagrabot.it&text=Buon appetito da Sagre Alidosiane.it , le confermiamo che il suo ordine è stato inviato in cucina e la presente viene inviata a titolo di ricevuta del suo pagamento di euro ${tot}. Se desidera la ricevuta cartacea è disponibile presso Info Point .&to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
+            body:  `from=Sagrabot.it&text=Buon appetito da Sagre Alidosiane.it , la presente viene inviata a titolo di ricevuta del suo pagamento di euro ${tot}. Info e copia all info Point .&to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
             headers: {
               "Content-Type": "application/x-www-form-urlencoded"
             },
@@ -154,9 +154,9 @@ export default function Selectdrink (props){
                 </form>
           <Motion drag="x" position="relative" dragConstraints={{ left: -400, right: 0 }}>
            <Linebig>
-               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menutartufo"} str1={"Menu"} str2={"porcini"} str3={""}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menutartufo"} str1={"Menu"} str2={"tartufo"} str3={""}></Cardcomponentbig>
                <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzatartufo"} str1={"Menu"} str2={"bimbo"} str3={""}></Cardcomponentbig>
-               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menutartufonoglutine"} str1={"Menu"} str2={"porcini"} str3={"NO GLUTINE"}></Cardcomponentbig>
+               <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menutartufonoglutine"} str1={"Menu"} str2={"tartufo"} str3={"NO GLUTINE"}></Cardcomponentbig>
                <Cardcomponentbig drink={drink} setDrink={setDrink} whodrink={"menusenzatartufonoglutine"} str1={"Menu"} str2={"bimbo"} str3={"NO GLUTINE"}></Cardcomponentbig>
            </Linebig>
            </Motion>
