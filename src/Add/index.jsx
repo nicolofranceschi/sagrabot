@@ -211,7 +211,7 @@ export default function Add() {
                                             <Testo line={"5vh"} size={"3vh"} color={"var(--line)"} padding={"10px"}>{value.cognome}</Testo>
                                         </Right>
                                         <Left>
-                                            {value.Ntavoli.map((value) => (
+                                            {value.Ntavoli && value.Ntavoli.map((value) => (
                                                 <Testo key={value} line={"25vh"} size={"5vh"} padding={"10px"}>{value}</Testo>
                                             ))}
                                         </Left>
@@ -261,7 +261,7 @@ export default function Add() {
                         <>
                             <Label>
                                 <Span font={"0.7rem"} bold={"normal"} >1 -</Span>
-                                <Span font={"1.5rem"} bold={"normal"} >Inserisci il tuo</Span>
+                                <Span font={"1.5rem"} bold={"normal"} >Inserisci il</Span>
                                 <Span font={"1.5rem"} bold={"bold"} >nome</Span>
                             </Label>
                             <Divspace space={"10vh"}></Divspace>
@@ -273,7 +273,7 @@ export default function Add() {
                         <>
                             <Label>
                                 <Span font={"0.7rem"} bold={"normal"} >2 -</Span>
-                                <Span font={"1.5rem"} bold={"normal"} >Inserisci il tuo</Span>
+                                <Span font={"1.5rem"} bold={"normal"} >Inserisci il</Span>
                                 <Span font={"1.5rem"} bold={"bold"} >cognome</Span>
                             </Label>
                             <Divspace space={"10vh"}></Divspace>
@@ -285,7 +285,7 @@ export default function Add() {
                         <>
                             <Label>
                                 <Span font={"0.7rem"} bold={"normal"} >3 -</Span>
-                                <Span font={"1.5rem"} bold={"normal"} >Inserisci il tuo</Span>
+                                <Span font={"1.5rem"} bold={"normal"} >Inserisci il</Span>
                                 <Span font={"1.5rem"} bold={"bold"} >numero</Span>
                             </Label>
                             <Divspace space={"10vh"}></Divspace>

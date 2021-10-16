@@ -65,10 +65,51 @@ function MappaPrenotazioni ({ data }) {
 
       controller.push(value[0].user);
     return{ 
-      menusum:acc.menusum+value[0].menu[0]+value[0].menu[1]+value[0].menu[2]+value[0].menu[3]
+      menusum:acc.menusum+value[0].menu[0]+value[0].menu[1]+value[0].menu[2]+value[0].menu[3],
+      menu0:acc.menusum+value[0].menu[0],
+      menu1:acc.menusum+value[0].menu[1],
+      menu2:acc.menusum+value[0].menu[2]
+    }
+  }else return { ...acc}
+  },{menusum:0,menu0:0,menu1:0,menu2:0})
+
+  const menu0 = Object.entries(statics).reduce((acc,[,value])=>{
+    
+    if (!controller.some(data=>data===value[0].user)){
+
+      controller.push(value[0].user);
+    return{ 
+      menusum:acc.menusum+value[0].menu[0]
     }
   }else return { ...acc}
   },{menusum:0})
+
+  const menu1 = Object.entries(statics).reduce((acc,[,value])=>{
+    
+    if (!controller.some(data=>data===value[0].user)){
+
+      controller.push(value[0].user);
+    return{ 
+      menusum:acc.menusum+value[0].menu[2]
+    }
+  }else return { ...acc}
+  },{menusum:0})
+
+  const menu2 = Object.entries(statics).reduce((acc,[,value])=>{
+    
+    if (!controller.some(data=>data===value[0].user)){
+
+      controller.push(value[0].user);
+    return{ 
+      menusum:acc.menusum+value[0].menu[2]
+    }
+  }else return { ...acc}
+  },{menusum:0})
+
+
+  console.log("menu 0",menustatics.menu0);
+  console.log("menu 1",menustatics.menu1);
+  console.log("menu 2",menustatics.menu2);
 
   const datistatistici = {posticovid:Object.keys(staticscovid).length,posti:Object.keys(statics).length,menu:menustatics.menusum}
   console.log(datistatistici)

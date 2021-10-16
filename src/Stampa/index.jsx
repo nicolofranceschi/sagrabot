@@ -253,29 +253,11 @@ const Fogliocucina = ({ page }) => {
     let contfiletto = 0;
     let contchees = 0;
 
-
+    console.log(Object.entries(page.value.listing)) 
     const cucina = Object.entries(page.value.listing).reduce((acc, [key, value]) => {
-        console.log(acc)
+        console.log(key,value)
         if (key === "menumarrone1") {
-            contfiletto=contfiletto+value.qty
-            contchees=contchees+value.qty
-            return {
-                ...acc,
-                primi: {
-                    ...acc.primi,
-                    TAGLIATELLE: value.qty
-                },
-                secondi: {
-                    ...acc.secondi,
-                    FILETTO_DI_MAIALE: contfiletto
-                }, 
-                dolci: {
-                    ...acc.dolci,
-                    CHEESECAKE: contchees
-                }, 
-            }
-        }
-        else if (key === "menumarrone2") {
+            console.log("1")
             contfiletto=contfiletto+value.qty
             contchees=contchees+value.qty
             return {
@@ -294,7 +276,28 @@ const Fogliocucina = ({ page }) => {
                 }, 
             }
         }
-        else if (key === "menunomarrone") {
+        if (key === "menumarrone2") {
+            console.log("2")
+            contfiletto=contfiletto+value.qty
+            contchees=contchees+value.qty
+            return {
+                ...acc,
+                primi: {
+                    ...acc.primi,
+                    TAGLIATELLE: value.qty  
+                },
+                secondi: {
+                    ...acc.secondi,
+                    FILETTO_DI_MAIALE: contfiletto
+                }, 
+                dolci: {
+                    ...acc.dolci,
+                    CHEESECAKE: contchees
+                }, 
+            }
+        }
+        if (key === "menunomarrone") {
+            console.log("0")
             return {
                 ...acc,
                 primi: {
@@ -310,7 +313,7 @@ const Fogliocucina = ({ page }) => {
             }
 
         }
-    },)
+    },{})
 
     return (
         <>

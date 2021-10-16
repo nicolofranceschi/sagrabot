@@ -157,14 +157,39 @@ export const Menu = () => {
       toast.info("Verifica qui la prenotazione");
       history.replace('/');
       console.log(user);
-      fetch("https://rest.nexmo.com/sms/json", {
-        body: `from=Sagrabot.it&text=PRENOTAZIONE COMPLETATA, verifica la tua prenotazione su sagrabot.web.app &to=${user}&api_key=d8376bcf&api_secret=ARtNAJcYbPisz67h `,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        "Basic QUNiN2JiNDg5YzBmMTk3MDFmNjdmN2E2YzkwZTk5M2M0NDo5MmQ3MzEwMzc5OWQyNDgyMzY3MTk5YmYyZmY3MjZiZg=="
+      );
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("To", user);
+      urlencoded.append(
+        "MessagingServiceSid",
+        "MG0aafad06d3bfbf95158cc632ed31bdb0"
+      );
+      urlencoded.append(
+        "Body",
+        `PRENOTAZIONE COMPLETATA, verifica la tua prenotazione su sagrarobot.it`
+      );
+
+      var requestOptions = {
         method: "POST",
-        mode: "no-cors"
-      })
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      fetch(
+        "https://api.twilio.com/2010-04-01/Accounts/ACb7bb489c0f19701f67f7a6c90e993c44/Messages.json",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => console.log("mesaggio inivato"))
+        .catch((error) => console.log("error", error));
+        
       setLoad(true);
     } catch (error) {
       toast.error(error.message);

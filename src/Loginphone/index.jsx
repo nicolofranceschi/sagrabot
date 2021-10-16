@@ -89,7 +89,7 @@ export default function Loginphone() {
                             </svg>
                             </Admin>
                             </Link>
-                            <Version>v 5.0.3</Version>
+                            <Version>v 7.0.0</Version>
                             <Accedi onClick={() => setAccedi(true)} type="submit" margin="5vh 0 0 0" padding="15px 0">Accedi</Accedi>
                         </>
                     </Accordion>

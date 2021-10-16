@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { firestore, getdatasala, getUserDocument, updatedatasala, updateUserDocument } from "../firebase";
+import { firestore, getdatanumeri, getdatasala, getUserDocument, updatedatasala, updateUserDocument } from "../firebase";
 import { Card, Container, Tavoli, TavoliText, Select, Text, Find, LineButton, Selectbig, Testofluo, Allergie, P1, P2, LoginForm, Input, Button, Eliminazione, ButtonTavoli, Testo, Left, P, Menuimg, Menu, Right, Space, TestoBig, Line, Pop, Blocco, Close, Title, Titlelitte, Flex, Svgout, Scroll, See } from './styled';
 import { logout } from "../firebase";
 import allergie from "./allergie.png"
@@ -17,6 +17,8 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 const SALEUID = 'sala';
 
+
+
 const menu = [
     { key: 0, menu: "Menu adulti", img: Menu0 },
     { key: 1, menu: "Menu bambini", img: Menu1 },
@@ -27,6 +29,7 @@ const menu = [
 export default function HomeAdmin() {
 
     const [data, setData] = useState(null);
+    const [numeri, setnumeri] = useState(null);
     const { admin: [admin, setAdmin] } = useSala();
     const [prenotazioni, setPrenotazioni] = useState({});
     const [onlydefault, setOnlyDefault] = useState({});
@@ -120,7 +123,7 @@ export default function HomeAdmin() {
             });
         }
     }, [deletes])
-
+    
     const deleteprenotazioni = async (value) => {
 
         function removePrenotazione(pixel) {
@@ -277,6 +280,13 @@ export default function HomeAdmin() {
 
     }
 
+    
+    const getnumber = async () => {
+        const num = await getdatanumeri();
+        setnumeri(num);
+    }
+    useEffect (() => {getnumber();},[])
+    
     const csv = [["numero"],...Object.keys(onlydefault).map(key => [key.substring(24)])];
 
     if (!page.state && Object.keys(filteredData).length > 0) return (
@@ -290,8 +300,7 @@ export default function HomeAdmin() {
                 pauseOnHover
                 draggable
                 hideProgressBar
-            />
-            
+            />      
             <Flex orientation={"row"}>
                 <Title size={6}>Admin 🧑‍💻</Title>
                 <Svgout className="w-6 h-6" fill="none" onClick={() => { logout(); setAdmin() }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

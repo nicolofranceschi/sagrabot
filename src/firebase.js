@@ -157,6 +157,18 @@ export const getdatasala = async ()=> {
   }
 };
 
+export const getdatanumeri = async ()=> {
+  let number = [];
+  number.push(["numero","nome","cognome"]);
+  firestore.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        number.push([doc.id,doc.data().nome,doc.data().cognome]);
+    });
+    
+});
+  return number;
+};
+
 export const getdatacoda = async ()=> {
   try {
     const userDocument = await firestore.doc(`admin/coda`).get();
