@@ -8,10 +8,12 @@ export const Animation = styled(Lottie)`
 `;
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 80vh;
   position: absolute;
-  top: 0;
-  width: 100vw;
+  top: 20vh;
+  border-radius: 20px;
+  left: 5vw;
+  width: 90vw;
   overflow: scroll;
   //display: flex;
   //justify-content: center;
@@ -21,7 +23,7 @@ export const Container = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-  perspective: 1000px;
+  
 `;
 
 export const PixelContainer = styled.div`
@@ -40,8 +42,6 @@ export const Grid = styled.div.attrs(props => ({
 }))`
   background-color: var(--black-light);
   display: grid;
-  transform-style: preserve-3d;
-  
 `;
 
 export const Pixelstyle = styled.div`

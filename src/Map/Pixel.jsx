@@ -3,10 +3,12 @@ import { OnlyTavolo, Pixelstyle, PixelTavolo, TestoPixel } from "./Styled";
 import { Sedia } from "./Svg";
 
 const PixelNonSelezionatoTipo0 = forwardRef((props, ref) => <div style={{ overflow: 'hidden' , height: "100% "}}><Pixelstyle ref={ref} {...props} /></div>);
+
 const PixelSelezionatoTipo0 = forwardRef(({ color, ...props }, ref) => <Pixelstyle {...props} ref={ref} pixelColor={color} />);
+
 const PixelSelezionatoTipo1 = forwardRef(({ selectPixel, border, color, ...props }, ref) => (
   <div style={{ overflow: 'hidden' , height: "100% "}}>
-    <PixelTavolo {...props} onClick={selectPixel} ref={ref}>
+    <PixelTavolo {...props} ref={ref}>
       <OnlyTavolo pixelColor={color} border={border} />
       <Sedia color={color} />
     </PixelTavolo>
@@ -14,14 +16,6 @@ const PixelSelezionatoTipo1 = forwardRef(({ selectPixel, border, color, ...props
 ));
 const PixelSelezionatoTipo2 = forwardRef(({ color, text, ...props }, ref) => <div style={{ overflow: 'hidden',height: "100% " }}><TestoPixel {...props} ref={ref} pixelColor={color}>{text}</TestoPixel></div>);
 
-const PixelPrenotatoTipo1 = forwardRef(({ onClick, border, ...props }, ref) => (
-  <div style={{ overflow: 'hidden',height: "100% " }}>
-    <PixelTavolo {...props} onClick={onClick} ref={ref}>
-      <OnlyTavolo pixelColor={"white"} border={border} />
-      <Sedia color={"white"} />
-    </PixelTavolo>
-  </div>
-));
 const PixelPrenotato = forwardRef(({ border, ...props }, ref) => (
   <div style={{ overflow: 'hidden',height: "100% " }}>
     <PixelTavolo {...props} ref={ref}>
@@ -40,25 +34,23 @@ const PixelPrenotatoCovidTipo1 = forwardRef(({ ...props }, ref) => (
   </div>
 ));
 
-const Pixel = memo(forwardRef(({ i, data, selected, orario }, ref) => {
+const Pixel = memo(forwardRef(({ i, data, fluo, orario , setWho}, ref) => {
 
-  
   const pixelProps = { ref, rotation: data?.rotation, border: data?.border };
 
-  const pixelSelezionatoTipo1Props = { ...pixelProps, color: data?.color };
+  const pixelSelezionatoTipo1Props = { ...pixelProps, color: data?.color  };
 
-  const pixelPrenotatoTipo1Props = {
-    ...pixelProps
-  }
+  const fluoprops = { ...pixelProps, color: "#cfff04" };
+
 
   if (!data) return <PixelNonSelezionatoTipo0 {...pixelProps} />;
   if (data.type === 0) return <PixelSelezionatoTipo0 {...pixelProps} color={data?.color} />;
   if (data.type === 2) return <PixelSelezionatoTipo2 color={data?.color} text={data?.text} {...pixelProps} />;
-  if (selected) return <PixelPrenotatoTipo1 {...pixelPrenotatoTipo1Props} />;
+  if (fluo && Object.entries(fluo).some( ([,value]) => value.pixel===i.toString())) return <PixelSelezionatoTipo1 {...fluoprops} />;
   if (!data.prenotazioni || data.prenotazioni.length === 0) return <PixelSelezionatoTipo1 {...pixelSelezionatoTipo1Props} />;
   const prenotazione = data.prenotazioni.find(prenotazione => prenotazione.orario === orario.orario && prenotazione.data === orario.data);
   if (!prenotazione) return <PixelSelezionatoTipo1 {...pixelSelezionatoTipo1Props} />;
-  if (prenotazione.type === 'default') return <PixelPrenotato border={data?.border} {...pixelProps} />;
+  if (prenotazione.type === 'default') return <PixelPrenotato onClick={()=>setWho(data)} border={data?.border} {...pixelProps} />;
   else if (prenotazione.type === 'covid') return <PixelPrenotatoCovidTipo1 {...pixelProps} />;
   else null;
 }))
